@@ -1,0 +1,95 @@
+<section class="vh-100 d-flex align-items-center justify-content-center mb-4">
+  <mat-card class="mat-elevation-z4 signup-section p-4 w-100" style="max-width: 900px;">
+    <form #inputData="ngForm" (ngSubmit)="uploadFormData(inputData)" enctype="multipart/form-data">
+  <div class="container">
+      <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Product Name</mat-label>
+            <input matInput type="text" name="p_name" ngModel />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Product MRP Price</mat-label>
+            <input matInput type="number" name="p_mrp" ngModel />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Product Price</mat-label>
+            <input matInput type="number" name="p_price" ngModel />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Category</mat-label>
+            <input matInput type="text" name="p_category" ngModel />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Delivery Date</mat-label>
+            <input matInput [matDatepicker]="picker" name="delivery_date" ngModel />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+         
+
+        <!-- Right Column -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Product Discount (save) Price</mat-label>
+            <input matInput type="number" name="p_discount" ngModel />
+          </mat-form-field>
+
+         <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Product Color</mat-label>
+            <input matInput type="text"  name="image_color" ngModel />
+          </mat-form-field>
+
+
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Product Size</mat-label>
+            <input matInput type="text" (change)="onSelectFile($event, 'image_size')" name="image_size" ngModel />
+          </mat-form-field>
+
+            <div class="file-inputs mb-3">
+            <label>Image Front</label>
+            <input type="file" (change)="onSelectFile($event, 'image_front')" name="image_front" accept="image/png,image/jpeg" ngModel />
+          </div>
+
+          <div class="file-inputs mb-3">
+            <label>Image Side</label>
+            <input type="file" (change)="onSelectFile($event, 'image_side')" name="image_side" accept="image/png,image/jpeg" ngModel />
+          </div>
+
+          
+        </div>
+          <div class="file-inputs mb-3">
+            <label>Image Back</label>
+            <input type="file" (change)="onSelectFile($event, 'image_back')" name="image_back" accept="image/png,image/jpeg" ngModel />
+          </div>
+
+          <div class="file-inputs mb-3">
+            <label>Image Top</label>
+            <input type="file" (change)="onSelectFile($event, 'image_top')" accept="image/png,image/jpeg" ngModel />
+          </div>
+
+          <div class="file-inputs mb-3">
+            <label>Image Triangle</label>
+            <input type="file" (change)="onSelectFile($event, 'image_triangle')" accept="image/png,image/jpeg" ngModel />
+          </div>
+
+         
+          <div class="editor-section mb-3">
+            <label>Product Description</label>
+            <angular-editor name="p_description" [config]="editorConfig" [(ngModel)]="htmlContent"></angular-editor>
+          </div>
+        </div>
+      </div>
+</div>
+      <div class="text-left mt-4">
+        <button mat-raised-button color="primary" type="submit">Upload</button>
+      </div>
+    </form>
+  </mat-card>
+</section>

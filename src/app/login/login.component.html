@@ -1,0 +1,37 @@
+<section class="vh-100 d-flex align-items-center justify-content-center">
+  <mat-card class="mat-elevation-z4 login-section">
+    <form #login="ngForm" (ngSubmit)="adminLogin(login.value)">
+      <h1 class="mat-headline">Login</h1>
+      <p class="mb-3">Sign into your account</p>
+
+      <mat-form-field appearance="outline" class="w-100 mb-4">
+        <mat-label>Mobile</mat-label>
+        <input matInput type="tel" name="mobile" ngModel required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-100 mb-4">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" name="password" ngModel required>
+      </mat-form-field>
+
+      <div class="mb-4" style="text-align: right;">
+        <button mat-raised-button color="primary" type="submit" >
+          Login
+        </button>
+      </div>
+
+      <!-- Optional Error Message -->
+      <!--
+      <mat-error *ngIf="loginErrToast">
+        User not found. Please register first before logging in.
+      </mat-error>
+      -->
+
+      <div class="text-muted small" style="text-align: left;">
+        <a href="#">Forgot password?</a><br />
+        <span>Don't have an account? <a class="signlink" (click)="signup()">Register here</a></span><br />
+        <a href="#">Terms of use</a> | <a href="#">Privacy policy</a>
+      </div>
+    </form>
+  </mat-card>
+</section>

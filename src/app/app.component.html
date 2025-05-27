@@ -13,6 +13,7 @@
     <a mat-button [routerLink]="'/accounts'"> Accounts </a>
     <a mat-button [routerLink]="'/contacts'"> Contacts </a>
     <a mat-button [routerLink]="'/about'"> About </a>
+    <a mat-button [routerLink]="'/login'"> Login </a>
   </div>
   <span class="toolbar-item-spacer"></span>
 
@@ -43,7 +44,7 @@
       <mat-icon>help</mat-icon><span>Help</span>
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item routerLink="#">
+    <button mat-menu-item (click)="adminLogout()">
       <mat-icon>exit_to_app</mat-icon>Logout
     </button>
   </mat-menu>
@@ -99,8 +100,8 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <div class="content mat-elevation-z8">
+   
       <router-outlet></router-outlet>
-    </div>
+   
   </mat-sidenav-content>
 </mat-sidenav-container>
