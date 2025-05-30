@@ -14,6 +14,7 @@
     <a mat-button [routerLink]="'/contacts'"> Contacts </a>
     <a mat-button [routerLink]="'/about'"> About </a>
     <a mat-button [routerLink]="'/login'"> Login </a>
+  <a mat-button [routerLink]="'/customerorder'"> Customer Order </a>
   </div>
   <span class="toolbar-item-spacer"></span>
 
@@ -23,9 +24,29 @@
   <button mat-icon-button matTooltip="Share">
     <mat-icon>share</mat-icon>
   </button>
-  <button mat-icon-button matTooltip="Notifications">
+ <div class="notification-wrapper" #notificationMenu>
+  <button mat-icon-button [matMenuTriggerFor]="notificationDropdown">
     <mat-icon>notifications</mat-icon>
+    <span class="notification-badge" *ngIf="getNotifyUserArray?.length > 0">{{ getNotifyUserArray?.length }}</span>
   </button>
+
+  <mat-menu #notificationDropdown="matMenu" class="notification-menu">
+    <ng-container *ngIf="getNotifyUserArray.length > 0; else noNotif">
+      <button mat-menu-item *ngFor="let item of getNotifyUserArray" (click)="openNotification()">
+        <div class="notif-content">
+         <span class="name">{{item?.product_name | titlecase}}</span>
+   <span class="name">{{item?.user_first_name | titlecase}}</span>
+   <span class="name">{{item?.user_phone}} </span>
+   <span class="name">{{item?.user_address | titlecase}} </span>
+        </div>
+      </button>
+    </ng-container>
+    <ng-template #noNotif>
+      <button mat-menu-item disabled>No notifications</button>
+    </ng-template>
+  </mat-menu>
+</div>
+
   <button
     mat-icon-button
     matTooltip="My Account"
@@ -84,24 +105,9 @@
     </button>
 
     <mat-divider></mat-divider>
-
-    <mat-expansion-panel [class.mat-elevation-z8]="true">
-      <mat-expansion-panel-header> Mobile Phone </mat-expansion-panel-header>
-      <mat-nav-list>
-        <button mat-button class="menu-button" routerLink="#">
-          <mat-icon>apple</mat-icon><span>iOS</span>
-        </button>
-
-        <button mat-button class="menu-button" routerLink="#">
-          <mat-icon>android</mat-icon><span>Android</span>
-        </button>
-      </mat-nav-list>
-    </mat-expansion-panel>
   </mat-sidenav>
 
   <mat-sidenav-content>
-   
       <router-outlet></router-outlet>
-   
   </mat-sidenav-content>
 </mat-sidenav-container>

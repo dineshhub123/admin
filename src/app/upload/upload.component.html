@@ -1,5 +1,4 @@
 <section class="vh-100 d-flex align-items-center justify-content-center mb-4">
-  <mat-card class="mat-elevation-z4 signup-section p-4 w-100" style="max-width: 900px;">
     <form #inputData="ngForm" (ngSubmit)="uploadFormData(inputData)" enctype="multipart/form-data">
   <div class="container">
       <div class="row">
@@ -61,7 +60,6 @@
             <label>Image Side</label>
             <input type="file" (change)="onSelectFile($event, 'image_side')" name="image_side" accept="image/png,image/jpeg" ngModel />
           </div>
-
           
         </div>
           <div class="file-inputs mb-3">
@@ -87,9 +85,10 @@
         </div>
       </div>
 </div>
+<br>
       <div class="text-left mt-4">
         <button mat-raised-button color="primary" type="submit">Upload</button>
       </div>
     </form>
-  </mat-card>
+ 
 </section>
