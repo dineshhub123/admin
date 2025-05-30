@@ -18,12 +18,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { UploadComponent } from './upload/upload.component';
 import {AngularEditorModule } from '@kolkov/angular-editor';
+import { SellNotificationComponent } from './sell-notification/sell-notification.component';
+import { FirstLiPipe } from './first-li.pipe';
+import { FullLiPipe } from './full-li.pipe';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    UploadComponent
+    UploadComponent,
+    SellNotificationComponent,
+    FirstLiPipe,
+    FullLiPipe
   ],
   imports: [
     BrowserModule,
@@ -39,6 +49,10 @@ import {AngularEditorModule } from '@kolkov/angular-editor';
     SignupModule,
     HttpClientModule,
     AngularEditorModule,
+    MatMenuModule, 
+    MatListModule, 
+    MatBadgeModule,  
+    MatTooltipModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right', // 👈 BOTTOM RIGHT
       timeOut: 1000,                        // optional: duration in ms

@@ -6,6 +6,7 @@ import { AboutComponent } from './about/about/about.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { UploadComponent } from './upload/upload.component';
+import { SellNotificationComponent } from './sell-notification/sell-notification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -14,8 +15,10 @@ const routes: Routes = [
   { path: '404', component: PageNotFoundComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
- { path: 'admindashboard', component: UploadComponent },
+  { path: 'admindashboard', component: UploadComponent },
+  { path: 'customerorder', component: SellNotificationComponent },
   { path: '**', redirectTo: '404' },
+
 ];
 
 @NgModule({

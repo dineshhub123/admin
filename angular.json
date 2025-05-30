@@ -72,7 +72,10 @@
             },
             "development": {
               "browserTarget": "example-app:build:development"
-            }
+            },
+        "options": {
+        "liveReload": true
+          }
           },
           "defaultConfiguration": "development"
         },
