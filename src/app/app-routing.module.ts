@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: '404', component: PageNotFoundComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admindashboard', component: UploadComponent },
+  { path: 'uploadproduct', component: UploadComponent },
   { path: 'customerorder', component: SellNotificationComponent },
   { path: '**', redirectTo: '404' },
 
