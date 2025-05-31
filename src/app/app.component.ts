@@ -28,7 +28,6 @@ export class AppComponent {
      this.userlist()
       this.loginService.getUsername().subscribe((name) => {
       this.username = name;
-      console.log(name, 'username');
     });
   }
 

@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
           this.loginService.setUsername(findObject?.user_first_name);
           this.toastr.success('Login successful!', 'Welcome');
           setTimeout(() => {
-            this.router.navigate(['admindashboard']);
+            this.router.navigate(['dashboard']);
             this.loginForm.reset();
           }, 2000);
         } else {
