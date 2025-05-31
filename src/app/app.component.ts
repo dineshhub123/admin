@@ -4,7 +4,7 @@ import { HttpClient,HttpEventType } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
-
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { ApiService } from './api.service';
 })
 export class AppComponent {
   title = 'material-ui-angular';
-
+  username: string | null = '';
  public data:any;
   public retrieveResonse:any;
   public base64Data:any;
@@ -23,9 +23,12 @@ export class AppComponent {
   public sellItemData:any
   public buyerUsername: any;
  public getNotifyUserArray:any;
-  constructor(private router:Router, private http:HttpClient,private _DomSanitizationService:DomSanitizer, public apiService: ApiService) { }
-  ngOnInit() {
+  constructor(private router:Router, private http:HttpClient,private _DomSanitizationService:DomSanitizer, public apiService: ApiService, private loginService: LoginService) { }
+  ngOnInit():void {
      this.userlist()
+      this.loginService.getUsername().subscribe((name) => {
+      this.username = name;
+    });
   }
 
   adminLogout(){
@@ -34,6 +37,7 @@ export class AppComponent {
   }
  notification(){
     this.router.navigate(["sell-notification"]);
+  
   }
   upload(){
     this.router.navigate(["upload"]);

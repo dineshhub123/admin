@@ -1,17 +1,19 @@
 <section class="vh-100 d-flex align-items-center justify-content-center">
   <mat-card class="mat-elevation-z4 login-section">
-    <form #login="ngForm" (ngSubmit)="adminLogin(login.value)">
+    <form   [formGroup]="loginForm" (ngSubmit)="adminLogin(loginForm.value)">
       <h1 class="mat-headline">Login</h1>
       <p class="mb-3">Sign into your account</p>
 
       <mat-form-field appearance="outline" class="w-100 mb-4">
         <mat-label>Mobile</mat-label>
-        <input matInput type="tel" name="mobile" ngModel required>
+        <input matInput type="tel" formControlName="mobile"  required>
+	    <mat-error>Mobile Number is Required!</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="w-100 mb-4">
         <mat-label>Password</mat-label>
-        <input matInput type="password" name="password" ngModel required>
+        <input matInput type="password" formControlName="password"  required>
+     <mat-error>Password is Required!</mat-error>
       </mat-form-field>
 
       <div class="mb-4" style="text-align: right;">
@@ -19,18 +21,10 @@
           Login
         </button>
       </div>
-
-      <!-- Optional Error Message -->
-      <!--
-      <mat-error *ngIf="loginErrToast">
-        User not found. Please register first before logging in.
-      </mat-error>
-      -->
-
       <div class="text-muted small" style="text-align: left;">
-        <a href="#">Forgot password?</a><br />
-        <span>Don't have an account? <a class="signlink" (click)="signup()">Register here</a></span><br />
-        <a href="#">Terms of use</a> | <a href="#">Privacy policy</a>
+        <a href="#" class="admin-login">Forgot password?</a><br />
+        <span class="admin-login">Don't have an account? <a class="signlink" (click)="signup()">Register here</a></span><br />
+        <a href="#" class="admin-login">Terms of use</a> | <a href="#" class="admin-login">Privacy policy</a>
       </div>
     </form>
   </mat-card>

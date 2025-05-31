@@ -10,19 +10,12 @@ export class LoginService {
     this.loadUsername();
   }
 
-  adminLoginCheckFn(mobile: any, pwd: any) {
-    if (mobile == 8600245120 && pwd == "Dinesh@1609") {
-      localStorage.setItem("adminMobile", mobile);
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
 
   setUsername(username: string) {
+    console.log(username, 'uname');
     this.usernameSubject.next(username);
     localStorage.setItem('username', username);
+
   }
   private getStorageUsername(): string | null {
     return localStorage.getItem("username");
@@ -41,10 +34,6 @@ export class LoginService {
   getUsername() {
       return this.username$
   }
-  setUserName(data: any) {
-      this.usernameSubject.next(data);
-      localStorage.setItem('username', data);
-
-  }
+  
 
 }
