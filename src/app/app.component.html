@@ -7,7 +7,9 @@
     <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
     <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
   </button>
-  My Application
+    <div class="img_position">
+          <img class="imgSet" src="assets/img/logo.png">
+        </div>
   <span class="xxxx-menu-spacer"></span>
   <div>
     <a mat-button [routerLink]="'/accounts'"> Accounts </a>
@@ -17,19 +19,11 @@
   <a mat-button [routerLink]="'/customerorder'"> Customer Order </a>
   </div>
   <span class="toolbar-item-spacer"></span>
-
-  <button mat-icon-button matTooltip="Like">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button mat-icon-button matTooltip="Share">
-    <mat-icon>share</mat-icon>
-  </button>
  <div class="notification-wrapper" #notificationMenu>
   <button mat-icon-button [matMenuTriggerFor]="notificationDropdown">
     <mat-icon>notifications</mat-icon>
     <span class="notification-badge" *ngIf="getNotifyUserArray?.length > 0">{{ getNotifyUserArray?.length }}</span>
   </button>
-
   <mat-menu #notificationDropdown="matMenu" class="notification-menu">
     <ng-container *ngIf="getNotifyUserArray.length > 0; else noNotif">
       <button mat-menu-item *ngFor="let item of getNotifyUserArray" (click)="openNotification()">
@@ -79,7 +73,7 @@
       src="https://source.unsplash.com/c_GmwfHBDzk/200x200"
     />
 
-    <h4 class="name">John Smith</h4>
+    <h4 class="name">{{ username }}</h4>
     <p class="designation">Software Engineer</p>
 
     <mat-divider></mat-divider>
@@ -106,7 +100,6 @@
 
     <mat-divider></mat-divider>
   </mat-sidenav>
-
   <mat-sidenav-content>
       <router-outlet></router-outlet>
   </mat-sidenav-content>

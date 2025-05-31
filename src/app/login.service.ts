@@ -21,8 +21,10 @@ export class LoginService {
   }
 
   setUsername(username: string) {
+    console.log(username, 'uname');
     this.usernameSubject.next(username);
     localStorage.setItem('username', username);
+
   }
   private getStorageUsername(): string | null {
     return localStorage.getItem("username");
@@ -41,10 +43,10 @@ export class LoginService {
   getUsername() {
       return this.username$
   }
-  setUserName(data: any) {
-      this.usernameSubject.next(data);
-      localStorage.setItem('username', data);
+  // setUserName(data: any) {
+  //     this.usernameSubject.next(data);
+  //     localStorage.setItem('username', data);
 
-  }
+  // }
 
 }
