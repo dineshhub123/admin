@@ -168,15 +168,27 @@ mat-divider {
     color: white !important;
 }
 
-.avatar_name {
-    width: 30px;
-    height: 30px;
-    background-color: white;
-    border-radius: 50%;
-    color: #062d51;
-    font-size: 26px;
-    font-weight: 700;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.container {
+  display: flex;
+  justify-content: center;  
+  align-items: center;     
+        
 }
+
+.avatar_name {
+  width: 50px;
+  height: 50px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 24px;
+}
+.mat-sort-header-arrow {
+  color: #3f51b5 !important; /* Indigo */
+}
+.mat-sort-header-active {
+  color: #303f9f !important;
+}
+
