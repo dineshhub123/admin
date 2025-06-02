@@ -25,7 +25,7 @@
   </button>
   <mat-menu #notificationDropdown="matMenu" class="notification-menu">
     <ng-container *ngIf="getNotifyUserArray.length > 0; else noNotif">
-      <button mat-menu-item *ngFor="let item of getNotifyUserArray" (click)="openNotification()">
+      <button mat-menu-item *ngFor="let item of getNotifyUserArray" (click)="openNotification()" >
         <div class="notif-content">
          <span class="name">{{item?.product_name | titlecase}}</span>
    <span class="name">{{item?.user_first_name | titlecase}}</span>
@@ -67,7 +67,9 @@
 <mat-sidenav-container>
   <!-- <app-sidebar></app-sidebar> -->
   <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
-    <div class="avatar_name">T</div>
+   <div class="container">
+  <div class="avatar_name">T</div>
+</div>
     <h4 class="name">{{ username }}</h4>
     <mat-divider></mat-divider>
     <button mat-button class="menu-button" routerLink="/dashboard"  (click)="sidenav.toggle()">
