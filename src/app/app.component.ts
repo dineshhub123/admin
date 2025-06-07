@@ -22,8 +22,14 @@ export class AppComponent {
   public selectedFile:any;
   public sellItemData:any
   public buyerUsername: any;
- public getNotifyUserArray:any;
-  constructor(private router:Router, private http:HttpClient,private _DomSanitizationService:DomSanitizer, public apiService: ApiService, private loginService: LoginService) { }
+  public getNotifyUserArray:any;
+  constructor(
+  public router:Router, 
+  private http:HttpClient,
+  private _DomSanitizationService:DomSanitizer, 
+  public apiService: ApiService, 
+  private loginService: LoginService) 
+  { console.log(this.router.url, 'url');}
   ngOnInit():void {
      this.userlist()
       this.loginService.getUsername().subscribe((name) => {
