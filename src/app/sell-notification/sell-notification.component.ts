@@ -44,6 +44,8 @@ applyFilter(event: Event) {
  loadData(): void {
     this.apiService.getUserBuyerDetails().subscribe((data: any) => {
       this.sellItemData.data = data;
+      console.log(data ,'data');
     });
+
   }
 }
