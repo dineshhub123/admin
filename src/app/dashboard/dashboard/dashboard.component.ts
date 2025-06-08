@@ -4,6 +4,7 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { EChartsOption } from 'echarts';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { trigger, transition, animate, style } from '@angular/animations';
+import { range } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,9 @@ import { trigger, transition, animate, style } from '@angular/animations';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+ selectedDate: Date = new Date();
+yLabels:any;
+seriesData:any;
   spinners = [
     { value: 75, color: 'primary', borderColorClass: 'border-primary'},
     { value: 45, color: 'accent', borderColorClass: 'border-accent' },
@@ -20,12 +24,12 @@ export class DashboardComponent {
  mode: ProgressSpinnerMode = 'determinate';
   value = 80;
    rows = [
-    { title: 'CPU Usage', value: 500, spinnerValue: 75, color: 'primary', borderColorClass: 'border-primary' },
-    { title: 'Memory Usage', value: 120, spinnerValue: 60, color: 'accent', borderColorClass: 'border-accent' },
-    { title: 'Disk Space', value: 350, spinnerValue: 90, color: 'warn',  borderColorClass: 'border-warn' },
-    { title: 'Network', value: 45, spinnerValue: 45, color: 'primary', borderColorClass: 'border-primary' },
-    { title: 'Network', value: 45, spinnerValue: 45, color: 'primary', borderColorClass: 'border-primary' },
-    { title: 'Network', value: 45, spinnerValue: 45, color: 'primary', borderColorClass: 'border-primary' }
+    { title: 'Number of Orders', value: 500, spinnerValue: 75, color: 'primary', borderColorClass: 'border-primary' },
+    { title: 'Items Ordered', value: 120, spinnerValue: 60, color: 'accent', borderColorClass: 'border-accent' },
+    { title: 'Shipping', value: 350, spinnerValue: 90, color: 'warn',  borderColorClass: 'border-warn' },
+    { title: 'Discount', value: 45, spinnerValue: 45, color: 'primary', borderColorClass: 'border-primary' },
+    { title: 'Invoiced', value: 45, spinnerValue: 45, color: 'primary', borderColorClass: 'border-primary' },
+    { title: 'Refunded', value: 45, spinnerValue: 45, color: 'primary', borderColorClass: 'border-primary' }
   ];
  progressbar = [
     { title: 'CPU Usage', value: 75, barValue: 75, color: 'primary', borderColorClassone: 'border-primary' },
@@ -62,7 +66,7 @@ card = [
   pieChartOption: EChartsOption = {};
   velocityChartOption: EChartsOption = {};
   ngOnInit() {
-
+ this.updateChart('day'); 
   console.log(this.rows, 'rows');
 
  this.velocityChartOption = {
@@ -79,15 +83,11 @@ card = [
     }
   ]
 };
-  this.barChartOption = {
-  title: {
-    text: 'World'
-  },
+ this.barChartOption = {
+  
   tooltip: {
     trigger: 'axis',
-    axisPointer: {
-      type: 'shadow'
-    }
+    axisPointer: { type: 'shadow' }
   },
   legend: {},
   grid: {
@@ -97,26 +97,22 @@ card = [
     containLabel: true
   },
   xAxis: {
-    type: 'value',
-    boundaryGap: [0, 0.01]
+    type: 'category',
+    data: ['Item 1']
   },
   yAxis: {
-    type: 'category',
-    data: ['Brazil', 'Indonesia', 'USA', 'India', 'China', 'World']
+    type: 'value'
   },
   series: [
     {
-      name: '2011',
+      name: 'Sales',
       type: 'bar',
-      data: [18203, 23489, 29034, 104970, 131744, 630230]
-    },
-    {
-      name: '2012',
-      type: 'bar',
-      data: [19325, 23438, 31000, 121594, 134141, 681807]
+      data: [10]  // Correct array of numbers
     }
   ]
 };
+
+  
 
     this.pieChartOption = {
       tooltip: {
@@ -156,5 +152,49 @@ card = [
     };
 
   }
-  
+
+ onDateChange(): void {
+    const today = this.selectedDate;
+    const now = new Date();
+
+    if (
+      today.getDate() === now.getDate() &&
+      today.getMonth() === now.getMonth() &&
+      today.getFullYear() === now.getFullYear()
+    ) {
+      this.updateChart('day');
+    } else if (today.getFullYear() === now.getFullYear()) {
+      this.updateChart('month');
+    } else {
+      this.updateChart('year');
+    }
+  }
+
+updateChart(p0: string): void {
+    const range = this.selectedDate;
+
+    this.barChartOption = {
+      title: {
+        text: `Sales Data (${range})`  // This WILL show "Sales Data (day)" or similar
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' }
+      },
+      xAxis: {
+        type: 'category',
+        data: ['A', 'B', 'C']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          name: 'Sales',
+          type: 'bar',
+          data: [10, 20, 30]
+        }
+      ]
+    };
+  }
 }
