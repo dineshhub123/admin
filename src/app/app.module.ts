@@ -25,13 +25,17 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { AllComponent } from './pages/products/all/all.component';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { SalereportsComponent } from './pages/reports/salereports/salereports.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     UploadComponent,
-    SellNotificationComponent,
+    SellNotificationComponent,AllComponent,SalereportsComponent,
     FirstLiPipe,
     FullLiPipe
   ],
@@ -53,6 +57,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatListModule, 
     MatBadgeModule,  
     MatTooltipModule,
+    MatExpansionModule,
+   NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right', // 👈 BOTTOM RIGHT
       timeOut: 1000,                        // optional: duration in ms
