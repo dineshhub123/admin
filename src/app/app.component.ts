@@ -107,5 +107,43 @@ console.log(url, 'url')
   closeNotification() {
     
   }
+  user = {
+    name: 'John Doe',
+    email: 'john@example.com',
+    avatar: 'https://i.pravatar.cc/100?img=3',
+  };
+
+  notifications = [
+    {
+      avatar: 'https://i.pravatar.cc/100?img=4',
+      message: 'Anna sent you a message',
+      time: 'Just now',
+      read: true,
+    },
+    {
+      avatar: 'https://i.pravatar.cc/100?img=5',
+      message: 'Password changed successfully',
+      time: '5 min ago',
+      read: true,
+    },
+    {
+      avatar: 'https://i.pravatar.cc/100?img=6',
+      message: 'Welcome to our platform!',
+      time: '1 day ago',
+      read: true,
+    },
+  ];
+
+  clearAll() {
+    this.notifications = [];
+  }
+
+  goToSettings() {
+    // Navigate to settings
+    console.log('Redirecting to settings...');
+  }
 }
+
+
+
 
