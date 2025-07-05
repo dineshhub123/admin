@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient,HttpEventType } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
@@ -14,6 +14,8 @@ import { LoginService } from './login.service';
 export class AppComponent {
   title = 'material-ui-angular';
   username: string | null = '';
+  expandedPanel: string = '';
+
  public data:any;
   public retrieveResonse:any;
   public base64Data:any;
@@ -22,14 +24,50 @@ export class AppComponent {
   public selectedFile:any;
   public sellItemData:any
   public buyerUsername: any;
- public getNotifyUserArray:any;
-  constructor(private router:Router, private http:HttpClient,private _DomSanitizationService:DomSanitizer, public apiService: ApiService, private loginService: LoginService) { }
+  public getNotifyUserArray:any;
+  constructor(
+  public router:Router, 
+  private http:HttpClient,
+  private _DomSanitizationService:DomSanitizer, 
+  public apiService: ApiService, 
+  private loginService: LoginService) 
+  { console.log(this.router.url, 'url');
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.setExpandedPanel(event.urlAfterRedirects);
+      }
+    });
+}
   ngOnInit():void {
+    this.setExpandedPanel(this.router.url);
      this.userlist()
       this.loginService.getUsername().subscribe((name) => {
       this.username = name;
     });
+
   }
+
+  setExpandedPanel(url: string): void {
+console.log(url, 'url')
+    if (url.includes('/orders')) {
+      this.expandedPanel = 'orders';
+    } else if (url.includes('/products')) {
+      this.expandedPanel = 'products';
+    } else if (url.includes('/customers')) {
+      this.expandedPanel = 'customers';
+    } else if (url.includes('/reports')) {
+      this.expandedPanel = 'reports';
+    } else if (url.includes('/settings')) {
+      this.expandedPanel = 'settings';
+    } else {
+      this.expandedPanel = 'dashboard';
+    }
+  }
+
+  isExpanded(panel: string): boolean {
+    return this.expandedPanel === panel;
+  }
+
 
   adminLogout(){
     localStorage.removeItem('adminMobile');

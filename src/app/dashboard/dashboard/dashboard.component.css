@@ -29,3 +29,289 @@
     display: flex;
     flex-direction: column;
  }
+
+
+ /* Dashboard Content Styles */
+        .dashboard-content {
+            padding: 20px;
+            flex: 1;
+            background: #8080803d;
+        }
+        
+        /* Metric Cards */
+        .metrics-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 2px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            border-bottom: 15px solid;
+        }
+        
+        /* Individual card colors */
+        .metric-card:nth-child(1) { border-color: #3a5af0; }
+        .metric-card:nth-child(2) { border-color: #4caf50; }
+        .metric-card:nth-child(3) { border-color: #ff9800; }
+        .metric-card:nth-child(4) { border-color: #e91e63; }
+        .metric-card:nth-child(5) { border-color: #9c27b0; }
+        
+        .metric-title {
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+        
+        .metric-subtext {
+            font-size: 11px;
+            color: #95a5a6;
+        }
+        
+        /* Progress Bars Section */
+        .progress-section {
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #2c3e50;
+        }
+        
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 12px;
+        }
+        
+        .progress-item {
+            text-align: center;
+        }
+        
+        .progress-bar {
+            height: 110px;
+            width: 100%;
+            background: #ecf0f1;
+            border-radius: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #3a5af0;
+        }
+        
+        .progress-value {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 6px;
+            color: #2c3e50;
+        }
+        
+        .progress-label {
+            font-size: 10px;
+            color: #95a5a6;
+            margin-top: 2px;
+        }
+
+.example-card {
+  max-width: 400px;
+  margin-bottom: 8px;
+}
+
+::ng-deep .mat-mdc-card-header {
+    padding: 2px 16px 0 !important;
+    height: 70px !important;
+}
+
+span.value {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.dashboard-back {
+    background: #80808047;
+}
+
+.example-margin {
+  margin: 0 10px;
+    position: relative;
+    left: 100px;
+    top: -44px;
+}
+
+:ng-deep  .mat-progress-bar-fill::before {
+    background-color: #37474f;
+  }
+
+::ng-deep .mat-mdc-progress-spinner::before {
+    background-color: #1E457C;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+    background: #E4E8EB;
+}
+
+::ng-deep .mat-progress-bar {
+    border-radius: 2px;
+}
+.card-body-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.value-section {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-left: 10px;
+}
+
+.spinner-container {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.background-spinner,
+.foreground-spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.background-spinner ::ng-deep circle {
+  stroke: #e0e0e0;
+}
+
+.percentage-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+
+.card-body-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.value-section {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.bar-progress {
+  height: 10px;
+  border-radius: 4px;
+}
+::ng-deep .metric-card {
+  border-bottom: 4px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+::ng-deep.metric-card.border-primary {
+  border-bottom-color: #3f51b5 !important;
+}
+
+::ng-deep.metric-card.border-accent {
+  border-bottom-color: #ff4081 !important;
+}
+
+::ng-deep.metric-card.border-warn {
+  border-bottom-color: #f44336 !important;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 1rem; /* spacing between cards */
+}
+.sample-card {
+    margin-bottom: 1rem;
+    height: 250px;
+    border-radius: 20px;
+}
+.mat-typography, .mat-card, .mat-card-title, .mat-card-content {
+  font-family: 'Poppins', sans-serif !important;
+}
+.chart-card {
+  margin-bottom: 2rem;
+  border-radius: 20px;
+}
+
+.chart {
+  width: 100%;
+}
+.dateselect{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px; 
+}
+
+.custom-date-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 4px;
+  display: block;
+  user-select: none;
+}
+::ng-deep mat-form-field input.mat-input-element {
+  color: white;
+}
+::ng-deep mat-form-field .mat-form-field-flex {
+  background-color: transparent !important;  /* transparent background */
+  border: none !important;                    /* no border */
+  box-shadow: none !important;
+  padding: 0 0 4px 0;
+}
+
+::ng-deep mat-form-field.mat-focused .mat-form-field-flex {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep mat-form-field .mat-form-field-label {
+  color: #666;           /* softer label color */
+  font-weight: 600;
+  font-size: 14px;
+  user-select: none;
+}
+::ng-deep .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+    padding-right: 0;
+    background: transparent !important;
+    border: 2px solid #3f51b5;
+    border-radius: 10px;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+    border-bottom-color: transparent !important;
+}
