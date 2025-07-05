@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-// import { ProductService } from 'src/app/services/product.service';
+
 
 @Component({
   selector: 'app-all',
@@ -42,6 +42,7 @@ editProduct(product: any): void {
   // Example: navigate to edit form
   // this.router.navigate(['/edit', product.id]);
 }
+
 
 deleteProduct(product: any): void {
   const confirmDelete = confirm(`Are you sure you want to delete "${product.id}"?`);
