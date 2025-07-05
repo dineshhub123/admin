@@ -29,6 +29,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { AllComponent } from './pages/products/all/all.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SalereportsComponent } from './pages/reports/salereports/salereports.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -58,6 +61,11 @@ import { SalereportsComponent } from './pages/reports/salereports/salereports.co
     MatBadgeModule,  
     MatTooltipModule,
     MatExpansionModule,
+    MatMenuModule,
+    MatIconModule,
+    MatListModule,
+    MatButtonModule,
+    MatDividerModule,
    NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

@@ -20,22 +20,41 @@
   </div>
   <span class="toolbar-item-spacer"></span>
   <a mat-button [routerLink]="'/login'" class="top-nav"> Login </a>
- <div class="notification-wrapper" #notificationMenu  *ngIf="router.url.includes('/customerorder')">
+
+
+
+ <div class="notification notification-wrapper dropdown-container" #notificationMenu  *ngIf="router.url.includes('/customerorder')">
   <button mat-icon-button [matMenuTriggerFor]="notificationDropdown">
     <mat-icon class="top-nav">notifications</mat-icon>
     <span class="notification-badge" *ngIf="getNotifyUserArray?.length > 0">{{ getNotifyUserArray?.length }}</span>
   </button>
-  <mat-menu #notificationDropdown="matMenu" class="notification-menu">
-    <ng-container *ngIf="getNotifyUserArray.length > 0; else noNotif">
-      <button mat-menu-item *ngFor="let item of getNotifyUserArray" (click)="openNotification()" >
-        <div class="notif-content">
-         <span class="name">{{item?.product_name | titlecase}}</span>
-   <span class="name">{{item?.user_first_name | titlecase}}</span>
-   <span class="name">{{item?.user_phone}} </span>
-   <span class="name">{{item?.user_address | titlecase}} </span>
+  <mat-menu #notificationDropdown="matMenu" class="notification-menu menu-with-pointer">
+    
+  <mat-list class="notification-list" *ngIf="getNotifyUserArray.length > 0; else noNotif">
+  <mat-list-item *ngFor="let item of getNotifyUserArray" (click)="openNotification()"  class="notification-item">
+    <div class="notification-container">
+      <img matListAvatar [src]="item.img_front.replace('admin/src', '..')" alt="avatar" class="notification-avatar"/>
+      
+      <div class="notification-content menu-content">
+        <div class="message-line">
+          <span class="sender-name">{{item?.product_name | titlecase}}</span>
         </div>
-      </button>
-    </ng-container>
+       <div class="message-line">
+          <span class="message-text">{{item?.user_first_name | titlecase}}-{{item?.user_phone}}</span>
+        </div>
+         <div class="meta-line">
+          <span class="additional-info">{{item?.user_address | titlecase}}</span>
+        </div>
+      </div>
+      
+      <!-- <div class="notification-status">
+        <span class="unread-dot" *ngIf="!notification.read"></span>
+      </div> -->
+    </div>
+  </mat-list-item>
+</mat-list>
+
+  <mat-divider></mat-divider>
     <ng-template #noNotif>
       <button mat-menu-item disabled>No notifications</button>
     </ng-template>
@@ -52,7 +71,8 @@
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
     <button mat-menu-item routerLink="#">
-      <mat-icon>person</mat-icon><span>My Account</span>
+      <mat-icon>person</mat-icon><span>
+        Hello, {{(username?username:'Sign in')|titlecase }} </span>
     </button>
     <button mat-menu-item routerLink="#">
       <mat-icon>settings</mat-icon><span>Settings</span>
@@ -156,7 +176,7 @@
 
       <!-- Customers -->
       <!-- Customers -->
-<mat-expansion-panel>
+     <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>group</mat-icon>
@@ -175,8 +195,7 @@
 
       <!-- Reports -->
       <!-- Customers -->
-<mat-expansion-panel>
-
+    <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>bar_chart</mat-icon>
@@ -195,7 +214,7 @@
 
       <!-- Settings -->
       <!-- Customers -->
-<mat-expansion-panel >
+        <mat-expansion-panel >
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>settings</mat-icon>
@@ -220,19 +239,3 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-
-
-
-
-    <!-- <button mat-button class="menu-button" routerLink="/dashboard"  (click)="sidenav.toggle()">
-      <mat-icon>dashboard</mat-icon>
-      <span>Dashboard</span>
-    </button>
-   <button mat-button class="menu-button" routerLink="/uploadproduct"  (click)="sidenav.toggle()">
-      <mat-icon>info</mat-icon>
-      <span>Product Upload</span>
-    </button>
-   <button mat-button class="menu-button" routerLink="/customerorder"  (click)="sidenav.toggle()">
-      <mat-icon>info</mat-icon>
-      <span> Customer Order</span>
-    </button> -->
