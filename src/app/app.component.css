@@ -430,11 +430,10 @@ a.mat-list-item.active-link {
 }
 
 .notification-avatar {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
 }
 
 .notification-content {
@@ -573,6 +572,8 @@ max-width:320px !important;
 ::ng-deep span.mdc-list-item__content {
     background: #15c0a2;
     border: 1px solid #ffffff !important;
+    margin: 5px 5px 5px 5px;
+    border-radius: 5px;
 }
 ::ng-deep .mat-mdc-menu-content{
 padding: 0px !important;

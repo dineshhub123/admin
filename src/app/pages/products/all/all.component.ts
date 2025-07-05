@@ -14,7 +14,7 @@ dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
  products: any[] = [];
-displayedColumns: string[] = [
+ displayedColumns: string[] = [
     'index',
     'product_name',
     'category',
@@ -23,16 +23,43 @@ displayedColumns: string[] = [
     'product_mrp_price',
     'product_discount',
     'product_price',
-    'delivery_date'
+    'delivery_date', 'Edit'
   ];
   constructor(public apiService: ApiService,) {}
 
   ngOnInit(): void {
-    this.apiService.getProductListDetailsData().subscribe(data => {
-      this.dataSource.data = data;
-    });
+    this.apiService.getProductListDetailsData(1).subscribe(data => {
+  this.dataSource.data = data;
+});
+
   }
  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+
+editProduct(product: any): void {
+  console.log('Edit clicked:', product);
+  // Example: navigate to edit form
+  // this.router.navigate(['/edit', product.id]);
+}
+
+deleteProduct(product: any): void {
+  const confirmDelete = confirm(`Are you sure you want to delete "${product.id}"?`);
+  if (confirmDelete) {
+    console.log('Trying to delete ID:', product.id);  
+    this.apiService.deleteProduct(product.id).subscribe({
+      next: (res) => {
+        console.log('Delete response:', res);  
+        alert('Product deleted successfully.');
+      },
+      error: (err) => {
+        console.error('Delete failed', err);  
+        alert('Failed to delete product.');
+      }
+    });
+  }
+}
+
+
+
 }

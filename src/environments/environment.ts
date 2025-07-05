@@ -12,7 +12,8 @@ export const environment = {
   getProductListDetailsApiUrl: 'http://localhost/admin/backend/getProductDetails.php',
   productBuyerApiUrl: 'http://localhost/admin/backend/productbuyer.php',
   getProductNotifyApiUrl: 'http://localhost/admin/backend/getProductNotification.php',
-   getBuyerDataApiUrl: 'http://localhost/admin/backend/getProductBuyerData.php',
+  getBuyerDataApiUrl: 'http://localhost/admin/backend/getProductBuyerData.php',
+  deleteProductListDetailsApiUrl: 'http://localhost/admin/backend/delete_product.php',
  
   // getUserDetailsApiURL: 'http://192.168.74.250/getUserLoginDetails.php',
   // searchApiUrl: 'http://192.168.74.250/search_product.php',
