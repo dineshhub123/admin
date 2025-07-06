@@ -28,9 +28,7 @@ dataSource = new MatTableDataSource<any>();
   constructor(public apiService: ApiService,) {}
 
   ngOnInit(): void {
-    this.apiService.getProductListDetailsData(1).subscribe(data => {
-  this.dataSource.data = data;
-});
+ this.getProductList();
 
   }
  ngAfterViewInit() {
@@ -39,16 +37,14 @@ dataSource = new MatTableDataSource<any>();
 
 editProduct(product: any): void {
   console.log('Edit clicked:', product);
-  // Example: navigate to edit form
-  // this.router.navigate(['/edit', product.id]);
 }
 
 
-deleteProduct(product: any): void {
-  const confirmDelete = confirm(`Are you sure you want to delete "${product.id}"?`);
+deleteProduct(productId: any): void {
+  const confirmDelete = confirm(`Are you sure you want to delete "${productId.id}"?`);
   if (confirmDelete) {
-    console.log('Trying to delete ID:', product.id);  
-    this.apiService.deleteProduct(product.id).subscribe({
+    console.log('Trying to delete ID:', productId.id);  
+    this.apiService.deleteProduct(productId.id).subscribe({
       next: (res) => {
         console.log('Delete response:', res);  
         alert('Product deleted successfully.');
@@ -58,9 +54,24 @@ deleteProduct(product: any): void {
         alert('Failed to delete product.');
       }
     });
+   setTimeout(() => {
+      this.getProductList()
+    }, 100)
+
   }
 }
+  getProductList() {
+    this.apiService.getProductListDetailsData(1).subscribe(data => {
+  this.dataSource.data = data;
+  });
 
-
-
+  }
+applyProductSearch(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    if (filterValue.includes('-') || filterValue.endsWith('+')) {
+      this.dataSource.filter = filterValue.trim();
+    } else {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+  }
 }

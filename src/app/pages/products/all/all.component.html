@@ -1,4 +1,32 @@
 <!-- Angular Material Table -->
+<div class="table-header">
+  <!-- Search Input -->
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput placeholder="Search products..." (keyup)="applyProductSearch($event)" >
+  </mat-form-field>
+
+  <!-- Category Filter -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Filter by Category</mat-label>
+    <mat-select>
+      <mat-option>Test</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Price Range Filter -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Price Range</mat-label>
+    <mat-select>
+      <mat-option value="">All Prices</mat-option>
+      <mat-option value="0-500">Under ₹500</mat-option>
+      <mat-option value="500-1000">₹500 - ₹1000</mat-option>
+      <mat-option value="1000-5000">₹1000 - ₹5000</mat-option>
+      <mat-option value="5000+">Over ₹5000</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 pt-4" *ngIf="dataSource.data.length > 0">
 
   <!-- Index -->
