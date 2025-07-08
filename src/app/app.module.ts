@@ -29,13 +29,19 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { AllComponent } from './pages/products/all/all.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SalereportsComponent } from './pages/reports/salereports/salereports.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
+import { CustomersComponent } from './pages/customers/customers.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     UploadComponent,
-    SellNotificationComponent,AllComponent,SalereportsComponent,
+    SellNotificationComponent,AllComponent,SalereportsComponent, CustomersComponent,
     FirstLiPipe,
     FullLiPipe
   ],
@@ -58,6 +64,13 @@ import { SalereportsComponent } from './pages/reports/salereports/salereports.co
     MatBadgeModule,  
     MatTooltipModule,
     MatExpansionModule,
+    MatMenuModule,
+    MatIconModule,
+    MatListModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatSortModule,
+    MatSelectModule,
    NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

@@ -1,4 +1,32 @@
 <!-- Angular Material Table -->
+<div class="table-header">
+  <!-- Search Input -->
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput placeholder="Search products..." (keyup)="applyProductSearch($event)" >
+  </mat-form-field>
+
+  <!-- Category Filter -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Filter by Category</mat-label>
+    <mat-select>
+      <mat-option>Test</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Price Range Filter -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Price Range</mat-label>
+    <mat-select>
+      <mat-option value="">All Prices</mat-option>
+      <mat-option value="0-500">Under ₹500</mat-option>
+      <mat-option value="500-1000">₹500 - ₹1000</mat-option>
+      <mat-option value="1000-5000">₹1000 - ₹5000</mat-option>
+      <mat-option value="5000+">Over ₹5000</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 pt-4" *ngIf="dataSource.data.length > 0">
 
   <!-- Index -->
@@ -59,6 +87,25 @@
     <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Delivery Date</th>
     <td mat-cell *matCellDef="let element">{{ element.delivery_date }}</td>
   </ng-container>
+
+
+<ng-container matColumnDef="Edit">
+  <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Actions</th>
+  <td mat-cell *matCellDef="let element">
+    <!-- Edit Button -->
+    <!-- <button mat-icon-button color="primary">
+      <mat-icon>edit</mat-icon>
+    </button> -->
+
+    <!-- Delete Button -->
+    <button mat-icon-button color="warn" (click)="deleteProduct(element)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </td>
+</ng-container>
+
+
+
 
   <!-- Row and Header Definitions -->
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

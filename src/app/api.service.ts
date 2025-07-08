@@ -20,6 +20,7 @@ export class ApiService {
   apiProductNotifyURL:string = environment.getProductNotifyApiUrl;
   apiProductbuyerURL:string = environment.productBuyerApiUrl;
   apiBuyerDataURL:string = environment.getBuyerDataApiUrl;
+  apiDeleteProductURL:string = environment.deleteProductListDetailsApiUrl;
 
   constructor(private http: HttpClient,private router:Router) { }
   
@@ -42,8 +43,11 @@ export class ApiService {
   //   //this.commonHeaderFunction(); 
   //   return this.http.post(this.apiURL + "user-info", object).pipe(map((res: any) => res));
   // }
-  getProductListDetailsData(): Observable<any> {
-    return this.http.get(this.apiProductListURL).pipe(map((res: any) => res)); 
+  getProductListDetailsData(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiProductListURL}/${id}`);
+  }
+   deleteProduct(id: number): Observable<any> {
+  return this.http.post(this.apiDeleteProductURL, { id });
   }
   getUserDetailsData(): Observable<any> {
     return this.http.get(this.getUserInfoURL).pipe(map((res: any) => res)); 
@@ -66,4 +70,5 @@ export class ApiService {
   getUserBuyerDetails():Observable<any> {
     return this.http.get(this.apiBuyerDataURL).pipe(map((res:any)=>res))
   }
+  
 }

@@ -27,6 +27,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -38,7 +39,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
     // AllComponent,
     AddComponent,
     CategoriesComponent,
-    CustomersComponent,
     ReportsComponent,
     SettingsComponent,
     ProcessingComponent,
@@ -57,7 +57,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
     PagesRoutingModule, 
    HttpClientModule,
    MatPaginatorModule,
-   BrowserAnimationsModule, 
+   BrowserAnimationsModule,
+  MatIconModule, 
    MatTableModule, 
   NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
