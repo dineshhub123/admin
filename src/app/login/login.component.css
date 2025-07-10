@@ -35,4 +35,18 @@ button.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-primary.mat-mdc-b
 .admin-login {
     color: #424242c7;
     font-size: 12px;
+    cursor: pointer;
+}
+.login-container {
+  position: relative;
+}
+
+app-privacy-popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+button.mdc-button.mat-mdc-button.mat-unthemed.mat-mdc-button-base {
+    background: #041f37;
 }
