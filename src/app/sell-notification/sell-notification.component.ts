@@ -68,5 +68,31 @@ applyFilter(): void {
     });
 
   }
+deleteOrder(orderId: any): void {
+  const confirmDelete = confirm(`Are you sure you want to delete "${orderId.id}"?`);
+  if (confirmDelete) {
+    console.log('Trying to delete ID:', orderId.id);  
+    this.apiService.deleteOrder(orderId.id).subscribe({
+      next: (res) => {
+        console.log('Delete response:', res);  
+        alert('Product deleted successfully.');
+      },
+      error: (err) => {
+        console.error('Delete failed', err);  
+        alert('Failed to delete product.');
+      }
+    });
+   setTimeout(() => {
+      this.deleteOrderList()
+    }, 100)
+
+  }
+}
+ deleteOrderList() {
+    this.apiService.ProductBuyerDetails(1).subscribe(data => {
+  this.dataSource.data = data;
+  });
+
+  }
 
 }

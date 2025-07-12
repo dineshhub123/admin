@@ -43,7 +43,10 @@ import { MatDialogModule } from '@angular/material/dialog';
   declarations: [
     AppComponent,
     UploadComponent,
-    SellNotificationComponent,AllComponent,SalereportsComponent, CustomersComponent,
+    SellNotificationComponent,
+    AllComponent,
+    SalereportsComponent, 
+    CustomersComponent,
     FirstLiPipe,
     FullLiPipe,
     PrivacyPopupComponent,

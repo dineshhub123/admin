@@ -21,7 +21,8 @@ export class ApiService {
   apiProductbuyerURL:string = environment.productBuyerApiUrl;
   apiBuyerDataURL:string = environment.getBuyerDataApiUrl;
   apiDeleteProductURL:string = environment.deleteProductListDetailsApiUrl;
-
+  apiDeleteCustomerURL:string = environment.deleteCustomerListDetailsApiUrl;
+  apiDeleteOrderURL:string = environment.deleteOrderListDetailsApiUrl;
   constructor(private http: HttpClient,private router:Router) { }
   
   commonHeaderFunction(){
@@ -46,8 +47,14 @@ export class ApiService {
   getProductListDetailsData(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiProductListURL}/${id}`);
   }
-   deleteProduct(id: number): Observable<any> {
+  deleteProduct(id: number): Observable<any> {
   return this.http.post(this.apiDeleteProductURL, { id });
+  }
+  deleteCustomer(id: number): Observable<any> {
+  return this.http.post(this.apiDeleteCustomerURL, { id });
+  }
+ deleteOrder(id: number): Observable<any> {
+  return this.http.post(this.apiDeleteOrderURL, { id });
   }
   getUserDetailsData(): Observable<any> {
     return this.http.get(this.getUserInfoURL).pipe(map((res: any) => res)); 
