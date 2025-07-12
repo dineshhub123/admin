@@ -21,7 +21,8 @@ dataSource = new MatTableDataSource<any>();
     'user_email',
     'user_phone',
     'user_address',
-    'user_pincode'
+    'user_pincode',
+    'delete'
   ];
   constructor(public apiService: ApiService,) {}
 
@@ -48,8 +49,32 @@ getUserDetailsData() {
     }
   );
 }
+deleteCustomerList(userId: any): void {
+  const confirmDelete = confirm(`Are you sure you want to delete "${userId.id}"?`);
+  if (confirmDelete) {
+    console.log('Trying to delete ID:', userId.id);  
+    this.apiService.deleteCustomer(userId.id).subscribe({
+      next: (res) => {
+        console.log('Delete response:', res);  
+        alert('Product deleted successfully.');
+      },
+      error: (err) => {
+        console.error('Delete failed', err);  
+        alert('Failed to delete product.');
+      }
+    });
+   setTimeout(() => {
+      this.deleteCustomer()
+    }, 100)
 
- 
+  }
+}
+ deleteCustomer() {
+    this.apiService.getUserDetailsData().subscribe(data => {
+  this.dataSource.data = data;
+  });
+
+  }
 applyProductSearch(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     if (filterValue.includes('-') || filterValue.endsWith('+')) {

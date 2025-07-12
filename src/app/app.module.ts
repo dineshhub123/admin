@@ -35,15 +35,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { CustomersComponent } from './pages/customers/customers.component';
+import { PrivacyPopupComponent } from './privacy-popup/privacy-popup.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     UploadComponent,
-    SellNotificationComponent,AllComponent,SalereportsComponent, CustomersComponent,
+    SellNotificationComponent,
+    AllComponent,
+    SalereportsComponent, 
+    CustomersComponent,
     FirstLiPipe,
-    FullLiPipe
+    FullLiPipe,
+    PrivacyPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +77,7 @@ import { CustomersComponent } from './pages/customers/customers.component';
     MatDividerModule,
     MatSortModule,
     MatSelectModule,
+    MatDialogModule,
    NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
