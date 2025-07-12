@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $deliveryDate = $_POST['delivery_date'];
     $p_category = $_POST['p_category'];
     $p_description = $_POST['p_description'];
+	$p_color = $_POST['p_color'];
+	$p_size = $_POST['p_size'];
 	//$img = $_POST['p_name'];
 
     // Handle file uploads
@@ -52,9 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Now you can save the file paths in your database or perform other actions
     // Example SQL to insert data including image paths:
     $sql = "INSERT INTO product_data (product_name,product_price,product_mrp_price,product_discount,delivery_date, 
-            img_front, img_back, img_side, img_top, img_triangle, category, product_description) 
+            img_front, img_back, img_side, img_top, img_triangle, category, product_description, product_color, product_size) 
             VALUES ('$name','$price','$mrp','$discount','$deliveryDate','$front_image_path', '$back_image_path',
-            '$side_image_path', '$top_image_path', '$triangle_image_path', '$p_category', '$p_description')";
+            '$side_image_path', '$top_image_path', '$triangle_image_path', '$p_category', '$p_description', '$p_color', '$p_size')";
 
     // Execute the query here and check for success
 
