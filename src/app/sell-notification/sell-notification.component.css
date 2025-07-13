@@ -1,51 +1,172 @@
-.table-header {
+/* order-view.component.scss */
+.order-view-container {
+  padding: 24px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 500;
+    color: #3f51b5;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+.filter-section {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  padding: 16px;
-  background: white;
+  margin-bottom: 24px;
   align-items: center;
-  
-  .search-field {
+
+  mat-form-field {
+    min-width: 200px;
     flex: 1;
+  }
+
+  .search-field {
+    flex: 2;
+  }
+
+  .date-field {
     min-width: 250px;
   }
-  
-  .filter-field {
-    min-width: 200px;
+}
+
+.order-table {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  .mat-header-cell {
+    font-weight: 600;
+    color: #3f51b5;
+    background-color: #f5f5f5;
+  }
+
+  .mat-row {
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
   }
 }
 
-.img-tbl {
-  max-width: 80px;
-  max-height: 60px;
-  border-radius: 4px;
-  object-fit: contain;
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .product-name {
+    font-weight: 500;
+  }
+
+  .product-category {
+    font-size: 12px;
+    color: #666;
+  }
 }
 
-.no-data-message {
-  text-align: center;
-  padding: 40px;
-  color: rgba(0, 0, 0, 0.54);
-  
-  mat-icon {
-    font-size: 48px;
-    width: 48px;
-    height: 48px;
-    margin-bottom: 16px;
+.price-info {
+  display: flex;
+  flex-direction: column;
+
+  .current-price {
+    font-weight: 500;
+    color: #3f51b5;
   }
-  
-  p {
-    font-size: 16px;
-    margin: 0;
+
+  .original-price {
+    text-decoration: line-through;
+    font-size: 12px;
+    color: #999;
   }
+
+  .discount {
+    font-size: 12px;
+    color: #4caf50;
+  }
+}
+
+.customer-info, .delivery-info {
+  .customer-name, .delivery-date {
+    font-weight: 500;
+  }
+
+  .customer-contact, .delivery-address {
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .contact-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.status-pending {
+  background-color: #ff9800 !important;
+  color: white !important;
+}
+
+.status-shipped {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
+.status-delivered {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.status-cancelled {
+  background-color: #f44336 !important;
+  color: white !important;
 }
 
 .mat-paginator {
-  background: transparent;
-  margin-top: 16px;
+  background-color: #f5f5f5;
+  border-radius: 0 0 8px 8px;
 }
-/* Add to your component's CSS */
-.pincode-toggle {
-  cursor: pointer;
+
+@media (max-width: 768px) {
+  .filter-section {
+    flex-direction: column;
+    align-items: stretch;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 }

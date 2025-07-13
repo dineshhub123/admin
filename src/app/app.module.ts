@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
@@ -37,7 +36,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { CustomersComponent } from './pages/customers/customers.component';
 import { PrivacyPopupComponent } from './privacy-popup/privacy-popup.component';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { OrderViewComponent } from './pages/orders/order-view/order-view.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -50,6 +50,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     FirstLiPipe,
     FullLiPipe,
     PrivacyPopupComponent,
+    OrderViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,8 +78,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDividerModule,
     MatSortModule,
     MatSelectModule,
+    MatChipsModule,
     MatDialogModule,
-   NgxEchartsModule.forRoot({
+    NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
     ToastrModule.forRoot({

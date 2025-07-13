@@ -23,6 +23,7 @@ import { BrandsComponent } from './pages/products/categories/brands/brands.compo
 import { LowstockComponent } from './pages/products/lowstock/lowstock.component';
 import { ReviewsComponent } from './pages/customers/reviews/reviews.component';
 import { SalereportsComponent } from './pages/reports/salereports/salereports.component';
+import { OrderViewComponent } from './pages/orders/order-view/order-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -49,8 +50,9 @@ const routes: Routes = [
   { path: 'reports', component: ReportsComponent },
   { path: 'reports/sales', component: SalereportsComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'orders/order-view', component: OrderViewComponent },
   { path: '**', redirectTo: '404' },
-
+ 
 
 ];
 
