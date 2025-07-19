@@ -23,7 +23,8 @@ dataSource = new MatTableDataSource<any>();
     'product_mrp_price',
     'product_discount',
     'product_price',
-    'delivery_date', 'Edit'
+    'delivery_date',
+    'delete'
   ];
   constructor(public apiService: ApiService,) {}
 

@@ -89,15 +89,9 @@
   </ng-container>
 
 
-<ng-container matColumnDef="Edit">
+<ng-container matColumnDef="delete">
   <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Actions</th>
   <td mat-cell *matCellDef="let element">
-    <!-- Edit Button -->
-    <!-- <button mat-icon-button color="primary">
-      <mat-icon>edit</mat-icon>
-    </button> -->
-
-    <!-- Delete Button -->
     <button mat-icon-button color="warn" (click)="deleteProduct(element)">
       <mat-icon>delete</mat-icon>
     </button>
