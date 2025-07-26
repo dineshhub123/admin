@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { EditCustomerDialogComponent } from './edit-customer-dialog/edit-customer-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-customers',
@@ -24,7 +26,8 @@ dataSource = new MatTableDataSource<any>();
     'user_pincode',
     'delete'
   ];
-  constructor(public apiService: ApiService,) {}
+
+  constructor(public apiService: ApiService,private dialog: MatDialog  ) {}
 
   ngOnInit(): void {
  this.getUserDetailsData();
@@ -49,6 +52,28 @@ getUserDetailsData() {
     }
   );
 }
+// Edit customer function
+  
+editCustomer(customer: any): void {
+  const dialogRef = this.dialog.open(EditCustomerDialogComponent, {
+    width: '600px',
+    data: { customer },
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe((result: { id: any; }) => {
+    if (result) {
+      // Update the customer in the table
+      const index = this.dataSource.data.findIndex(c => c.id === result.id);
+      if (index !== -1) {
+        this.dataSource.data[index] = result;
+        this.dataSource._updateChangeSubscription();
+      }
+    }
+  });
+}
+
+  // ... rest of your existing methods ...
 deleteCustomerList(userId: any): void {
   const confirmDelete = confirm(`Are you sure you want to delete "${userId.id}"?`);
   if (confirmDelete) {

@@ -1,0 +1,81 @@
+<h2 mat-dialog-title>Edit Product</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="editForm">
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="product_name" required>
+        <mat-error *ngIf="editForm.get('product_name')?.hasError('required')">
+          Product name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" required>
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="editForm.get('category')?.hasError('required')">
+          Category is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="product_description" rows="3" required></textarea>
+      <mat-error *ngIf="editForm.get('product_description')?.hasError('required')">
+        Description is required
+      </mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-4">
+        <mat-label>MRP Price (₹)</mat-label>
+        <input matInput type="number" formControlName="product_mrp_price" required min="0">
+        <mat-error *ngIf="editForm.get('product_mrp_price')?.hasError('required')">
+          MRP is required
+        </mat-error>
+        <mat-error *ngIf="editForm.get('product_mrp_price')?.hasError('min')">
+          Must be 0 or more
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-4">
+        <mat-label>Discount (₹)</mat-label>
+        <input matInput type="number" formControlName="product_discount" min="0">
+        <mat-error *ngIf="editForm.get('product_discount')?.hasError('min')">
+          Must be 0 or more
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-4">
+        <mat-label>Final Price (₹)</mat-label>
+        <input matInput type="number" formControlName="product_price" readonly>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Delivery Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="delivery_date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Image URL</mat-label>
+      <input matInput formControlName="img_front">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" color="secondary">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="editForm.invalid || isLoading">
+    <span *ngIf="!isLoading">Save</span>
+    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+  </button>
+</mat-dialog-actions>

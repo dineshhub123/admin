@@ -1,0 +1,107 @@
+<h2 mat-dialog-title>Edit Order</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="editForm">
+    <div class="row pt-4">
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="product_name" required>
+        <mat-error *ngIf="editForm.get('product_name')?.hasError('required')">
+          Product name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" required>
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="editForm.get('category')?.hasError('required')">
+          Category is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-4">
+        <mat-label>MRP</mat-label>
+        <input matInput type="number" formControlName="product_mrp_price" required min="0">
+        <mat-error *ngIf="editForm.get('product_mrp_price')?.hasError('required')">
+          MRP is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-4">
+        <mat-label>Discount</mat-label>
+        <input matInput type="number" formControlName="product_discount" min="0">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-4">
+        <mat-label>Final Price</mat-label>
+        <input matInput type="number" formControlName="product_price" required min="0">
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-4">
+        <mat-label>Quantity</mat-label>
+        <input matInput type="number" formControlName="quantity" required min="1">
+        <mat-error *ngIf="editForm.get('quantity')?.hasError('required')">
+          Quantity is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-8">
+        <mat-label>Delivery Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="delivery_date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <h3>Customer Details</h3>
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="user_first_name" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="user_last_name" required>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="user_email" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="user_phone" required>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="col-md-6 p-0">
+      <mat-label>Address</mat-label>
+      <textarea matInput formControlName="user_address" rows="3" required></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="col-md-6">
+      <mat-label>Pincode</mat-label>
+      <input matInput formControlName="user_pincode" required maxlength="6">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" color="secondary">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="editForm.invalid || isLoading">
+    <span *ngIf="!isLoading">Save</span>
+    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+  </button>
+</mat-dialog-actions>

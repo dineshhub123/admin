@@ -24,6 +24,8 @@ import { LowstockComponent } from './pages/products/lowstock/lowstock.component'
 import { ReviewsComponent } from './pages/customers/reviews/reviews.component';
 import { SalereportsComponent } from './pages/reports/salereports/salereports.component';
 import { OrderViewComponent } from './pages/orders/order-view/order-view.component';
+import { SecurityComponent } from './pages/settings/storesettings/security/security.component';
+import { StoresettingsComponent } from './pages/settings/storesettings/storesettings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -49,7 +51,10 @@ const routes: Routes = [
   { path: 'customers/reviews', component: ReviewsComponent },
   { path: 'reports', component: ReportsComponent },
   { path: 'reports/sales', component: SalereportsComponent },
+  { path: 'reports/performance', component: ReportsComponent },
   { path: 'settings', component: SettingsComponent },
+ { path: 'settings/security', component: SecurityComponent },
+ { path: 'settings/store', component: StoresettingsComponent },
   { path: 'orders/order-view', component: OrderViewComponent },
   { path: '**', redirectTo: '404' },
  

@@ -6,6 +6,8 @@ import { ViewChild, AfterViewInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material/dialog';
+import { OrderEditDialogComponent } from './order-edit-dialog/order-edit-dialog.component';
 
 @Component({
   selector: 'app-sell-notification',
@@ -21,7 +23,7 @@ sellItemData = new MatTableDataSource<any>();
    @ViewChild(MatPaginator) paginator!: MatPaginator;
    @ViewChild(MatSort) sort!: MatSort;
   dataSource: any;
-  constructor(public apiService: ApiService, private cdRef: ChangeDetectorRef, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) { iconRegistry.addSvgIcon('eye', sanitizer.bypassSecurityTrustResourceUrl('assets/eye.svg'));
+  constructor(public apiService: ApiService, private cdRef: ChangeDetectorRef, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,  private dialog: MatDialog,) { iconRegistry.addSvgIcon('eye', sanitizer.bypassSecurityTrustResourceUrl('assets/eye.svg'));
   iconRegistry.addSvgIcon('eye-off', sanitizer.bypassSecurityTrustResourceUrl('assets/eye-off.svg')); }
 
   ngOnInit() {
@@ -87,6 +89,24 @@ deleteOrder(orderId: any): void {
     }, 100)
 
   }
+}
+editOrder(order: any): void {
+  const dialogRef = this.dialog.open(OrderEditDialogComponent, {
+    width: '900px',
+    data: { order: { ...order } } // Pass a copy of the order
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      // Update the table data
+      const index = this.sellItemData.data.findIndex(o => o.id === result.id);
+      if (index !== -1) {
+        const updatedData = [...this.sellItemData.data];
+        updatedData[index] = result;
+        this.sellItemData.data = updatedData;
+      }
+    }
+  });
 }
  deleteOrderList() {
     this.apiService.ProductBuyerDetails(1).subscribe(data => {

@@ -16,6 +16,10 @@ export const environment = {
   deleteProductListDetailsApiUrl: 'http://localhost/admin/backend/delete_product.php',
   deleteCustomerListDetailsApiUrl: 'http://localhost/admin/backend/delete_customer.php',
   deleteOrderListDetailsApiUrl: 'http://localhost/admin/backend/delete_order.php',
+  updateUserDetailsApiUrl:'http://localhost/admin/backend/updateUserDetails.php',
+  updateProductDetailsApiUrl:'http://localhost/admin/backend/updateProductDetails.php',
+  updateCategoryDetailsApiUrl:'http://localhost/admin/backend/updateCategoryDetails.php',
+  editOrderDetailsApiUrl:'http://localhost/admin/backend/editOrderDetails.php',
  
   // getUserDetailsApiURL: 'http://192.168.74.250/getUserLoginDetails.php',
   // searchApiUrl: 'http://192.168.74.250/search_product.php',

@@ -38,6 +38,10 @@ import { PrivacyPopupComponent } from './privacy-popup/privacy-popup.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { OrderViewComponent } from './pages/orders/order-view/order-view.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { EditCustomerDialogComponent } from './pages/customers/edit-customer-dialog/edit-customer-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProductEditDialogComponent } from './pages/products/product-edit-dialog/product-edit-dialog.component';
+import { OrderEditDialogComponent } from './sell-notification/order-edit-dialog/order-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +55,9 @@ import { MatChipsModule } from '@angular/material/chips';
     FullLiPipe,
     PrivacyPopupComponent,
     OrderViewComponent,
+    EditCustomerDialogComponent,
+    ProductEditDialogComponent, 
+    OrderEditDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -80,6 +87,7 @@ import { MatChipsModule } from '@angular/material/chips';
     MatSelectModule,
     MatChipsModule,
     MatDialogModule,
+    MatSnackBarModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
