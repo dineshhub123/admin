@@ -1,0 +1,20 @@
+/* Center the dialog content */
+mat-dialog-content {
+  padding: 16px 0;
+  margin: 0;
+}
+
+/* Add some spacing between buttons */
+mat-dialog-actions {
+  padding: 8px 0;
+  gap: 8px;
+}
+
+/* Optional: Add some hover effects */
+.confirm-button:hover {
+  opacity: 0.9;
+}
+
+.cancel-button:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}

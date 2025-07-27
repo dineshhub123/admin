@@ -42,6 +42,10 @@ import { EditCustomerDialogComponent } from './pages/customers/edit-customer-dia
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProductEditDialogComponent } from './pages/products/product-edit-dialog/product-edit-dialog.component';
 import { OrderEditDialogComponent } from './sell-notification/order-edit-dialog/order-edit-dialog.component';
+import { ConfirmDialogComponent } from './pages/settings/storesettings/confirm-dialog/confirm-dialog.component';
+import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
+import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
+
 
 @NgModule({
   declarations: [
@@ -57,7 +61,10 @@ import { OrderEditDialogComponent } from './sell-notification/order-edit-dialog/
     OrderViewComponent,
     EditCustomerDialogComponent,
     ProductEditDialogComponent, 
-    OrderEditDialogComponent
+    OrderEditDialogComponent,
+    StoreFormComponent,
+    ConfirmDialogComponent,
+    StoreListComponent
   ],
   imports: [
     BrowserModule,

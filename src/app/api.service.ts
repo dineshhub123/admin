@@ -29,6 +29,8 @@ export class ApiService {
   apiUpdateProductInfoURL:string = environment.updateProductDetailsApiUrl;
   apiUpdateCategoriesInfoURL:string = environment.updateCategoryDetailsApiUrl;
   apiEditOrderInfoURL:string = environment.editOrderDetailsApiUrl;
+  apiStoreListURL:string = environment.storeDetailsApiUrl;
+
 
   constructor(private http: HttpClient,private router:Router) { }
   
@@ -44,13 +46,6 @@ export class ApiService {
      };
     }
   }
-
-
-  
-  // employeeData(object): Observable<any> {
-  //   //this.commonHeaderFunction(); 
-  //   return this.http.post(this.apiURL + "user-info", object).pipe(map((res: any) => res));
-  // }
   getProductListDetailsData(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiProductListURL}/${id}`);
   }
@@ -96,9 +91,14 @@ export class ApiService {
   getCategories(id: number): Observable<any> {
   return this.http.put(this.apiUpdateProductInfoURL, {id });
   }
-updateOrder(id: number): Observable<any> {
+  updateOrder(id: number): Observable<any> {
   return this.http.put(this.apiEditOrderInfoURL, {id });
   }
-
+  storelist(id: number): Observable<any> {
+  return this.http.put(this.apiStoreListURL, {id });
+  }
+  getStorelist(): Observable<any> {
+  return this.http.get(this.apiStoreListURL).pipe(map((res:any)=>res))
+  }
   
 }

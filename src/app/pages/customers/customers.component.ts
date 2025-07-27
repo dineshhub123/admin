@@ -27,7 +27,9 @@ dataSource = new MatTableDataSource<any>();
     'delete'
   ];
 
-  constructor(public apiService: ApiService,private dialog: MatDialog  ) {}
+  constructor(
+  public apiService: ApiService,
+  private dialog: MatDialog  ) {}
 
   ngOnInit(): void {
  this.getUserDetailsData();
@@ -52,7 +54,6 @@ getUserDetailsData() {
     }
   );
 }
-// Edit customer function
   
 editCustomer(customer: any): void {
   const dialogRef = this.dialog.open(EditCustomerDialogComponent, {
@@ -63,7 +64,6 @@ editCustomer(customer: any): void {
 
   dialogRef.afterClosed().subscribe((result: { id: any; }) => {
     if (result) {
-      // Update the customer in the table
       const index = this.dataSource.data.findIndex(c => c.id === result.id);
       if (index !== -1) {
         this.dataSource.data[index] = result;
@@ -72,8 +72,6 @@ editCustomer(customer: any): void {
     }
   });
 }
-
-  // ... rest of your existing methods ...
 deleteCustomerList(userId: any): void {
   const confirmDelete = confirm(`Are you sure you want to delete "${userId.id}"?`);
   if (confirmDelete) {

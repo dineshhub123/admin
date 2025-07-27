@@ -1,7 +1,6 @@
 <h2 mat-dialog-title>
   {{ data.customer ? 'Edit Customer' : 'Add New Customer' }}
 </h2>
-
 <mat-dialog-content>
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
     <div class="row">
@@ -83,13 +82,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <!-- Cancel Button -->
   <button mat-button (click)="onCancel()" [disabled]="isLoading" color="secondary">
     <mat-icon>cancel</mat-icon>
     Cancel
   </button>
-  
-  <!-- Save Button -->
   <button mat-raised-button 
           color="primary" 
           (click)="onSubmit()" 
