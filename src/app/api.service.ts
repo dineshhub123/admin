@@ -29,8 +29,9 @@ export class ApiService {
   apiUpdateProductInfoURL:string = environment.updateProductDetailsApiUrl;
   apiUpdateCategoriesInfoURL:string = environment.updateCategoryDetailsApiUrl;
   apiEditOrderInfoURL:string = environment.editOrderDetailsApiUrl;
-  apiStoreListURL:string = environment.storeDetailsApiUrl;
-
+  apiStoreInsertURL:string = environment.insertStoreDetailsApiUrl;
+  apigetStoreURL:string = environment.getStoreDetailsApiUrl;
+  apideleteStoreURL:string = environment.deleteStoreDetailsApiUrl;
 
   constructor(private http: HttpClient,private router:Router) { }
   
@@ -94,11 +95,11 @@ export class ApiService {
   updateOrder(id: number): Observable<any> {
   return this.http.put(this.apiEditOrderInfoURL, {id });
   }
-  storelist(id: number): Observable<any> {
-  return this.http.put(this.apiStoreListURL, {id });
+  deletestorelist(id: number): Observable<any> {
+  return this.http.post(this.apideleteStoreURL, {id });
   }
   getStorelist(): Observable<any> {
-  return this.http.get(this.apiStoreListURL).pipe(map((res:any)=>res))
+  return this.http.get(this.apigetStoreURL).pipe(map((res:any)=>res))
   }
   
 }

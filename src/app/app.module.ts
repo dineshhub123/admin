@@ -45,6 +45,7 @@ import { OrderEditDialogComponent } from './sell-notification/order-edit-dialog/
 import { ConfirmDialogComponent } from './pages/settings/storesettings/confirm-dialog/confirm-dialog.component';
 import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
 import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -95,6 +96,7 @@ import { StoreListComponent } from './pages/settings/storesettings/store-list/st
     MatChipsModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatPaginatorModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

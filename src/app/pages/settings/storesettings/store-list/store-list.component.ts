@@ -15,17 +15,18 @@ import { ApiService } from 'src/app/api.service';
   styleUrls: ['./store-list.component.css']
 })
 export class StoreListComponent {
+ dataSource = new MatTableDataSource<any>();
+ displayedColumns: string[] = ['name', 'address', 'phone', 'email', 'edit', 'delete'];
 
-  displayedColumns: string[] = ['name', 'address', 'phone', 'email', 'edit', 'delete'];
-  dataSource = new MatTableDataSource<Store>();
   isLoading = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   snackBar: any;
-
+  stores: any; 
   constructor(
-  public storeService: StoreService,  public apiService: ApiService,
+  public storeService: StoreService,  
+  public apiService: ApiService,
   
     private dialog: MatDialog
   ) {}
@@ -34,22 +35,25 @@ export class StoreListComponent {
     this.loadStores();
   }
 
-  loadStores(): void {
-    this.isLoading = true;
-    this.apiService.getStorelist().subscribe({
-      next: (stores) => {
-        this.dataSource.data = stores;
-         console.log(stores);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.isLoading = false;
-      }
-    });
-  }
+ loadStores(): void {
+  this.isLoading = true;
+  this.apiService.getStorelist().subscribe({
+    next: (response) => {
+      // Check if response needs to be unwrapped (remove .data if not needed)
+      const stores = response.data || response;
+      console.log('Stores data:', stores);
+      
+      this.dataSource.data = stores;
+      this.isLoading = false;
+    },
+    error: (err) => {
+      console.error('Error loading stores:', err);
+      this.isLoading = false;
+    }
+  });
+}
+
+
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -101,17 +105,17 @@ export class StoreListComponent {
   dialogRef.afterClosed().subscribe(confirmed => {
     if (confirmed) {
       this.isLoading = true;
-      this.storeService.deleteStore(id).subscribe({
+      this.apiService.deletestorelist(id).subscribe({
         next: () => {
           this.snackBar.open('Store deleted successfully', 'Close', {
-            duration: 3000
+            duration: 100
           });
           this.loadStores();
         },
         error: (err) => {
           console.error('Delete error:', err);
           this.snackBar.open('Failed to delete store', 'Close', {
-            duration: 3000,
+            duration: 100,
             panelClass: ['error-snackbar']
           });
           this.isLoading = false;

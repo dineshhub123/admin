@@ -15,10 +15,13 @@
   </mat-form-field>
 
   <!-- Loading spinner -->
-  <mat-spinner *ngIf="isLoading" diameter="50" class="loading-spinner"></mat-spinner>
+  <mat-spinner *ngIf="isLoading" diameter="100" class="loading-spinner"></mat-spinner>
+
+  <!-- Debug data (temporary) -->
+  <!-- <pre *ngIf="dataSource.data">{{ dataSource.data | json }}</pre> -->
 
   <!-- Stores table -->
-  <div class="table-container" *ngIf="!isLoading">
+  <div class="table-container" *ngIf="!isLoading && dataSource.data?.length">
     <table mat-table [dataSource]="dataSource" matSort>
       <!-- Name Column -->
       <ng-container matColumnDef="name">
@@ -44,19 +47,17 @@
         <td mat-cell *matCellDef="let store"> {{store.email}} </td>
       </ng-container>
 
-      <!-- Actions Column -->
+      <!-- Combined Actions Column -->
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let store">
           <button mat-icon-button color="primary" (click)="openEditDialog(store)" matTooltip="Edit">
             <mat-icon>edit</mat-icon>
           </button>
-          
         </td>
       </ng-container>
 
-<!-- Actions Column -->
-      <ng-container matColumnDef="delete">
+        <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let store">
           <button mat-icon-button color="warn" (click)="deleteStore(store.id)" matTooltip="Delete">
@@ -65,18 +66,22 @@
         </td>
       </ng-container>
 
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+   <mat-paginator [pageSizeOptions]="[5, 10, 25]" 
+                showFirstLastButtons
+                [length]="dataSource.data.length">
+</mat-paginator>
   </div>
 
   <!-- Empty state -->
-  <div class="empty-state" *ngIf="!isLoading && dataSource.data.length === 0">
-    <mat-icon>storefront</mat-icon>
-    <h3>No stores found</h3>
-    <p>Add your first store by clicking the "Add Store" button</p>
+  <div *ngIf="!isLoading && !dataSource.data?.length" class="no-stores">
+    <mat-icon>store</mat-icon>
+    <p>No stores found</p>
+    <button mat-raised-button color="primary" (click)="openAddDialog()">
+      Add Your First Store
+    </button>
   </div>
 </div>

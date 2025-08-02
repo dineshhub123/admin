@@ -20,7 +20,9 @@ export const environment = {
   updateProductDetailsApiUrl:'http://localhost/admin/backend/updateProductDetails.php',
   updateCategoryDetailsApiUrl:'http://localhost/admin/backend/updateCategoryDetails.php',
   editOrderDetailsApiUrl:'http://localhost/admin/backend/editOrderDetails.php',
-  storeDetailsApiUrl:'http://localhost/admin/backend/insertstoreList.php',
+  insertStoreDetailsApiUrl:'http://localhost/admin/backend/insertstoreList.php',
+  getStoreDetailsApiUrl:'http://localhost/admin/backend/getStoreList.php',
+  deleteStoreDetailsApiUrl:'http://localhost/admin/backend/deleteStore.php',
  
   // getUserDetailsApiURL: 'http://192.168.74.250/getUserLoginDetails.php',
   // searchApiUrl: 'http://192.168.74.250/search_product.php',

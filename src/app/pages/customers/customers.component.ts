@@ -67,7 +67,6 @@ editCustomer(customer: any): void {
       const index = this.dataSource.data.findIndex(c => c.id === result.id);
       if (index !== -1) {
         this.dataSource.data[index] = result;
-        this.dataSource._updateChangeSubscription();
       }
     }
   });
