@@ -10,6 +10,8 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class ApiService {
+ 
+  
   headers:any;
   auth:any;
   apiProductListURL:string = environment.getProductListDetailsApiUrl;
@@ -23,6 +25,14 @@ export class ApiService {
   apiDeleteProductURL:string = environment.deleteProductListDetailsApiUrl;
   apiDeleteCustomerURL:string = environment.deleteCustomerListDetailsApiUrl;
   apiDeleteOrderURL:string = environment.deleteOrderListDetailsApiUrl;
+  apiUpdateUserInfoURL:string = environment.updateUserDetailsApiUrl;
+  apiUpdateProductInfoURL:string = environment.updateProductDetailsApiUrl;
+  apiUpdateCategoriesInfoURL:string = environment.updateCategoryDetailsApiUrl;
+  apiEditOrderInfoURL:string = environment.editOrderDetailsApiUrl;
+  apiStoreInsertURL:string = environment.insertStoreDetailsApiUrl;
+  apigetStoreURL:string = environment.getStoreDetailsApiUrl;
+  apideleteStoreURL:string = environment.deleteStoreDetailsApiUrl;
+
   constructor(private http: HttpClient,private router:Router) { }
   
   commonHeaderFunction(){
@@ -37,13 +47,6 @@ export class ApiService {
      };
     }
   }
-
-
-  
-  // employeeData(object): Observable<any> {
-  //   //this.commonHeaderFunction(); 
-  //   return this.http.post(this.apiURL + "user-info", object).pipe(map((res: any) => res));
-  // }
   getProductListDetailsData(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiProductListURL}/${id}`);
   }
@@ -76,6 +79,27 @@ export class ApiService {
   }
   getUserBuyerDetails():Observable<any> {
     return this.http.get(this.apiBuyerDataURL).pipe(map((res:any)=>res))
+  }
+  updateCustomer(customerData: any): Observable<any> {
+  return this.http.put(this.apiUpdateUserInfoURL, {customerData });
+  }
+  getCustomerById(customerData: any): Observable<any> {
+  return this.http.put(this.apiUpdateUserInfoURL, {customerData });
+  }
+  updateProduct(id: number): Observable<any> {
+  return this.http.put(this.apiUpdateProductInfoURL, {id });
+  }
+  getCategories(id: number): Observable<any> {
+  return this.http.put(this.apiUpdateProductInfoURL, {id });
+  }
+  updateOrder(id: number): Observable<any> {
+  return this.http.put(this.apiEditOrderInfoURL, {id });
+  }
+  deletestorelist(id: number): Observable<any> {
+  return this.http.post(this.apideleteStoreURL, {id });
+  }
+  getStorelist(): Observable<any> {
+  return this.http.get(this.apigetStoreURL).pipe(map((res:any)=>res))
   }
   
 }

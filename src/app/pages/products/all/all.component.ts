@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { ProductEditDialogComponent } from '../product-edit-dialog/product-edit-dialog.component';
 
 
 @Component({
@@ -26,7 +28,7 @@ dataSource = new MatTableDataSource<any>();
     'delivery_date',
     'delete'
   ];
-  constructor(public apiService: ApiService,) {}
+  constructor(public apiService: ApiService,private dialog: MatDialog) {}
 
   ngOnInit(): void {
  this.getProductList();
@@ -36,9 +38,6 @@ dataSource = new MatTableDataSource<any>();
     this.dataSource.paginator = this.paginator;
   }
 
-editProduct(product: any): void {
-  console.log('Edit clicked:', product);
-}
 
 
 deleteProduct(productId: any): void {
@@ -75,4 +74,22 @@ applyProductSearch(event: Event) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
   }
+editProduct(product: any): void {
+  const dialogRef = this.dialog.open(ProductEditDialogComponent, {
+    width: '800px',
+    data: { product: { ...product } } // Pass a copy of the product
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      // Update the table data
+      const index = this.dataSource.data.findIndex(p => p.id === result.id);
+      if (index !== -1) {
+        const updatedData = [...this.dataSource.data];
+        updatedData[index] = result;
+        this.dataSource.data = updatedData;
+      }
+    }
+  });
+}
 }

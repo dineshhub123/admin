@@ -5,8 +5,10 @@ import { MatSortModule } from '@angular/material/sort';
 
 
 
+
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     MatPaginatorModule,

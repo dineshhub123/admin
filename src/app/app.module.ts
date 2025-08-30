@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
@@ -37,6 +36,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { CustomersComponent } from './pages/customers/customers.component';
 import { PrivacyPopupComponent } from './privacy-popup/privacy-popup.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { OrderViewComponent } from './pages/orders/order-view/order-view.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { EditCustomerDialogComponent } from './pages/customers/edit-customer-dialog/edit-customer-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProductEditDialogComponent } from './pages/products/product-edit-dialog/product-edit-dialog.component';
+import { OrderEditDialogComponent } from './sell-notification/order-edit-dialog/order-edit-dialog.component';
+import { ConfirmDialogComponent } from './pages/settings/storesettings/confirm-dialog/confirm-dialog.component';
+import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
+import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -50,6 +59,13 @@ import { MatDialogModule } from '@angular/material/dialog';
     FirstLiPipe,
     FullLiPipe,
     PrivacyPopupComponent,
+    OrderViewComponent,
+    EditCustomerDialogComponent,
+    ProductEditDialogComponent, 
+    OrderEditDialogComponent,
+    StoreFormComponent,
+    ConfirmDialogComponent,
+    StoreListComponent
   ],
   imports: [
     BrowserModule,
@@ -77,8 +93,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDividerModule,
     MatSortModule,
     MatSelectModule,
+    MatChipsModule,
     MatDialogModule,
-   NgxEchartsModule.forRoot({
+    MatSnackBarModule,
+    MatPaginatorModule,
+    NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
     ToastrModule.forRoot({

@@ -1,0 +1,97 @@
+<h2 mat-dialog-title>
+  {{ data.customer ? 'Edit Customer' : 'Add New Customer' }}
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="user_first_name" required>
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="f['user_first_name'].errors?.['required']">
+          First name is required
+        </mat-error>
+        <mat-error *ngIf="f['user_first_name'].errors?.['maxlength']">
+          Maximum 50 characters allowed
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="user_last_name" required>
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="f['user_last_name'].errors?.['required']">
+          Last name is required
+        </mat-error>
+        <mat-error *ngIf="f['user_last_name'].errors?.['maxlength']">
+          Maximum 50 characters allowed
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="user_email" type="email" required>
+        <mat-icon matSuffix>email</mat-icon>
+        <mat-error *ngIf="f['user_email'].errors?.['required']">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="f['user_email'].errors?.['email']">
+          Please enter a valid email
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Phone</mat-label>
+        <input matInput formControlName="user_phone" required>
+        <mat-icon matSuffix>phone</mat-icon>
+        <mat-error *ngIf="f['user_phone'].errors?.['required']">
+          Phone is required
+        </mat-error>
+        <mat-error *ngIf="f['user_phone'].errors?.['pattern']">
+          Please enter a valid phone number (10-15 digits)
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Address</mat-label>
+      <textarea matInput formControlName="user_address" rows="3" required></textarea>
+      <mat-icon matSuffix>home</mat-icon>
+      <mat-error *ngIf="f['user_address'].errors?.['required']">
+        Address is required
+        </mat-error>
+      <mat-error *ngIf="f['user_address'].errors?.['maxlength']">
+        Maximum 200 characters allowed
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Pincode</mat-label>
+      <input matInput formControlName="user_pincode" maxlength="6" required>
+      <mat-icon matSuffix>pin</mat-icon>
+      <mat-error *ngIf="f['user_pincode'].errors?.['required']">
+        Pincode is required
+      </mat-error>
+      <mat-error *ngIf="f['user_pincode'].errors?.['pattern']">
+        Pincode must be 6 digits
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" [disabled]="isLoading" color="secondary">
+    <mat-icon>cancel</mat-icon>
+    Cancel
+  </button>
+  <button mat-raised-button 
+          color="primary" 
+          (click)="onSubmit()" 
+          [disabled]="editForm.invalid || isLoading">
+    <mat-icon>save</mat-icon>
+    Save
+    <mat-spinner *ngIf="isLoading" diameter="20" strokeWidth="2"></mat-spinner>
+  </button>
+</mat-dialog-actions>

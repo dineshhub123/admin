@@ -1,4 +1,3 @@
-
 <div class="table-container">
   <div class="styled-table mat-table">
 <!-- Angular Material Table -->
@@ -123,11 +122,11 @@
     <button mat-icon-button color="warn" (click)="deleteOrderList()">
       <mat-icon>delete</mat-icon>
     </button>
-  </td>
-</ng-container>
-  <tr mat-header-row *matHeaderRowDef="['id','Product Image', 'Product Name','Product MRP','Product Price','Product Discount','Buy Time','Quantity','Category','Delivery Date','User First Name','User Last Name','User Phone','User Email','User Address','User Pincode','View','Action']"></tr>
-  <tr mat-row *matRowDef="let row; columns: ['id','Product Image', 'Product Name','Product MRP','Product Price','Product Discount','Buy Time','Quantity','Category','Delivery Date','User First Name','User Last Name','User Phone','User Email','User Address','User Pincode','View','Action'];"></tr>
-</table> 
-<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-</div>
+            </td>
+         </ng-container>
+         <tr mat-header-row *matHeaderRowDef="['id','Product Image', 'Product Name','Product MRP','Product Price','Product Discount','Buy Time','Quantity','Category','Delivery Date','User First Name','User Last Name','User Phone','User Email','User Address','User Pincode','View','edit','delete']"></tr>
+         <tr mat-row *matRowDef="let row; columns: ['id','Product Image', 'Product Name','Product MRP','Product Price','Product Discount','Buy Time','Quantity','Category','Delivery Date','User First Name','User Last Name','User Phone','User Email','User Address','User Pincode','View','edit','delete'];"></tr>
+      </table>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+   </div>
 </div>
