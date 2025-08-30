@@ -8,7 +8,7 @@ header("Content-Type: application/json; charset=UTF-8");
 $servername = "localhost";
 $username   = "root";
 $password   = "";
-$dbname     = "ruralxadmin";
+$dbname     = "userdatabase";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $image_triangle = $_FILES['image_triangle'];
 
     // Define the upload directory
-    $upload_dir = '../src/assets/uploads/';
+    $upload_dir = 'new-ruralx/src/assets/uploads/';
 
     // Process each image and move to the desired directory
 	

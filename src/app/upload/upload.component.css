@@ -21,3 +21,16 @@
   box-sizing: border-box;
   background-color: #fff;
 }
+.align-variant{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.variant-title{
+  font-size: 13px;
+  font-weight: 600;
+  padding:0px 15px 5px 15px;
+}
+.mat-icon{
+  margin-right: 0px !important;
+}
