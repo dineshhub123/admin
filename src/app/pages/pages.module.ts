@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { MatIconModule } from '@angular/material/icon';
+import { InvoiceComponent } from './orders/invoice/invoice.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { MatIconModule } from '@angular/material/icon';
     StoresettingsComponent,
     SecurityComponent,
     ReviewsComponent,
+    InvoiceComponent,
   ],
   imports: [
     CommonModule,
