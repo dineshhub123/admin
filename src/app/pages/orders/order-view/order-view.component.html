@@ -1,0 +1,88 @@
+<!-- order-view.component.html -->
+<div class="order-view-container">
+  <h1 class="mat-headline">My Orders</h1>
+  
+  <div class="order-filter-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Status</mat-label>
+      <mat-select>
+        <mat-option value="all">All Orders</mat-option>
+        <mat-option value="pending">Pending</mat-option>
+        <mat-option value="delivered">Delivered</mat-option>
+        <mat-option value="cancelled">Cancelled</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="order-table">
+      <!-- Product Image Column -->
+      <ng-container matColumnDef="productImage">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <img [src]="element.productImage" alt="Product" class="product-image">
+        </td>
+      </ng-container>
+
+      <!-- Product Name Column -->
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Product</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="product-name">{{element.productName}}</div>
+          <div class="product-id">Order #{{element.id}}</div>
+          <div class="order-date">Ordered on {{element.buyTime | date}}</div>
+        </td>
+      </ng-container>
+
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Qty</th>
+        <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
+      </ng-container>
+
+      <!-- Price Column -->
+      <ng-container matColumnDef="productPrice">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="current-price">{{element.productPrice | currency:'INR'}}</div>
+          <div class="original-price">{{element.productMRP | currency:'INR'}}</div>
+          <div class="discount">{{element.productDiscount}}% OFF</div>
+        </td>
+      </ng-container>
+
+      <!-- Delivery Date Column -->
+      <ng-container matColumnDef="deliveryDate">
+        <th mat-header-cell *matHeaderCellDef>Delivery</th>
+        <td mat-cell *matCellDef="let element">
+          <div>Expected by {{element.deliveryDate | date}}</div>
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <ul>
+            <mat-chip color="primary" selected>Shipped</mat-chip>
+          </ul>
+        </td>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button color="primary" (click)="viewOrderDetails(element)">
+            <mat-icon>visibility</mat-icon> View
+          </button>
+          <button mat-button color="warn" (click)="cancelOrder(element)">
+            <mat-icon>cancel</mat-icon> Cancel
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

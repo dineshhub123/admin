@@ -23,6 +23,11 @@ import { BrandsComponent } from './pages/products/categories/brands/brands.compo
 import { LowstockComponent } from './pages/products/lowstock/lowstock.component';
 import { ReviewsComponent } from './pages/customers/reviews/reviews.component';
 import { SalereportsComponent } from './pages/reports/salereports/salereports.component';
+import { OrderViewComponent } from './pages/orders/order-view/order-view.component';
+import { SecurityComponent } from './pages/settings/storesettings/security/security.component';
+import { StoresettingsComponent } from './pages/settings/storesettings/storesettings.component';
+import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
+import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -48,9 +53,16 @@ const routes: Routes = [
   { path: 'customers/reviews', component: ReviewsComponent },
   { path: 'reports', component: ReportsComponent },
   { path: 'reports/sales', component: SalereportsComponent },
+  { path: 'reports/performance', component: ReportsComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'settings/security', component: SecurityComponent },
+  { path: 'settings/store', component: StoresettingsComponent },
+  { path: 'orders/order-view', component: OrderViewComponent },
+  { path: 'settings/stores', component: StoreListComponent },
+  { path: 'settings/stores/add', component: StoreFormComponent },
+  { path: 'settings/stores/edit/:id', component: StoreFormComponent },
+  { path: '', redirectTo: '/stores', pathMatch: 'full' },
   { path: '**', redirectTo: '404' },
-
 
 ];
 

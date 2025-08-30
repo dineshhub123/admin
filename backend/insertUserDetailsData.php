@@ -8,9 +8,7 @@ $servername = "localhost";
 $username   = "root";
 $password   = "";
 $dbname     = "ruralxadmin";
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
@@ -23,16 +21,11 @@ if ($conn->connect_error) {
  $password = mysqli_real_escape_string($conn, trim($request->u_password));
  $address = mysqli_real_escape_string($conn, trim($request->u_address));
  $pincode = mysqli_real_escape_string($conn, trim($request->u_pincode));
-//$imgTop = addcslashes(file_get_contents($_FILES["image_top"]["tmp_name"]));
+
 
  $sql = "INSERT INTO userDetails_data(user_first_name,user_last_name,user_email,user_phone,user_password,user_address,user_pincode)
   VALUES ('$firstname','$lastname','$email','$phone','$password','$address','$pincode')";
- 
-    // $authdata = [
-    // 'name' => $name,
-    // 'price' => $price,
-    // ];
-    // echo json_encode($authdata);
+
 
 $result = mysqli_query($conn,$sql); 
 if ($result) {
