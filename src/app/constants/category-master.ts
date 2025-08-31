@@ -262,6 +262,56 @@ export const ADMIN_CATEGORY_MASTER = [
     { key: "gaming_consoles", label: "Gaming Consoles & Controllers" },
     { key: "drones", label: "Drones" }
   ]
+},
+{
+  category: "electricals",
+  subCategories: [
+    // 💡 Lighting
+    { key: "bulbs", label: "Bulbs" },
+    { key: "tube_lights", label: "Tube Lights" },
+    { key: "ceiling_lights", label: "Ceiling Lights" },
+    { key: "chandeliers", label: "Chandeliers" },
+    { key: "emergency_lights", label: "Emergency Lights" },
+
+    // 🔌 Switches & Sockets
+    { key: "switches", label: "Switches" },
+    { key: "sockets", label: "Sockets" },
+    { key: "extension_boards", label: "Extension Boards" },
+
+    // ⚡ Wires & Cables
+    { key: "electrical_wires", label: "Electrical Wires" },
+    { key: "cables", label: "Cables" },
+    { key: "ethernet_cables", label: "Ethernet Cables" },
+
+    // 🔋 Power & Backup
+    { key: "batteries", label: "Batteries" },
+    { key: "inverters", label: "Inverters" },
+    { key: "ups", label: "UPS" },
+    { key: "stabilizers", label: "Stabilizers" },
+
+    // 🌀 Fans & Ventilation
+    { key: "ceiling_fans", label: "Ceiling Fans" },
+    { key: "table_fans", label: "Table Fans" },
+    { key: "pedestal_fans", label: "Pedestal Fans" },
+    { key: "exhaust_fans", label: "Exhaust Fans" },
+
+    // 🔥 Heating & Cooling
+    { key: "room_heaters", label: "Room Heaters" },
+    { key: "geysers", label: "Geysers & Water Heaters" },
+    { key: "coolers", label: "Air Coolers" },
+
+    // 🏠 Home Essentials
+    { key: "irons", label: "Irons" },
+    { key: "mixers", label: "Mixers & Grinders" },
+    { key: "toasters", label: "Toasters" },
+    { key: "kettles", label: "Electric Kettles" },
+
+    // 🔧 Tools & Accessories
+    { key: "drill_machines", label: "Drill Machines" },
+    { key: "screwdrivers", label: "Screwdrivers" },
+    { key: "testers", label: "Electrical Testers" }
+  ]
 }
+
 
 ];
