@@ -51,8 +51,7 @@
   <ng-container matColumnDef="images">
     <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Images</th>
     <td mat-cell *matCellDef="let element">
-      <img class="img-responsive img-tbl" [src]="element.img_front.replace('admin/src', '..')">
-      
+      <img class="img-responsive img-tbl" [src]="element.img_front | replacePath:'new-ruralx/src':'..'">
     </td>
   </ng-container>
 

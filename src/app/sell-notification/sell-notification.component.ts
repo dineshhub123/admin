@@ -28,7 +28,7 @@ sellItemData = new MatTableDataSource<any>();
 
   ngOnInit() {
     this.buyProduct()
-    this.loadData();
+    // this.loadData();
   }
 buyProduct(): void {
   this.apiService.getUserBuyerDetails().subscribe((response: any) => {
@@ -63,13 +63,13 @@ applyFilter(): void {
   this.sellItemData.filter = this.selectedPriceRange;
 }
 
- loadData(): void {
-    this.apiService.getUserBuyerDetails().subscribe((data: any) => {
-      this.sellItemData.data = data;
-      console.log(data ,'data');
-    });
+//  loadData(): void {
+//     this.apiService.getUserBuyerDetails().subscribe((data: any) => {
+//       this.sellItemData.data = data;
+//       console.log(data ,'data');
+//     });
 
-  }
+//   }
 deleteOrder(orderId: any): void {
   const confirmDelete = confirm(`Are you sure you want to delete "${orderId.id}"?`);
   if (confirmDelete) {

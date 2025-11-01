@@ -46,6 +46,7 @@ import { ConfirmDialogComponent } from './pages/settings/storesettings/confirm-d
 import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
 import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ReplacePathPipe } from './replace-path.pipe';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     OrderEditDialogComponent,
     StoreFormComponent,
     ConfirmDialogComponent,
-    StoreListComponent
+    StoreListComponent,
+    ReplacePathPipe
   ],
   imports: [
     BrowserModule,

@@ -124,8 +124,8 @@
     </button>
             </td>
          </ng-container>
-         <tr mat-header-row *matHeaderRowDef="['id','Product Image', 'Product Name','Product MRP','Product Price','Product Discount','Buy Time','Quantity','Category','Delivery Date','User First Name','User Last Name','User Phone','User Email','User Address','User Pincode','View','edit','delete']"></tr>
-         <tr mat-row *matRowDef="let row; columns: ['id','Product Image', 'Product Name','Product MRP','Product Price','Product Discount','Buy Time','Quantity','Category','Delivery Date','User First Name','User Last Name','User Phone','User Email','User Address','User Pincode','View','edit','delete'];"></tr>
+         <tr mat-header-row *matHeaderRowDef="['id','Product Image', 'Product Name','Product MRP','Product Price','Product Discount','Buy Time','Quantity','Category','Delivery Date','User First Name','User Last Name','User Phone','User Email','User Address','User Pincode','View']"></tr>
+         <tr mat-row *matRowDef="let row; columns: ['id','Product Image', 'Product Name','Product MRP','Product Price','Product Discount','Buy Time','Quantity','Category','Delivery Date','User First Name','User Last Name','User Phone','User Email','User Address','User Pincode','View'];"></tr>
       </table>
       <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
    </div>

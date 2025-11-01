@@ -62,7 +62,8 @@ deleteProduct(productId: any): void {
 }
   getProductList() {
     this.apiService.getProductListDetailsData(1).subscribe(data => {
-  this.dataSource.data = data;
+    this.dataSource.data = data;
+  console.log(data, 'data');
   });
 
   }
