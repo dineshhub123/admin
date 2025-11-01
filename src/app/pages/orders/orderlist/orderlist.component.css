@@ -1,0 +1,126 @@
+/* orderlist.component.css */
+.order-list-container {
+  padding: 20px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.header p {
+  color: #666;
+  margin: 0;
+}
+
+.table-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+}
+
+.customer-info .customer-name {
+  font-weight: 500;
+}
+
+.customer-info .customer-email,
+.customer-info .customer-phone {
+  font-size: 12px;
+  color: #666;
+}
+
+.products-info .product-count {
+  font-weight: 500;
+  color: #333;
+}
+
+.products-info .product-names {
+  font-size: 12px;
+  color: #666;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.amount {
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.status-badge, .payment-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Order Status Styles */
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-processing {
+  background-color: #d1edff;
+  color: #0c5460;
+}
+
+.status-shipped {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-delivered {
+  background-color: #28a745;
+  color: white;
+}
+
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-default {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+/* Payment Status Styles */
+.payment-paid {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.payment-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.payment-failed {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.payment-default {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.mat-paginator {
+  background: white;
+}

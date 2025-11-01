@@ -569,11 +569,10 @@ max-width:320px !important;
     width: 320px !important;
 }
 
-::ng-deep span.mdc-list-item__content {
-    background: #15c0a2;
+mat-list-item.mat-mdc-list-item.mdc-list-item.notification-item.mat-mdc-list-item-single-line.mdc-list-item--with-one-line {
+    background: #15c0a2 !important;
     border: 1px solid #ffffff !important;
-    margin: 5px 5px 5px 5px;
-    border-radius: 5px;
+    border-radius: 5px!important;
 }
 ::ng-deep .mat-mdc-menu-content{
 padding: 0px !important;

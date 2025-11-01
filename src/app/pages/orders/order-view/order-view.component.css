@@ -1,0 +1,272 @@
+/* order-view.component.css */
+.order-view-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.order-card {
+  padding: 24px;
+}
+
+.order-filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.status-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.status-controls button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-basic-info {
+  margin: 20px 0;
+}
+
+.meta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+.meta-table th, .meta-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.meta-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  width: 150px;
+}
+
+.total-amount {
+  color: #2e7d32;
+  font-size: 1.2em;
+}
+
+.transaction-id {
+  font-family: monospace;
+  background-color: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Items Table Styles */
+.items-table {
+  width: 100%;
+  margin: 16px 0;
+}
+
+.product-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.product-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.product-category {
+  font-size: 0.875em;
+  color: #666;
+}
+
+.variant-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  display: inline-block;
+}
+
+.quantity-badge {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.price-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.current-price {
+  font-weight: 600;
+  color: #2e7d32;
+  font-size: 1.1em;
+}
+
+.mrp-price {
+  font-size: 0.875em;
+  color: #666;
+}
+
+.discount-badge {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.875em;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+}
+
+.action-buttons button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .order-filter-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .status-controls {
+    justify-content: center;
+  }
+
+  .meta-table th, .meta-table td {
+    padding: 8px 12px;
+    display: block;
+    width: 100%;
+  }
+
+  .meta-table tr {
+    display: block;
+    margin-bottom: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .displayed-columns {
+    font-size: 0.8em;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .order-filter-container,
+  .status-controls,
+  .action-buttons {
+    display: none;
+  }
+  
+  .order-card {
+    box-shadow: none !important;
+    border: 1px solid #000;
+  }
+}
+
+/* order-view.component.css - Add these styles */
+.order-filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.current-status-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.status-chip {
+  font-weight: 600;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-confirmed {
+  background-color: #d1edff;
+  color: #0c5460;
+}
+
+.status-processing {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.status-shipped {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-out-for-delivery {
+  background-color: #cce7ff;
+  color: #004085;
+}
+
+.status-delivered {
+  background-color: #d1f7c4;
+  color: #0f5132;
+}
+
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-default {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+/* Rest of your existing CSS... */

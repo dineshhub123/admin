@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
@@ -32,15 +31,49 @@ import { SalereportsComponent } from './pages/reports/salereports/salereports.co
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSelectModule } from '@angular/material/select';
+import { CustomersComponent } from './pages/customers/customers.component';
+import { PrivacyPopupComponent } from './privacy-popup/privacy-popup.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { OrderViewComponent } from './pages/orders/order-view/order-view.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { EditCustomerDialogComponent } from './pages/customers/edit-customer-dialog/edit-customer-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProductEditDialogComponent } from './pages/products/product-edit-dialog/product-edit-dialog.component';
+import { OrderEditDialogComponent } from './sell-notification/order-edit-dialog/order-edit-dialog.component';
+import { ConfirmDialogComponent } from './pages/settings/storesettings/confirm-dialog/confirm-dialog.component';
+import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
+import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ReplacePathPipe } from './replace-path.pipe';
+import { OrderlistComponent } from './pages/orders/orderlist/orderlist.component';
+import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper/order-status-stepper.component';
+import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     UploadComponent,
-    SellNotificationComponent,AllComponent,SalereportsComponent,
+    SellNotificationComponent,
+    AllComponent,
+    SalereportsComponent, 
+    CustomersComponent,
     FirstLiPipe,
-    FullLiPipe
+    FullLiPipe,
+    PrivacyPopupComponent,
+    OrderViewComponent,
+    EditCustomerDialogComponent,
+    ProductEditDialogComponent, 
+    OrderEditDialogComponent,
+    StoreFormComponent,
+    ConfirmDialogComponent,
+    StoreListComponent,
+    OrderlistComponent,
+   OrderStatusStepperComponent,
+   OrderTrackingComponent,
+    ReplacePathPipe
   ],
   imports: [
     BrowserModule,
@@ -66,7 +99,13 @@ import { MatIconModule } from '@angular/material/icon';
     MatListModule,
     MatButtonModule,
     MatDividerModule,
-   NgxEchartsModule.forRoot({
+    MatSortModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatPaginatorModule,
+    NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
     ToastrModule.forRoot({

@@ -1,106 +1,116 @@
 <section class="d-flex align-items-center justify-content-center pt-4">
-    <form #inputData="ngForm" (ngSubmit)="uploadFormData(inputData)" enctype="multipart/form-data">
-  <div class="container-fluid">
+  <form [formGroup]="productForm" (ngSubmit)="uploadFormData()" enctype="multipart/form-data">
+    <div class="container-fluid">
       <div class="row">
         <!-- Left Column -->
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Product Name</mat-label>
-            <input matInput type="text" name="p_name" ngModel />
+            <input matInput type="text" formControlName="p_name" ngModel />
           </mat-form-field>
-         </div>
- <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Product MRP Price</mat-label>
-            <input matInput type="number" name="p_mrp" ngModel />
+            <input matInput type="number" formControlName="p_mrp" ngModel />
           </mat-form-field>
-</div>
- <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Product Price</mat-label>
-            <input matInput type="number" name="p_price" ngModel />
+            <input matInput type="number" formControlName="p_price" ngModel />
           </mat-form-field>
-</div>
- <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Category</mat-label>
-            <input matInput type="text" name="p_category" ngModel />
-          </mat-form-field>
-</div>
- <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Delivery Date</mat-label>
-            <input matInput [matDatepicker]="picker" name="delivery_date" ngModel />
+            <input matInput [matDatepicker]="picker" formControlName="delivery_date" ngModel />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-
-   </div>      
-
-        <!-- Right Column -->
-       <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Product Discount (save) Price</mat-label>
-            <input matInput type="number" name="p_discount" ngModel />
+            <input matInput type="number" formControlName="p_discount" ngModel />
           </mat-form-field>
-  </div>   
- <div class="col-md-6">
-         <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Product Color</mat-label>
-            <input matInput type="text"  name="image_color" ngModel />
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="p_category" (selectionChange)="onCategoryChange($event.value)">
+              <mat-option *ngFor="let cat of categories" [value]="cat.category">{{ cat.category | titlecase
+                }}</mat-option>
+            </mat-select>
           </mat-form-field>
+        </div>
 
-</div>
- <div class="col-md-6">
-          <mat-form-field appearance="outline" class="w-100" >
-            <mat-label>Product Size</mat-label>
-             <input matInput type="text"  name="image_size" ngModel />
+        <!-- Variants -->
+        <div formArrayName="variants" class="">
+          <div class="variant-title">Variants (Color + Color Code + Stock + Image)</div>
+          <div *ngFor="let variant of variants.controls; let i=index" [formGroupName]="i" class="mb-2 pt-3" style="background-color: #f2f3ea;border-radius: 12px;">
+            <div class="row" style="margin-left: 0px !important;margin-right: 33px !important;">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Color</mat-label>
+                  <mat-select formControlName="p_color">
+                    <mat-option *ngFor="let color of productColor" [value]="color">{{ color }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Color Code</mat-label>
+                  <input matInput type="text" formControlName="p_colorcode" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Stock</mat-label>
+                  <input matInput type="text" (keypress)="allowOnlyNumbers($event)" formControlName="p_stock">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="align-variant">
+              <div class="col-md-6">
+                <div class="file-inputs mb-3">
+                  <label>Image</label>
+                  <input type="file" (change)="onSelectFile($event, i)" multiple />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <button mat-raised-button type="button" color="primary" (click)="addVariant()">
+                  <mat-icon>add_plus</mat-icon>
+                </button>
+                <button mat-raised-button color="warn" type="button" class="ml-2" (click)="removeVariant(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- SubCategory Dropdown (depends on category) -->
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100" *ngIf="selectedCategory">
+            <mat-label>SubCategory</mat-label>
+            <mat-select [(value)]="selectedSubCategory" formControlName="p_subcategory">
+              <mat-option *ngFor="let sub of selectedCategory.subCategories" [value]="sub.key">
+                {{ sub.label }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
-</div>
- <div class="col-md-6">
-            <div class="file-inputs mb-3">
-            <label>Image Front</label>
-            <input type="file" (change)="onSelectFile($event, 'image_front')" name="image_front" accept="image/png,image/jpeg" ngModel />
-          </div>
-</div>
- <div class="col-md-6">
-          <div class="file-inputs mb-3">
-            <label>Image Side</label>
-            <input type="file" (change)="onSelectFile($event, 'image_side')" name="image_side" accept="image/png,image/jpeg" ngModel />
-          </div>
-          </div>
-<div class="col-md-6">
-          <div class="file-inputs mb-3">
-            <label>Image Back</label>
-            <input type="file" (change)="onSelectFile($event, 'image_back')" name="image_back" accept="image/png,image/jpeg" ngModel />
-          </div>
-</div>
- <div class="col-md-6">
-          <div class="file-inputs mb-3">
-            <label>Image Top</label>
-            <input type="file" (change)="onSelectFile($event, 'image_top')" accept="image/png,image/jpeg" ngModel />
-          </div>
-</div>
- <div class="col-md-6">
-          <div class="file-inputs mb-3">
-            <label>Image Triangle</label>
-            <input type="file" (change)="onSelectFile($event, 'image_triangle')" accept="image/png,image/jpeg" ngModel />
-          </div>
-</div>
-     <div class="col-md-12">
-          <div class="editor-section mb-3">
+        </div>
+        <div class="col-md-12">
+          <div class="editor-section">
             <label>Product Description</label>
-            <angular-editor name="p_description" [config]="editorConfig" [(ngModel)]="htmlContent"></angular-editor>
+            <angular-editor formControlName="p_description" [config]="editorConfig"
+              [(ngModel)]="htmlContent"></angular-editor>
           </div>
         </div>
-  </div>      
-        </div>
-  
-
-<br>
-      <div class="text-left mt-4 mb-4">
-        <button mat-raised-button color="primary" type="submit">Upload</button>
       </div>
-    </form>
- 
+      <div class="text-left pt-4 mb-4 ml-2 float-right">
+        <button mat-raised-button color="primary" type="submit" class="ml-2">Upload</button>
+      </div>
+    </div>
+  </form>
 </section>

@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>
+  {{ data.mode === 'add' ? 'Add New Store' : 'Edit Store' }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="storeForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Store Name</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="storeForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" required>
+      <mat-error *ngIf="storeForm.get('address')?.hasError('required')">
+        Address is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+      <mat-error *ngIf="storeForm.get('email')?.hasError('email')">
+        Please enter a valid email
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="onSubmit()"
+    [disabled]="storeForm.invalid || isSubmitting"
+  >
+    {{ isSubmitting ? 'Saving...' : 'Save' }}
+  </button>
+</mat-dialog-actions>

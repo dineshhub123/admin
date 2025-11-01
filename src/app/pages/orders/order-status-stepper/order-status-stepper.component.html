@@ -1,0 +1,71 @@
+<!-- order-status-stepper.component.html -->
+<div class="order-status-stepper">
+  <!-- Header with Progress -->
+  <div class="stepper-header">
+    <div class="progress-info">
+      <h3>Order Progress</h3>
+      <div class="progress-status">
+        <span class="current-step">{{ getCurrentStepLabel() }}</span>
+        <span class="progress-percentage">{{ getProgressPercentage() }}%</span>
+      </div>
+    </div>
+    <div class="status-indicator">
+      <span class="status-badge" [class]="'status-' + currentStatus">
+        {{ currentStatus | titlecase }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+    </div>
+  </div>
+
+  <!-- Horizontal Timeline Steps -->
+  <div class="timeline-horizontal">
+    <!-- Main Timeline Line -->
+    <div class="timeline-line"></div>
+    <div class="timeline-line-fill" [style.width.%]="getProgressPercentage()"></div>
+    
+    <!-- Timeline Steps -->
+    <div *ngFor="let step of statusSteps" 
+         class="timeline-step"
+         [class]="getStatusClass(step)"
+         [class.show]="step.status !== 'cancelled' || currentStatus === 'cancelled'">
+      
+      <!-- Step Icon -->
+      <div class="step-icon">
+        <mat-icon>{{ step.icon }}</mat-icon>
+      </div>
+
+      <!-- Step Content -->
+      <div class="step-content">
+        <div class="step-label">{{ step.label }}</div>
+        <div class="step-description">{{ step.description }}</div>
+        <!-- <div class="step-date" *ngIf="step.date">{{ step.date }}</div> -->
+        <div class="step-indicator" *ngIf="step.active">
+          <div class="active-pulse"></div>
+          <span>Current Step</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Summary -->
+  <div class="status-summary">
+    <div class="summary-item">
+      <mat-icon>event</mat-icon>
+      <span>Order Date: {{ formatDate(orderDate) }}</span>
+    </div>
+    <div class="summary-item" *ngIf="deliveryDate && currentStatus !== 'cancelled'">
+      <mat-icon>local_shipping</mat-icon>
+      <span>Expected Delivery: {{ deliveryDate }}</span>
+    </div>
+    <div class="summary-item" *ngIf="currentStatus === 'cancelled'">
+      <mat-icon>warning</mat-icon>
+      <span>Order Cancelled</span>
+    </div>
+  </div>
+</div>
