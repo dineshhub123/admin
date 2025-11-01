@@ -93,4 +93,9 @@ editProduct(product: any): void {
     }
   });
 }
+
+getModifiedPath(path: string): string {
+  return path.replace('new-ruralx/src', '..');
+}
+
 }

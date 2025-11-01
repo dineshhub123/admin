@@ -25,6 +25,10 @@ import { MatTableModule } from '@angular/material/table';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { MatIconModule } from '@angular/material/icon';
 import { InvoiceComponent } from './orders/invoice/invoice.component';
+import { MatCardModule } from "@angular/material/card";
+import { MatChipsModule } from "@angular/material/chips";
+import { MatDividerModule } from "@angular/material/divider";
+//import { OrderTrackingComponent } from './orders/order-tracking/order-tracking.component';
 
 @NgModule({
   declarations: [
@@ -46,18 +50,22 @@ import { InvoiceComponent } from './orders/invoice/invoice.component';
     SecurityComponent,
     ReviewsComponent,
     InvoiceComponent,
+    //OrderTrackingComponent,
   ],
   imports: [
     CommonModule,
-    PagesRoutingModule, 
-   HttpClientModule,
-   MatPaginatorModule,
-   BrowserAnimationsModule,
-  MatIconModule, 
-   MatTableModule, 
-  NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    })
-  ]
+    PagesRoutingModule,
+    HttpClientModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatTableModule,
+    NgxEchartsModule.forRoot({
+        echarts: () => import('echarts')
+    }),
+    MatCardModule,
+    MatChipsModule,
+    MatDividerModule
+]
 })
 export class PagesModule { }

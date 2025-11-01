@@ -6,6 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ReplacePathPipe implements PipeTransform {
 
    transform(value: string, search: string, replace: string): string {
-    return value.replace(search, replace);
-  }
+  if (!value || typeof value !== 'string') return value;
+  return value.replace(search, replace);
+}
+
 }
