@@ -49,3 +49,15 @@ img.img-responsive.img-tbl {
   background: transparent;
   margin-top: 16px;
 }
+.product_desc{
+font-size: 12px;
+}
+
+::ng-deep .product_desc p {
+  color: #333;
+  font-size: 12px;
+}
+
+::ng-deep .product_desc ul {
+  padding-left: 0px;
+}

@@ -46,6 +46,10 @@ import { ConfirmDialogComponent } from './pages/settings/storesettings/confirm-d
 import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
 import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ReplacePathPipe } from './replace-path.pipe';
+import { OrderlistComponent } from './pages/orders/orderlist/orderlist.component';
+import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper/order-status-stepper.component';
+import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
 
 
 @NgModule({
@@ -65,7 +69,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     OrderEditDialogComponent,
     StoreFormComponent,
     ConfirmDialogComponent,
-    StoreListComponent
+    StoreListComponent,
+    OrderlistComponent,
+   OrderStatusStepperComponent,
+   OrderTrackingComponent,
+    ReplacePathPipe
   ],
   imports: [
     BrowserModule,

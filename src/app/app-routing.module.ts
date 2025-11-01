@@ -28,6 +28,9 @@ import { SecurityComponent } from './pages/settings/storesettings/security/secur
 import { StoresettingsComponent } from './pages/settings/storesettings/storesettings.component';
 import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
 import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
+import { OrderlistComponent } from './pages/orders/orderlist/orderlist.component';
+import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper/order-status-stepper.component';
+import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -38,11 +41,15 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'uploadproduct', component: UploadComponent },
   { path: 'customerorder', component: SellNotificationComponent },
+  { path: 'orders/orderlist', component: OrderlistComponent },
   { path: 'orders/new', component: NewComponent },
   { path: 'orders/shipped', component: ShippedComponent },
   { path: 'orders/cancelled', component: CancelledComponent },
   { path: 'orders/processing', component: ProcessingComponent },
   { path: 'orders/delivered', component: DeliveredComponent },
+  { path: 'orders/orderview/:id', component: OrderViewComponent },
+  { path: 'orders/order-track', component: OrderTrackingComponent },
+  { path: 'orders/order-status-stepper', component: OrderStatusStepperComponent },
   { path: 'orders/returned', component: ReturnedComponent },
   { path: 'products/all', component: AllComponent },
   { path: 'products/add', component: AddComponent },
@@ -57,7 +64,6 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent },
   { path: 'settings/security', component: SecurityComponent },
   { path: 'settings/store', component: StoresettingsComponent },
-  { path: 'orders/order-view', component: OrderViewComponent },
   { path: 'settings/stores', component: StoreListComponent },
   { path: 'settings/stores/add', component: StoreFormComponent },
   { path: 'settings/stores/edit/:id', component: StoreFormComponent },

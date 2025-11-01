@@ -1,0 +1,448 @@
+/* order-tracking.component.css - Horizontal Timeline */
+.order-tracking-container {
+ width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+.tracking-header {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.order-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
+}
+
+.delivery-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.expected-arrival,
+.carrier-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.date {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.carrier {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.tracking-number {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2196F3;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.tracking-number:hover {
+  background-color: #f5f5f5;
+}
+
+.copy-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* Horizontal Timeline Styles */
+.tracking-timeline {
+  margin-bottom: 32px;
+}
+
+.timeline-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.timeline-horizontal {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 20px;
+  margin-bottom: 60px;
+}
+
+/* Main Timeline Line */
+.timeline-line {
+  position: absolute;
+  top: 16px;
+  left: 50px;
+  right: 50px;
+  height: 3px;
+  background: linear-gradient(to right, 
+    #4CAF50 0%, 
+    #4CAF50 40%, 
+    #9C27B0 40%, 
+    #9C27B0 60%, 
+    #e0e0e0 60%, 
+    #e0e0e0 100%);
+  z-index: 1;
+}
+
+.timeline-event {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 120px;
+  z-index: 2;
+}
+
+/* Timeline Dot */
+.timeline-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 12px;
+  border: 3px solid white;
+  position: relative;
+  z-index: 3;
+}
+
+.event-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* Event Content */
+.event-content {
+  text-align: center;
+  padding: 0 8px;
+}
+
+.event-status {
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.event-time {
+  font-size: 11px;
+  color: #666;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.event-date {
+  font-size: 10px;
+  color: #888;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.event-location {
+  font-size: 10px;
+  color: #888;
+  font-style: italic;
+  display: block;
+}
+
+/* Status Colors */
+.timeline-dot.status-confirmed { background-color: #2196F3; }
+.timeline-dot.status-shipped { background-color: #FF9800; }
+.timeline-dot.status-in_transit { background-color: #9C27B0; }
+.timeline-dot.status-out_for_delivery { background-color: #4CAF50; }
+.timeline-dot.status-delivered { background-color: #2E7D32; }
+
+.event-status.status-confirmed { color: #2196F3; }
+.event-status.status-shipped { color: #FF9800; }
+.event-status.status-in_transit { color: #9C27B0; }
+.event-status.status-out_for_delivery { color: #4CAF50; }
+.event-status.status-delivered { color: #2E7D32; }
+
+/* Completed Events */
+.timeline-event.completed .timeline-dot {
+  background-color: #4CAF50 !important;
+}
+
+.timeline-event.completed .event-status {
+  color: #4CAF50 !important;
+}
+
+/* Current Event */
+.timeline-event.current .timeline-dot {
+  background-color: #9C27B0 !important;
+  transform: scale(1.1);
+}
+
+.timeline-event.current .event-status {
+  color: #9C27B0 !important;
+  font-weight: 700;
+}
+
+.timeline-event.current .event-content {
+  background: #f3e5f5;
+  padding: 8px;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+/* Pending Events */
+.timeline-event.pending .timeline-dot {
+  background-color: #e0e0e0 !important;
+  color: #999;
+}
+
+.timeline-event.pending .event-status {
+  color: #999 !important;
+}
+
+/* Animation for Current Event */
+@keyframes pulse-horizontal {
+  0% {
+    box-shadow: 0 0 0 0 rgba(156, 39, 176, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(156, 39, 176, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(156, 39, 176, 0);
+  }
+}
+
+.timeline-event.current .timeline-dot {
+  animation: pulse-horizontal 2s infinite;
+}
+
+/* Connection Lines Between Dots */
+.timeline-event:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: calc(50% + 16px);
+  right: -50%;
+  height: 3px;
+  background: inherit;
+  z-index: 1;
+}
+
+.timeline-event.completed:not(:last-child)::after {
+  background: #4CAF50;
+}
+
+.timeline-event.current:not(:last-child)::after {
+  background: linear-gradient(to right, #9C27B0 0%, #9C27B0 50%, #e0e0e0 50%, #e0e0e0 100%);
+}
+
+.timeline-event.pending:not(:last-child)::after {
+  background: #e0e0e0;
+}
+
+/* Package Items Styles */
+.package-items {
+  margin-bottom: 24px;
+}
+
+.items-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
+.items-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.item-icon {
+  color: #666;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+/* Responsive Design for Horizontal Timeline */
+@media (max-width: 768px) {
+  .order-tracking-container {
+    padding: 16px;
+    margin: 8px;
+  }
+
+  .delivery-info {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .timeline-horizontal {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin-bottom: 40px;
+  }
+
+  .timeline-line {
+    display: none;
+  }
+
+  .timeline-event {
+    flex-direction: row;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+
+  .timeline-dot {
+    margin-bottom: 0;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  .event-content {
+    text-align: left;
+    padding: 0;
+    flex: 1;
+  }
+
+  .timeline-event:not(:last-child)::after {
+    display: none;
+  }
+
+  /* Vertical connection lines for mobile */
+  .timeline-event:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    bottom: -16px;
+    width: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+  }
+
+  .timeline-event.completed:not(:last-child)::before {
+    background: #4CAF50;
+  }
+
+  .timeline-event.current:not(:last-child)::before {
+    background: linear-gradient(to bottom, #9C27B0 0%, #9C27B0 50%, #e0e0e0 50%, #e0e0e0 100%);
+  }
+
+  .items-list {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-dot {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .event-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+  
+  .event-status {
+    font-size: 11px;
+  }
+  
+  .event-time,
+  .event-date,
+  .event-location {
+    font-size: 9px;
+  }
+}
