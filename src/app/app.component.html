@@ -10,7 +10,7 @@
   </button>
 </div>
     <div class="img_position">
-          <img class="imgSet" src="assets/img/logo.png">
+          <img class="imgSet" src="assets/img/ruralxLogo.png">
         </div>
   <span class="xxxx-menu-spacer"></span>
   <div>
@@ -30,7 +30,7 @@
   </button>
   <mat-menu #notificationDropdown="matMenu" class="notification-menu menu-with-pointer">
     
-  <mat-list class="notification-list" *ngIf="getNotifyUserArray.length > 0; else noNotif">
+  <mat-list class="notification-list">
   <mat-list-item *ngFor="let item of getNotifyUserArray" (click)="openNotification()"  class="notification-item">
     <div class="notification-container">
       <img matListAvatar [src]="item.img_front.replace('admin/src', '..')" alt="avatar" class="notification-avatar"/>
