@@ -67,6 +67,7 @@ const routes: Routes = [
   { path: 'settings/stores', component: StoreListComponent },
   { path: 'settings/stores/add', component: StoreFormComponent },
   { path: 'settings/stores/edit/:id', component: StoreFormComponent },
+  { path: 'order/orderlist', component: OrderlistComponent },
   { path: '', redirectTo: '/stores', pathMatch: 'full' },
   { path: '**', redirectTo: '404' },
 

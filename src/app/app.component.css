@@ -176,9 +176,7 @@ mat-divider {
     background: #062d51;
     color: white;
 }
-::ng-deep .mat-mdc-button {
-    color: white !important;
-}
+
 
 .container {
   display: flex;
@@ -207,24 +205,11 @@ mat-divider {
   padding: 12px 16px;
 }
 
-
-.mat-toolbar .mat-mdc-button-base.mat-mdc-button-base.mat-unthemed {
-    color: white;
-   position:relative;
-    top:-2px;
-}
-
 .menu {
     background: #062d51;
     margin: 0;
     padding: 0px;
     border-top: 16px solid #062d51;
-}
-
-.mat-toolbar.mat-mdc-button-base.mat-mdc-button-base.mat-unthemed {
-    color: #2f2f6b !important;
-    position: relative;
-    top: -10px;
 }
 
 .btn-menu{

@@ -100,6 +100,7 @@
 
 
       <!-- Dashboard -->
+<div class="sidebar">
       <mat-expansion-panel >
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -123,10 +124,13 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-action-list>
-         <a mat-list-item routerLink="/customerorder" routerLinkActive="active-link">
+         <!-- <a mat-list-item routerLink="/customerorder" routerLinkActive="active-link">
+            <mat-icon matListIcon>assignment</mat-icon> All Orders
+          </a> -->
+         <a mat-list-item routerLink="/orders/orderlist" routerLinkActive="active-link">
             <mat-icon matListIcon>assignment</mat-icon> All Orders
           </a>
-          <a mat-list-item routerLink="/orders/new" routerLinkActive="active-link">
+          <!-- <a mat-list-item routerLink="/orders/new" routerLinkActive="active-link">
             <mat-icon matListIcon>assignment</mat-icon> New Orders
           </a>
           <a mat-list-item routerLink="/orders/processing" routerLinkActive="active-link">
@@ -143,7 +147,7 @@
           </a>
           <a mat-list-item routerLink="/orders/returned" routerLinkActive="active-link">
             <mat-icon matListIcon>undo</mat-icon> Returned
-          </a>
+          </a> -->
         </mat-action-list>
       </mat-expansion-panel>
 
@@ -233,8 +237,9 @@
           </a>
         </mat-action-list>
       </mat-expansion-panel>
-
+    </div>
     </mat-accordion>
+
   </mat-sidenav>
 
   <mat-sidenav-content>

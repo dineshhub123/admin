@@ -26,7 +26,7 @@ dataSource = new MatTableDataSource<any>();
     'product_discount',
     'product_price',
     'delivery_date',
-    'delete'
+    'action'
   ];
   constructor(public apiService: ApiService,private dialog: MatDialog) {}
 
@@ -39,6 +39,9 @@ dataSource = new MatTableDataSource<any>();
   }
 
 
+sanitizeHtml(html: string): string {
+  return html.replace(/font-size\s*:\s*[^;"]+;?/gi, '');
+}
 
 deleteProduct(productId: any): void {
   const confirmDelete = confirm(`Are you sure you want to delete "${productId.id}"?`);

@@ -107,7 +107,7 @@ card = [
     {
       name: 'Sales',
       type: 'bar',
-      data: [10]  // Correct array of numbers
+      data: [10]  
     }
   ]
 };

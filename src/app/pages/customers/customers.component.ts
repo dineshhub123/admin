@@ -92,7 +92,7 @@ deleteCustomerList(userId: any): void {
   }
 }
  deleteCustomer() {
-    this.apiService.getUserDetailsData().subscribe(data => {
+  this.apiService.getUserDetailsData().subscribe(data => {
   this.dataSource.data = data;
   });
 
