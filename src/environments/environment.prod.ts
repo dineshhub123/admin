@@ -1,4 +1,22 @@
 export const environment = {
     production: true,
-    apiUrl: undefined
+  getUserDetailsApiURL: 'https://ruralx.in/api/getUserLoginDetails.php',
+  searchApiUrl: 'https://ruralx.in/api/search_product.php',
+  uploadDataApiUrl: 'https://ruralx.in/api/uploadAdminData.php',
+  insertUserDetailsApiUrl: 'https://ruralx.in/api/insertUserDetailsData.php',
+  getProductListDetailsApiUrl: 'https://ruralx.in/api/getProductDetails.php',
+  productBuyerApiUrl: 'https://ruralx.in/api/productbuyer.php',
+  getProductNotifyApiUrl: 'https://ruralx.in/api/getProductNotification.php',
+  getBuyerDataApiUrl: 'https://ruralx.in/api/getProductBuyerData.php',
+  deleteProductListDetailsApiUrl: 'https://ruralx.in/api/delete_product.php',
+  deleteCustomerListDetailsApiUrl: 'https://ruralx.in/api/delete_customer.php',
+  deleteOrderListDetailsApiUrl: 'https://ruralx.in/api/delete_order.php',
+  updateUserDetailsApiUrl:'https://ruralx.in/api/updateUserDetails.php',
+  updateProductDetailsApiUrl:'https://ruralx.in/api/updateProductDetails.php',
+  updateCategoryDetailsApiUrl:'https://ruralx.in/api/updateCategoryDetails.php',
+  editOrderDetailsApiUrl:'https://ruralx.in/api/editOrderDetails.php',
+  insertStoreDetailsApiUrl:'https://ruralx.in/api/insertstoreList.php',
+  getStoreDetailsApiUrl:'https://ruralx.in/api/getStoreList.php',
+  deleteStoreDetailsApiUrl:'https://ruralx.in/api/deleteStore.php',
+
   };

@@ -1,23 +1,25 @@
 mat-toolbar {
-  background: #ffffff;
-  color: #062d51;
+  background: #0a4984;
+  color: #fff;
   padding: 0 0px !important;
 }
 .imgSet{
   width: 120px;
     height: 100px;
     position: relative;
-    top: 25px;
-    left: 5px;
+    top: 20px;
+    right: 15px;
       }
  .img_position{
-      float: left;
+    float: left;
     margin-top: 20px;
     background: #062d51;
-    width: 200px;
+    width: 130px;
     border-radius: 0px 68px 90px 0px;
     position: relative;
-    top: -28px
+    top: -28px;
+    border-right: 4px solid yellow;
+
     }
     mat-sidenav {
     margin: 0px;
@@ -209,7 +211,7 @@ mat-divider {
 .mat-toolbar .mat-mdc-button-base.mat-mdc-button-base.mat-unthemed {
     color: white;
    position:relative;
-    top:-10px;
+    top:-2px;
 }
 
 .menu {
@@ -227,9 +229,6 @@ mat-divider {
 
 .btn-menu{
 color:white !important;
-}
-.top-nav{
-color:#062d51 !important;
 }
 ::ng-deep .mat-mdc-card-title, .mat-mdc-card-subtitle{
  font-family: 'Poppins', sans-serif !important;
@@ -309,7 +308,7 @@ button.mat-list-item:hover {
 
 @media (max-width: 768px) {
   .sidebar-container {
-    width: 100%;
+    width: 70%;
   }
   .hide-on-desktop {
     display: inline-block;
