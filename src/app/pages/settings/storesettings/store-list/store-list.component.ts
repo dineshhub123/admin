@@ -16,7 +16,7 @@ import { ApiService } from 'src/app/api.service';
 })
 export class StoreListComponent {
  dataSource = new MatTableDataSource<any>();
- displayedColumns: string[] = ['name', 'address', 'phone', 'email', 'edit', 'delete'];
+ displayedColumns: string[] = ['name', 'address', 'phone', 'email', 'action'];
 
   isLoading = true;
 
@@ -33,6 +33,9 @@ export class StoreListComponent {
 
   ngOnInit(): void {
     this.loadStores();
+  }
+ ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
  loadStores(): void {

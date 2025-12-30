@@ -53,11 +53,17 @@ img.img-responsive.img-tbl {
 font-size: 12px;
 }
 
-::ng-deep .product_desc p {
+ .product_desc p {
   color: #333;
   font-size: 12px;
 }
 
-::ng-deep .product_desc ul {
+ .product_desc ul {
   padding-left: 0px;
+}
+
+.product-description {
+  transform: scale(0.85);
+  transform-origin: top left;
+  display: inline-block;
 }

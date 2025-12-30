@@ -73,7 +73,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()" color="secondary">Cancel</button>
+  <button mat-raised-button (click)="onCancel()"  color="warn"><mat-icon>cancel</mat-icon>Cancel</button>
   <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="editForm.invalid || isLoading">
     <span *ngIf="!isLoading">Save</span>
     <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>

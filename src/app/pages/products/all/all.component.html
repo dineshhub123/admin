@@ -31,25 +31,25 @@
 
   <!-- Index -->
   <ng-container matColumnDef="index">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">#</th>
+    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">#</th>
     <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
   </ng-container>
 
   <!-- Product Name -->
   <ng-container matColumnDef="product_name">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Product Name</th>
+    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Product Name</th>
     <td mat-cell *matCellDef="let element">{{ element.product_name }}</td>
   </ng-container>
 
   <!-- Category -->
   <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Category</th>
+    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Category</th>
     <td mat-cell *matCellDef="let element">{{ element.category }}</td>
   </ng-container>
 
   <!-- Images -->
   <ng-container matColumnDef="images">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Images</th>
+    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Images</th>
     <td mat-cell *matCellDef="let element">
       <img class="img-responsive img-tbl" [src]="element.img_front | replacePath:'new-ruralx/src':'..'">
     </td>
@@ -57,46 +57,51 @@
 
   <!-- Description -->
   <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;" >Description</th>
+    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;" >Description</th>
     <td mat-cell *matCellDef="let element" class="product_desc">
-      <div [innerHTML]="element.product_description"></div>
+     <div
+ [innerHTML]="sanitizeHtml(element.product_description)"
+ class="product-description"
+></div>
+
     </td>
   </ng-container>
 
   <!-- MRP -->
   <ng-container matColumnDef="product_mrp_price">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">MRP</th>
+    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">MRP</th>
     <td mat-cell *matCellDef="let element" style="font-size: 12px;">₹{{ element.product_mrp_price }}</td>
   </ng-container>
 
   <!-- Discount -->
   <ng-container matColumnDef="product_discount">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Discount</th>
+    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Discount</th>
     <td mat-cell *matCellDef="let element">₹{{ element.product_discount }}</td>
   </ng-container>
 
   <!-- Final Price -->
   <ng-container matColumnDef="product_price">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Final Price</th>
+    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Final Price</th>
     <td mat-cell *matCellDef="let element">₹{{ element.product_price }}</td>
   </ng-container>
 
   <!-- Delivery Date -->
   <ng-container matColumnDef="delivery_date">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Delivery Date</th>
+    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Delivery Date</th>
     <td mat-cell *matCellDef="let element">{{ element.delivery_date }}</td>
   </ng-container>
 
 
-<ng-container matColumnDef="delete">
-  <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Actions</th>
+<ng-container matColumnDef="action">
+  <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Actions</th>
   <td mat-cell *matCellDef="let element">
+ <button mat-icon-button color="primary" (click)="editProduct(element)">
+      <mat-icon>edit</mat-icon>
+    </button>
     <button mat-icon-button color="warn" (click)="deleteProduct(element)">
       <mat-icon>delete</mat-icon>
     </button>
-<button mat-icon-button color="primary" (click)="editProduct(element)">
-      <mat-icon>edit</mat-icon>
-    </button>
+   
   </td>
 </ng-container>
 

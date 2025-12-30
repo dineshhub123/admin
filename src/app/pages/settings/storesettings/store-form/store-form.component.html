@@ -23,6 +23,9 @@
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Phone</mat-label>
       <input matInput formControlName="phone">
+     <mat-error *ngIf="storeForm.get('phone')?.hasError('required')">
+        Phone Number is required
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
@@ -36,7 +39,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button mat-dialog-close  color="warn">  <mat-icon>cancel</mat-icon>Cancel</button>
   <button 
     mat-raised-button 
     color="primary" 

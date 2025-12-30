@@ -196,16 +196,20 @@
 
     <!-- Action Buttons -->
     <div class="action-buttons">
-      <!-- <button mat-raised-button color="primary" (click)="viewOrderDetails(order)">
+      <button mat-raised-button color="primary" (click)="viewOrderDetails(order)">
         <mat-icon>description</mat-icon>
         View Full Details
-      </button> -->
-      <!-- <button mat-raised-button color="warn" (click)="cancelOrder(order)" 
+      </button> 
+    <button mat-raised-button color="warn" (click)="cancelOrder(order)" 
               *ngIf="order.order_status !== 'cancelled' && order.order_status !== 'delivered'">
         <mat-icon>cancel</mat-icon>
         Cancel Order
-      </button> -->
- <div class="action-buttons-grid">
+      </button>
+  <button mat-raised-button color="accent" (click)="printOrder()">
+        <mat-icon>print</mat-icon>
+        Print Order
+      </button>
+ <!-- <div class="action-buttons-grid">
       <h3>Quick Actions</h3>
       <div class="action-buttons">
         <button mat-stroked-button 
@@ -268,7 +272,7 @@
         Print Order
       </button>
       </div>
-      </div>
+      </div> -->
     </div>
   </mat-card>
 </div>

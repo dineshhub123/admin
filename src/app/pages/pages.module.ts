@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { NewComponent } from './orders/new/new.component';
 import { ShippedComponent } from './orders/shipped/shipped.component';
 import { CancelledComponent } from './orders/cancelled/cancelled.component';
@@ -28,11 +27,13 @@ import { InvoiceComponent } from './orders/invoice/invoice.component';
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatDividerModule } from "@angular/material/divider";
-//import { OrderTrackingComponent } from './orders/order-tracking/order-tracking.component';
+import { OrderTrackingComponent } from './orders/order-tracking/order-tracking.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
     NewComponent,
     ShippedComponent,
     CancelledComponent,
@@ -50,7 +51,7 @@ import { MatDividerModule } from "@angular/material/divider";
     SecurityComponent,
     ReviewsComponent,
     InvoiceComponent,
-    //OrderTrackingComponent,
+    OrderTrackingComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +60,9 @@ import { MatDividerModule } from "@angular/material/divider";
     MatPaginatorModule,
     BrowserAnimationsModule,
     MatIconModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
     MatTableModule,
     NgxEchartsModule.forRoot({
         echarts: () => import('echarts')

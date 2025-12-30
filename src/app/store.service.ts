@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Store } from './models/store';
+import { ApiService } from 'src/app/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
-  private apiUrl = 'http://localhost/admin/backend/insertstoreList.php';
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public apiService: ApiService) { }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred';
@@ -24,31 +23,31 @@ export class StoreService {
   }
 
   getStores(): Observable<Store[]> {
-    return this.http.get<Store[]>(this.apiUrl).pipe(
+    return this.http.get<Store[]>(this.apiService.apiStoreInsertURL).pipe(
       catchError(this.handleError)
     );
   }
 
   getStore(id: number): Observable<Store> {
-    return this.http.get<Store>(`${this.apiUrl}?id=${id}`).pipe(
+    return this.http.get<Store>(`${this.apiService.apiStoreInsertURL}?id=${id}`).pipe(
       catchError(this.handleError)
     );
   }
 
   createStore(store: Store): Observable<any> {
-    return this.http.post(this.apiUrl, store).pipe(
+    return this.http.post(this.apiService.apiStoreInsertURL, store).pipe(
       catchError(this.handleError)
     );
   }
 
   updateStore(store: Store): Observable<any> {
-    return this.http.put(this.apiUrl, store).pipe(
+    return this.http.put(this.apiService.apiStoreInsertURL, store).pipe(
       catchError(this.handleError)
     );
   }
 
   deleteStore(id: number): Observable<any> {
-    return this.http.delete(this.apiUrl, { body: { id } }).pipe(
+    return this.http.delete(this.apiService.apiStoreInsertURL, { body: { id } }).pipe(
       catchError(this.handleError)
     );
   }

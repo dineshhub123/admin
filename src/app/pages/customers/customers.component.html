@@ -27,46 +27,46 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 pt-4" *ngIf="dataSource.data.length > 0">
 <!-- Index -->
 <ng-container matColumnDef="index">
-   <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">#</th>
+   <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">ID</th>
    <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
 </ng-container>
 <!-- Product Name -->
 <ng-container matColumnDef="user_first_name">
-   <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">User FirstName</th>
+   <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">User FirstName</th>
    <td mat-cell *matCellDef="let element">{{ element.user_first_name }}</td>
 </ng-container>
 <!-- Category -->
 <ng-container matColumnDef="user_last_name">
-   <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">User LastName</th>
+   <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">User LastName</th>
    <td mat-cell *matCellDef="let element">{{ element.user_last_name }}</td>
 </ng-container>
 <!-- Images -->
 <ng-container matColumnDef="user_email">
-   <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">User Email</th>
+   <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">User Email</th>
    <td mat-cell *matCellDef="let element">{{ element.user_email }}</td>
 </ng-container>
 <!-- MRP -->
 <ng-container matColumnDef="user_phone">
-   <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">User Phone</th>
+   <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">User Phone</th>
    <td mat-cell *matCellDef="let element">{{ element.user_phone }}</td>
 </ng-container>
 <!-- Final Price -->
 <ng-container matColumnDef="user_address">
-   <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">User Address</th>
+   <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">User Address</th>
    <td mat-cell *matCellDef="let element">{{ element.user_address }}</td>
 </ng-container>
 <!-- Delivery Date -->
 <ng-container matColumnDef="user_pincode">
-   <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">User Pincode</th>
+   <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">User Pincode</th>
    <td mat-cell *matCellDef="let element">{{ element.user_pincode }}</td>
 </ng-container>
 <ng-container matColumnDef="delete">
-   <th mat-header-cell *matHeaderCellDef style="background-color: #673ab7; color: white;">Actions</th>
+   <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Actions</th>
    <td mat-cell *matCellDef="let element">
       <button mat-icon-button color="warn" (click)="deleteCustomerList(element)">
          <mat-icon>delete</mat-icon>
       </button>
-<button mat-icon-button color="warn" (click)="editCustomer(element)">
+<button mat-icon-button color="primary" (click)="editCustomer(element)">
          <mat-icon>edit</mat-icon>
       </button>
    </td>

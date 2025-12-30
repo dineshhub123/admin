@@ -266,8 +266,8 @@ order = {
 
   displayedColumns: string[] = [
     'id', 'image', 'name', 'mrp', 'price', 'discount', 'quantity',
-    'category', 'variant', 'delivery', 'order_date', 'status',
-    'user', 'email', 'phone', 'address', 'payment', 'transaction', 'view'
+    'status',
+    'user', 'phone','view'
   ];
 
   dataSource = new MatTableDataSource<any>(this.order.items);
