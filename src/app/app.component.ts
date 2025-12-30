@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { HttpClient,HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { LoginService } from './login.service';
-
+import { FcmService } from './fcm.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,39 +16,53 @@ export class AppComponent {
   username: string | null = '';
   expandedPanel: string = '';
 
- public data:any;
-  public retrieveResonse:any;
-  public base64Data:any;
-  public retrievedImage:any;
+  public data: any;
+  public retrieveResonse: any;
+  public base64Data: any;
+  public retrievedImage: any;
   public imageUrl = null;
-  public selectedFile:any;
-  public sellItemData:any
+  public selectedFile: any;
+  public sellItemData: any
   public buyerUsername: any;
-  public getNotifyUserArray:any;
+  public getNotifyUserArray: any;
   constructor(
-  public router:Router, 
-  private http:HttpClient,
-  private _DomSanitizationService:DomSanitizer, 
-  public apiService: ApiService, 
-  private loginService: LoginService) 
-  { console.log(this.router.url, 'url');
+    public router: Router,
+    private http: HttpClient,
+    private _DomSanitizationService: DomSanitizer,
+    public apiService: ApiService,
+    private loginService: LoginService,
+    private fcm: FcmService,
+  ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.setExpandedPanel(event.urlAfterRedirects);
       }
     });
-}
-  ngOnInit():void {
+  }
+  ngOnInit(): void {
+    const adminId = 1; // logged-in admin
+    this.fcm.initFCM(adminId);
+ // 📩 VERY IMPORTANT: attach foreground listener
+    this.fcm.listenMessages();
+
     this.setExpandedPanel(this.router.url);
-     this.userlist()
-      this.loginService.getUsername().subscribe((name) => {
+    this.userlist()
+    this.loginService.getUsername().subscribe((name) => {
       this.username = name;
     });
+    this.fcm.message$.subscribe(payload => {
+      console.log('Order notification received:', payload);
+      // 🔄 reload orders
+      this.loadOrders();
+    });
+  }
 
+  loadOrders() {
+    // call order list API
   }
 
   setExpandedPanel(url: string): void {
-console.log(url, 'url')
+    console.log(url, 'url')
     if (url.includes('/orders')) {
       this.expandedPanel = 'orders';
     } else if (url.includes('/products')) {
@@ -69,35 +83,36 @@ console.log(url, 'url')
   }
 
 
-  adminLogout(){
+  adminLogout() {
     localStorage.removeItem('adminMobile');
     this.router.navigate(["login"]);
   }
- notification(){
+  notification() {
     this.router.navigate(["sell-notification"]);
-  
+
   }
-  upload(){
+  upload() {
     this.router.navigate(["upload"]);
   }
-  
+
 
   userlist() {
     this.apiService.getUserBuyerDetails().subscribe((Response: any) => {
-     this.sellItemData = Response
-     let userlistData=this.sellItemData.map((item: any) => 
-     item.user_first_name)
-     let removeDuplicates=new Set(userlistData)
-     this.buyerUsername=[...removeDuplicates];
-    this.getNotifyUserArray = []; 
-     for (let i = 0; i < this.buyerUsername.length; i++) {
-    let  getNotifyUser=this.sellItemData.find((item:any) => item.user_first_name=== this.buyerUsername[i])
-    if (getNotifyUser) {
-    this.getNotifyUserArray.push(getNotifyUser);
+      this.sellItemData = Response
+      let userlistData = this.sellItemData.map((item: any) =>
+        item.user_first_name)
+      let removeDuplicates = new Set(userlistData)
+      this.buyerUsername = [...removeDuplicates];
+      this.getNotifyUserArray = [];
+      for (let i = 0; i < this.buyerUsername.length; i++) {
+        let getNotifyUser = this.sellItemData.find((item: any) => item.user_first_name === this.buyerUsername[i])
+        if (getNotifyUser) {
+          this.getNotifyUserArray.push(getNotifyUser);
+        }
+
+      }
+    });
   }
-   
-    }
-});}
 
 
   openNotification() {
@@ -105,7 +120,7 @@ console.log(url, 'url')
   }
 
   closeNotification() {
-    
+
   }
   user = {
     name: 'John Doe',

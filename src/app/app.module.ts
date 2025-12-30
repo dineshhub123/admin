@@ -50,8 +50,6 @@ import { ReplacePathPipe } from './replace-path.pipe';
 import { OrderlistComponent } from './pages/orders/orderlist/orderlist.component';
 import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper/order-status-stepper.component';
 import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
-
-
 @NgModule({
   declarations: [
     AppComponent,
