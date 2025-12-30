@@ -46,6 +46,7 @@ export class AppComponent {
     this.fcm.listenMessages();
 
     this.setExpandedPanel(this.router.url);
+    this.loadOrders();
     this.userlist()
     this.loginService.getUsername().subscribe((name) => {
       this.username = name;
@@ -57,9 +58,18 @@ export class AppComponent {
     });
   }
 
+
   loadOrders() {
-    // call order list API
+  try {
+    const orderResponse = this.apiService.getOrderList().subscribe(res=>{
+    console.log("resOrder",res)
+
+    });
+  } catch (err) {
+    console.error('API Error:', err);
   }
+}
+
 
   setExpandedPanel(url: string): void {
     console.log(url, 'url')
