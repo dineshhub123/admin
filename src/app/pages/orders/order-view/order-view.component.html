@@ -15,7 +15,6 @@
           <mat-option value="shipped">Shipped</mat-option>
           <mat-option value="out_for_delivery">Out for Delivery</mat-option>
           <mat-option value="delivered">Delivered</mat-option>
-          <mat-option value="cancelled">Cancelled</mat-option>
         </mat-select>
       </mat-form-field>
  <!-- <div class="current-status">
@@ -104,7 +103,7 @@
 
     <!-- Order Items -->
     <h3>Order Items ({{ order.items.length }})</h3>
-    <mat-table [dataSource]="order.items" class="mat-elevation-z2 items-table">
+    <mat-table [dataSource]="order.items" class="mat-elevation-z2 items-table" *ngIf="!isMobile">
 
       <!-- Image -->
       <ng-container matColumnDef="image">
@@ -162,18 +161,82 @@
       </ng-container>
 
       <!-- Actions -->
-      <ng-container matColumnDef="actions">
+      <!-- <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <button mat-icon-button color="primary" (click)="viewProductDetails(item)">
             <mat-icon>visibility</mat-icon>
           </button>
         </mat-cell>
-      </ng-container>
+      </ng-container> -->
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
+
+<!-- Mobile Card View -->
+<ng-container *ngIf="isMobile">
+  <mat-card *ngFor="let item of order.items" class="item-card">
+    <div class="card-content">
+      <div class="card-row image-row">
+        <img [src]="item.image_url" alt="{{ item.product_name }}" class="product-image">
+      </div>
+
+      <div class="card-row ml-2">
+        <div class="card-label">Product : </div>
+        <div class="card-value">
+          <div class="product-name">{{ item.product_name }}</div>
+          <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div>
+        </div>
+      </div>
+
+      <div class="card-row  ml-2">
+        <div class="card-label">Variant  : </div>
+        <div class="card-value">
+          <div class="variant-info">
+            <span class="color-dot" [style.background-color]="item.variant.colorCode"></span>
+            {{ item.variant.color }} ({{ item.variant.size }})
+          </div>
+        </div>
+      </div>
+
+      <div class="card-row  ml-2">
+        <div class="card-label">Qty  : </div>
+        <div class="card-value">
+          <span class="quantity-badge">{{ item.quantity }}</span>
+        </div>
+      </div>
+
+      <div class="card-row  ml-2">
+        <div class="card-label">Price  : </div>
+        <div class="card-value">
+          <div class="price-info">
+            <span class="current-price">₹{{ item.product_price }}</span>
+            <span class="mrp-price"><del>₹{{ item.product_mrp_price }}</del></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-row  ml-2">
+        <div class="card-label">Discount  : </div>
+        <div class="card-value">
+          <span class="discount-badge">-₹{{ item.product_discount }}</span>
+        </div>
+      </div>
+
+<!-- <div class="card-row  ml-2">
+        <div class="card-label">View</div>
+        <div class="card-value">
+        <mat-icon (click)="viewProductDetails(item)">visibility</mat-icon>
+        </div>
+      </div> -->
+    </div>
+  </mat-card>
+</ng-container>
+
+
+<!-- Original table for desktop -->
 
     <!-- Payment Information -->
     <h3>Payment Information</h3>

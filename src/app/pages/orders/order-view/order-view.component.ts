@@ -1,5 +1,6 @@
 // order-view.component.ts
 import { Component } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class OrderViewComponent {
   // Available statuses for the stepper
   statuses = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered', 'cancelled'];
   currentStatusIndex = 2; // Start with processing
-
+isMobile = false;
   displayedColumns: string[] = [
     'image',
     'product_name',
@@ -54,13 +55,16 @@ export class OrderViewComponent {
     'quantity',
     'price',
     'discount',
-    'actions'
   ];
 
-  constructor() { }
+  constructor(private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit(): void {
     this.currentStatusIndex = this.statuses.indexOf(this.order.order_status);
+ this.breakpointObserver.observe([Breakpoints.Handset])
+    .subscribe(result => {
+      this.isMobile = result.matches;
+    });
   }
 // Status Change Methods
   markAsPending(order: any) {
@@ -109,8 +113,7 @@ getStepperStatus(): string {
     'processing': 'processing',
     'shipped': 'shipped',
     'out_for_delivery': 'out_for_delivery',
-    'delivered': 'delivered',
-    'cancelled': 'cancelled'
+    'delivered': 'delivered'
   };
   
   return statusMap[this.order.order_status.toLowerCase()] || 'pending';
@@ -130,7 +133,6 @@ getStepperStatus(): string {
       case 'shipped': return 'primary';
       case 'out_for_delivery': return 'accent';
       case 'delivered': return 'primary';
-      case 'cancelled': return 'warn';
       default: return 'primary';
     }
   }
@@ -196,8 +198,7 @@ getStepperStatus(): string {
         'processing': 'Order processing started',
         'shipped': 'Order shipped',
         'out_for_delivery': 'Order out for delivery',
-        'delivered': 'Order delivered',
-        'cancelled': 'Order cancelled'
+        'delivered': 'Order delivered'
       };
       
       this.updateOrderStatus(this.order, selectedValue, statusMessages[selectedValue]);

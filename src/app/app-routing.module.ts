@@ -33,7 +33,7 @@ import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper
 import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'about', component: AboutComponent },
   { path: '404', component: PageNotFoundComponent },
