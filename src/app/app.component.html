@@ -23,10 +23,10 @@
 
 
 
- <div class="notification notification-wrapper dropdown-container" #notificationMenu  *ngIf="router.url.includes('/customerorder')">
+ <!-- <div class="notification notification-wrapper dropdown-container" #notificationMenu  *ngIf="router.url.includes('/orderlist')">
   <button mat-icon-button [matMenuTriggerFor]="notificationDropdown">
     <mat-icon class="top-nav">notifications</mat-icon>
-    <span class="notification-badge" *ngIf="getNotifyUserArray?.length > 0">{{ getNotifyUserArray?.length }}</span>
+    <span class="notification-badge" *ngIf="pendingOrderCount> 0">{{ pendingOrderCount  }}</span>
   </button>
   <mat-menu #notificationDropdown="matMenu" class="notification-menu menu-with-pointer">
     
@@ -46,10 +46,6 @@
           <span class="additional-info">{{item?.user_address | titlecase}}</span>
         </div>
       </div>
-      
-      <!-- <div class="notification-status">
-        <span class="unread-dot" *ngIf="!notification.read"></span>
-      </div> -->
     </div>
   </mat-list-item>
 </mat-list>
@@ -59,6 +55,42 @@
       <button mat-menu-item disabled>No notifications</button>
     </ng-template>
   </mat-menu>
+</div> -->
+<div class="notification-wrapper">
+
+  <!-- 🔔 Bell -->
+  <button mat-icon-button (click)="toggleDropdown()"
+          matBadge="{{ pendingOrderCount }}"
+          matBadgeColor="warn">
+    <mat-icon>notifications</mat-icon>
+  </button>
+
+  <!-- ⬇ Dropdown -->
+  <div class="notification-dropdown" *ngIf="showDropdown">
+
+    <div *ngFor="let order of pendingOrders"
+         class="order-item"
+         (click)="goToOrder(order.id)">
+
+      <div class="title">
+        Order #{{ order.id }} — ₹{{ order.total_amount }}
+      </div>
+
+      <div class="subtitle">
+        {{ order.delivery_address.name }},
+        {{ order.delivery_address.village }}
+      </div>
+
+      <div class="time">
+        {{ order.created_at | date:'short' }}
+      </div>
+    </div>
+
+    <div class="view-all" (click)="goToOrders()">
+      View all orders →
+    </div>
+
+  </div>
 </div>
 
 
@@ -127,7 +159,7 @@
          <!-- <a mat-list-item routerLink="/customerorder" routerLinkActive="active-link">
             <mat-icon matListIcon>assignment</mat-icon> All Orders
           </a> -->
-         <a mat-list-item routerLink="/orders/orderlist" routerLinkActive="active-link">
+         <a mat-list-item routerLink="/orderlist" routerLinkActive="active-link">
             <mat-icon matListIcon>assignment</mat-icon> All Orders
           </a>
           <!-- <a mat-list-item routerLink="/orders/new" routerLinkActive="active-link">

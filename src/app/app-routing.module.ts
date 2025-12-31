@@ -41,7 +41,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'uploadproduct', component: UploadComponent },
   { path: 'customerorder', component: SellNotificationComponent },
-  { path: 'orders/orderlist', component: OrderlistComponent },
+  { path: 'orderlist', component: OrderlistComponent },
   { path: 'orders/new', component: NewComponent },
   { path: 'orders/shipped', component: ShippedComponent },
   { path: 'orders/cancelled', component: CancelledComponent },
