@@ -18,7 +18,7 @@ export interface OrderStatusStep {
 })
 export class OrderStatusStepperComponent implements OnChanges {
   
-  @Input() currentStatus: string = 'pending';
+   @Input() currentStatus!: string;
   @Input() orderDate: string = '';
   @Input() deliveryDate: string = '';
   
@@ -70,7 +70,15 @@ export class OrderStatusStepperComponent implements OnChanges {
       completed: false,
       active: false,
       icon: 'assignment_turned_in'
-    }
+    },
+    // {
+    //   label: 'Cancelled',
+    //   status: 'cancelled',
+    //   description: 'Order has been cancelled',
+    //   completed: false,
+    //   active: false,
+    //   icon: 'cancel'
+    // }
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -80,7 +88,7 @@ export class OrderStatusStepperComponent implements OnChanges {
   }
 
   private updateStepperStatus(): void {
-    const statusHierarchy = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered'];
+    const statusHierarchy = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered', 'cancelled'];
     const currentIndex = statusHierarchy.indexOf(this.currentStatus.toLowerCase());
     
     // For cancelled status, show all steps as incomplete except cancelled
@@ -93,7 +101,7 @@ export class OrderStatusStepperComponent implements OnChanges {
     }
 
     this.statusSteps.forEach((step, index) => {
-      if (step.status === 'cancelled') {
+      if (step.status === 'delivered') {
         step.completed = false;
         step.active = false;
         return;
@@ -112,6 +120,8 @@ export class OrderStatusStepperComponent implements OnChanges {
       }
     });
   }
+
+
 
   public formatDate(dateString: string): string {
     try {
@@ -139,15 +149,14 @@ export class OrderStatusStepperComponent implements OnChanges {
   }
 
   getProgressPercentage(): number {
-    if (this.currentStatus === 'cancelled') return 0;
-    
+    if (this.currentStatus === 'pending') return 0;
     const statusHierarchy = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered'];
     const currentIndex = statusHierarchy.indexOf(this.currentStatus.toLowerCase());
-    return ((currentIndex + 1) / statusHierarchy.length) * 100;
+    return Math.round((currentIndex / (statusHierarchy.length - 1)) * 100);
   }
 
   getCurrentStepLabel(): string {
     const currentStep = this.statusSteps.find(step => step.active);
-    return currentStep ? currentStep.label : 'Order Placed';
+    return currentStep ? currentStep.label : 'Delivered';
   }
 }

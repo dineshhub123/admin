@@ -2,10 +2,21 @@
 <div class="order-view-container">
   
   <mat-card class="order-card">
-    <h2>Order Details</h2>
-    
+   <div class="order-header">
+  <button mat-icon-button color="primary" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h2>Order Details</h2>
+</div>
+    <div class="order-top-bar">
+ <h2 *ngIf="order.order_status === 'cancelled'" class="cancelled-title">
+  {{ getTopBarTitle() }}
+</h2>
+
+</div>
+
     <div class="order-filter-container pl-2">
-      <mat-form-field appearance="outline">
+      <!-- <mat-form-field appearance="outline">
         <mat-label>Change Order Status</mat-label>
         <mat-select (selectionChange)="onStatusFilterChange($event.value)">
           <mat-option value="all">All Orders</mat-option>
@@ -16,7 +27,7 @@
           <mat-option value="out_for_delivery">Out for Delivery</mat-option>
           <mat-option value="delivered">Delivered</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
  <!-- <div class="current-status">
         <span class="status-label">Current Status:</span>
         <mat-chip class="status-chip" [class]="getStatusClass(order.order_status)" selected>
@@ -25,18 +36,33 @@
         </mat-chip>
       </div> -->
       <!-- Status Control Buttons -->
-      <div class="status-controls">
-        <button mat-raised-button color="primary" (click)="changeStatus(-1)" 
-                [disabled]="currentStatusIndex === 0">
-          <mat-icon>arrow_back</mat-icon>
-          Previous Status
-        </button>
-        <button mat-raised-button color="primary" (click)="changeStatus(1)" 
-                [disabled]="currentStatusIndex === statuses.length - 1">
-          Next Status
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </div>
+   <div class="status-wrapper">
+  <!-- CONTROLS -->
+<div class="status-controls">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="changeStatus(-1)"
+    [disabled]="currentStatusIndex === 0 || order.order_status === 'cancelled'"
+  >
+    <mat-icon>arrow_back</mat-icon> Prev
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="changeStatus(1)"
+    [disabled]="currentStatusIndex === statuses.length - 2 || order.order_status === 'cancelled'"
+  >
+    {{ getCurrentStatus() }}
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>
+
+
+
+</div>
+
     </div>
 
     <mat-divider></mat-divider>
@@ -259,15 +285,16 @@
 
     <!-- Action Buttons -->
     <div class="action-buttons">
-      <button mat-raised-button color="primary" (click)="viewOrderDetails(order)">
-        <mat-icon>description</mat-icon>
-        View Full Details
-      </button> 
-    <button mat-raised-button color="warn" (click)="cancelOrder(order)" 
-              *ngIf="order.order_status !== 'cancelled' && order.order_status !== 'delivered'">
-        <mat-icon>cancel</mat-icon>
-        Cancel Order
-      </button>
+    <button
+  mat-raised-button
+  color="warn"
+  (click)="cancelOrder(order)"
+  [disabled]="order.order_status === 'cancelled' || order.order_status === 'delivered'"
+>
+  <mat-icon>cancel</mat-icon>
+  Cancel Order
+</button>
+
   <button mat-raised-button color="accent" (click)="printOrder()">
         <mat-icon>print</mat-icon>
         Print Order
