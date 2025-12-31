@@ -50,6 +50,9 @@ import { ReplacePathPipe } from './replace-path.pipe';
 import { OrderlistComponent } from './pages/orders/orderlist/orderlist.component';
 import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper/order-status-stepper.component';
 import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -103,6 +106,8 @@ import { OrderTrackingComponent } from './pages/orders/order-tracking/order-trac
     MatDialogModule,
     MatSnackBarModule,
     MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

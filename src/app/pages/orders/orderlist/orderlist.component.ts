@@ -2,309 +2,95 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-
+import { FcmService } from 'src/app/fcm.service';
+import { ApiService } from 'src/app/api.service';
 @Component({
   selector: 'app-orderlist',
   templateUrl: './orderlist.component.html',
   styleUrls: ['./orderlist.component.css']
 })
 export class OrderlistComponent {
- constructor(private router: Router){}
-productId: string | null = null;
-  orderItem: any;
-order = {
-    order_id: "ORD_1001",
-    user: {
-      userId: "user_1",
-      user_first_name: "Dinesh",
-      user_last_name: "Bhagat",
-      user_email: "dineshbhagatbpl@gmail.com",
-      user_phone: "8600245120",
-      user_address: "Garra",
-      user_pincode: "481001"
-    },
-    items: [
-      {
-        product_id: "product_001",
-        product_name: "shoes for mens casuals",
-        category: "footwear",
-        sub_category: "shoes",
-        quantity: 1,
-        product_price: 1800,
-        product_mrp_price: 2000,
-        product_discount: 200,
-        variant: { color: "Yellow", colorCode: "#FFFF00", size: "M" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-yellow.webp"
-      },
-      {
-        product_id: "product_002",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_003",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_004",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_005",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_006",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_007",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_008",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_009",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_010",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_011",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_012",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_013",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_014",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_015",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_016",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_017",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_018",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      },
-{
-        product_id: "product_018",
-        product_name: "casual sneakers",
-        category: "footwear",
-        sub_category: "sneakers",
-        quantity: 2,
-        product_price: 2500,
-        product_mrp_price: 2800,
-        product_discount: 300,
-        variant: { color: "Black", colorCode: "#000000", size: "L" },
-        image_url: "new-ruralx/src/assets/uploads/shoes-black.webp"
-      }
-    ],
-    payment: {
-      method: "Razorpay",
-      status: "paid",
-      transaction_id: "pay_NqfR64p2h3v0M8"
-    },
-    delivery_date: "Thu Jan 16",
-    order_status: "Pending",
-    order_date: "2025-10-25T10:15:00",
-    total_amount: 1800
-  };
-
-  displayedColumns: string[] = [
-    'id', 'image', 'name', 'mrp', 'price', 'discount', 'quantity',
-    'status',
-    'user', 'phone','view'
-  ];
-
-  dataSource = new MatTableDataSource<any>(this.order.items);
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  displayedColumns: string[] = [
+    'index',
+    'order_id',
+    'customer',
+    'mobile',
+    'address',
+    'product',
+    'price',
+    'quantity',
+    'item_total',
+    'order_total',
+    'status',
+    'created_at',
+    'view'
+  ];
 
+  dataSource = new MatTableDataSource<any>();
+  constructor(private router: Router, public fcmService: FcmService, public apiService: ApiService) { }
+  isLoading: boolean = false;
+  ngOnInit() {
+    const adminId = 1; // logged-in admin
+    this.fcmService.initFCM(adminId);
+    // VERY IMPORTANT: attach foreground listener
+    this.fcmService.listenMessages();
+    this.loadOrders();
+    this.fcmService.message$.subscribe(payload => {
+      console.log('Order notification received:', payload);
+      // reload orders
+      this.loadOrders();
+    });
+  }
+
+  loadOrders() {
+    try {
+      this.isLoading = true;
+      this.apiService.getOrderList().subscribe(res => {
+        console.log("resOrder", res)
+        this.isLoading = false
+        const rows: any[] = [];
+        res.forEach((order: any) => {
+          order.items.forEach((item: any) => {
+            rows.push({
+              order_id: order.id,
+              customer: order.delivery_address.name,
+              mobile: order.delivery_address.mobile,
+              address: `${order.delivery_address.address}, ${order.delivery_address.village}, ${order.delivery_address.district}`,
+              product: item.product_name,
+              price: item.price,
+              quantity: item.quantity,
+              item_total: item.price * item.quantity,
+              order_total: order.total_amount,
+              status: order.status,
+              created_at: order.created_at
+            })
+            this.dataSource.data = rows;
+          })
+        })
+
+      });
+    } catch (err) {
+      this.isLoading = false;
+      console.error('API Error:', err);
+    }
+  }
+  onClickRefresh() {
+    this.loadOrders();
+
+  }
+  selectedDate: Date | null = new Date();
+
+  onDateChange(date: Date) {
+    console.log('Selected date:', date);
+  }
+  viewItem(orderId: string) {
+    this.router.navigate(['/orders/orderview', orderId]);
+  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-// viewItem(productId: string) {
-//   const selectedItem = this.order.items.find(item => item.product_id === productId);
 
-//   if (selectedItem) {
-//     this.router.navigate(['/orders/orderview'], { state: { order: this.order, selectedItem } });
-//   } else {
-//     console.error('Item not found!');
-//   }
-// }
-
- viewItem(productId: string) {
-    // Navigate to order view page with product_id as route parameter
-    this.router.navigate(['/orders/orderview', productId]);
-console.log(productId);
-  }
-
-  // Alternative method if you want to pass the entire order data
-  viewItemWithState(productId: string) {
-    const selectedItem = this.order.items.find(item => item.product_id === productId);
-    
-    if (selectedItem) {
-      this.router.navigate(['/orders/orderview', productId], { 
-        state: { 
-          fullOrder: this.order, 
-          selectedProductId: productId 
-        }
-      });
-    }
-  }
 }
+
