@@ -47,7 +47,7 @@ const routes: Routes = [
   { path: 'orders/cancelled', component: CancelledComponent },
   { path: 'orders/processing', component: ProcessingComponent },
   { path: 'orders/delivered', component: DeliveredComponent },
-  { path: 'orders/orderview/:id', component: OrderViewComponent },
+  { path: 'orders/orderview/:order_id', component: OrderViewComponent },
   { path: 'orders/order-track', component: OrderTrackingComponent },
   { path: 'orders/order-status-stepper', component: OrderStatusStepperComponent },
   { path: 'orders/returned', component: ReturnedComponent },
@@ -67,7 +67,6 @@ const routes: Routes = [
   { path: 'settings/stores', component: StoreListComponent },
   { path: 'settings/stores/add', component: StoreFormComponent },
   { path: 'settings/stores/edit/:id', component: StoreFormComponent },
-  { path: 'order/orderlist', component: OrderlistComponent },
   { path: '', redirectTo: '/stores', pathMatch: 'full' },
   { path: '**', redirectTo: '404' },
 

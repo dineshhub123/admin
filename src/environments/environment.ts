@@ -33,6 +33,8 @@ export const environment = {
   deleteStoreDetailsApiUrl: 'https://ruralx.in/api/deleteStore.php',
   getOrderListApiUrl: 'https://ruralx.in/api/getOrders.php',
   getPendingOrderApiUrl: 'https://ruralx.in/api/pending_order.php',
+  getOrderByIdApiUrl: 'https://ruralx.in/api/get_order_by_id.php',
+  upadateStatusApiUrl: 'https://ruralx.in/api/update_order_status.php',
 
   // getUserDetailsApiURL: 'http://192.168.74.250/getUserLoginDetails.php',
   // searchApiUrl: 'http://192.168.74.250/search_product.php',
