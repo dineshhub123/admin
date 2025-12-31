@@ -40,35 +40,14 @@ export class AppComponent {
     });
   }
   ngOnInit(): void {
-    const adminId = 1; // logged-in admin
-    this.fcm.initFCM(adminId);
- // 📩 VERY IMPORTANT: attach foreground listener
-    this.fcm.listenMessages();
-
     this.setExpandedPanel(this.router.url);
-    this.loadOrders();
-    this.userlist()
+    //this.userlist()
     this.loginService.getUsername().subscribe((name) => {
       this.username = name;
     });
-    this.fcm.message$.subscribe(payload => {
-      console.log('Order notification received:', payload);
-      // 🔄 reload orders
-      this.loadOrders();
-    });
   }
 
 
-  loadOrders() {
-  try {
-    const orderResponse = this.apiService.getOrderList().subscribe(res=>{
-    console.log("resOrder",res)
-
-    });
-  } catch (err) {
-    console.error('API Error:', err);
-  }
-}
 
 
   setExpandedPanel(url: string): void {

@@ -123,3 +123,70 @@ table {
 .mat-paginator {
   background: white;
 }
+/* Table header background */
+.order-table .mat-mdc-header-row {
+  background-color: #0a4984;   /* your brand color */
+}
+
+/* Header text */
+.mat-mdc-header-cell {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+.table-container {
+  max-height: calc(100vh - 150px);       /* table body height */
+  overflow-y: auto;
+  overflow-x: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.header-align {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding:  7px 15px 0px 15px;
+}
+
+.order-heading {
+  font-size: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* right side container */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* control mat-input width */
+
+/* refresh icon */
+.refresh {
+  cursor: pointer;
+  color: #0a4984;
+}
+
+.refresh:hover {
+  color: #06325f;
+}
+::ng-deep .search-field .mat-mdc-form-field-focus-overlay {
+  background-color: transparent;
+}
+
+::ng-deep .search-field .mdc-line-ripple {
+  background-color: #0a4984;   /* active line */
+}
+.search-field {
+  width: 200px;
+}
+
+::ng-deep .search-field .mat-mdc-form-field-infix {
+  padding: 2px 0;
+}
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled){
+background-color: #fff !important;
+}
