@@ -34,6 +34,8 @@ export class ApiService {
   apideleteStoreURL:string = environment.deleteStoreDetailsApiUrl;
   apiOrderListUrl:string = environment.getOrderListApiUrl;
   apiPendingOrderUrl:string = environment.getPendingOrderApiUrl;
+  apiOrderByIdUrl:string = environment.getOrderByIdApiUrl;
+  apiUpadateStatusUrl = environment.upadateStatusApiUrl;
 
 
 
@@ -110,6 +112,12 @@ export class ApiService {
   }
   getPendingOrder():Observable<any>{
     return this.http.get(this.apiPendingOrderUrl).pipe(map((res:any)=>res))
+  }
+  getOrderByID(orderId:number):Observable<any>{
+    return this.http.get(`${this.apiOrderByIdUrl}?order_id=${orderId}`).pipe(map((res:any)=>res))
+  }
+  updateOrderStatus(object:any): Observable<any> {
+    return this.http.post(this.apiUpadateStatusUrl,object).pipe(map((res: any) => res));
   }
 
 }
