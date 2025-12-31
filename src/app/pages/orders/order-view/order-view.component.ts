@@ -1,6 +1,8 @@
 // order-view.component.ts
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ApiService } from 'src/app/api.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -9,6 +11,9 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   styleUrls: ['./order-view.component.css']
 })
 export class OrderViewComponent {
+
+public orderId!: number;
+  public orderDetailData:any[]=[];
   order: any = {
     order_id: "ORD_1001",
     user: {
@@ -57,7 +62,8 @@ isMobile = false;
     'discount',
   ];
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(private breakpointObserver: BreakpointObserver, private apiService:ApiService,
+    public activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
     this.currentStatusIndex = this.statuses.indexOf(this.order.order_status);
@@ -65,7 +71,23 @@ isMobile = false;
     .subscribe(result => {
       this.isMobile = result.matches;
     });
+
+this.activatedRoute.params.subscribe(params => {
+      const id = params['order_id'];
+      this.orderId = id;
+      if (this.orderId) {
+        this.getOrderByID();
+      }
+    });
   }
+
+
+getOrderByID(){
+this.apiService.getOrderByID(this.orderId).subscribe(res=>{
+    this.orderDetailData = res;
+    console.log("order",res)
+  })
+}
 // Status Change Methods
   markAsPending(order: any) {
     if (confirm(`Mark order ${order.order_id} as Pending?`)) {
@@ -106,24 +128,57 @@ isMobile = false;
 
 // In your order-view.component.ts - Add this method
 getStepperStatus(): string {
-  // Map the order status to stepper status
   const statusMap: { [key: string]: string } = {
     'pending': 'pending',
     'confirmed': 'confirmed',
     'processing': 'processing',
     'shipped': 'shipped',
     'out_for_delivery': 'out_for_delivery',
-    'delivered': 'delivered'
+    'delivered': 'delivered',
+    'cancelled':'cancelled'
   };
   
-  return statusMap[this.order.order_status.toLowerCase()] || 'pending';
+  return statusMap[this.order.order_status.toLowerCase()] || 'delivered';
 }
 
-  changeStatus(direction: number) {
-    this.currentStatusIndex = Math.max(0, Math.min(this.statuses.length - 1, this.currentStatusIndex + direction));
-    this.order.order_status = this.statuses[this.currentStatusIndex];
-    console.log('Order status changed to:', this.order.order_status);
+changeStatus(direction: number): void {
+  const newIndex = this.currentStatusIndex + direction;
+  if (newIndex < 0 || newIndex >= this.statuses.length) {
+    return;
   }
+  const previousStatus = this.order.order_status;
+  const nextStatus = this.statuses[newIndex];
+  this.currentStatusIndex = newIndex;
+  this.order.order_status = nextStatus;
+  console.log('Order status changed:', previousStatus, '→', nextStatus);
+}
+
+getPreviousStatus(): string | null {
+  if (this.currentStatusIndex > 0) {
+    return this.formatStatus(this.statuses[this.currentStatusIndex - 1]);
+  }
+  return null;
+}
+
+getNextStatus(): string | null {
+  if (this.currentStatusIndex < this.statuses.length - 1) {
+    return this.formatStatus(this.statuses[this.currentStatusIndex + 1]);
+  }
+  return null;
+}
+
+
+
+/* Already created earlier */
+getCurrentStatus(): string {
+  return this.formatStatus(this.order.order_status);
+}
+
+formatStatus(status: string): string {
+  return status
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, char => char.toUpperCase());
+}
 
   getStatusColor(status: string): string {
     switch (status.toLowerCase()) {
@@ -146,26 +201,21 @@ getStepperStatus(): string {
     }
   }
 
-  // FIXED: Remove Order type to avoid type errors
-  viewOrderDetails(order: any) {
-    console.log('View order details:', order);
-    // Implement navigation to detailed order view
-  }
 
   // FIXED: Remove Order type to avoid type errors
-  cancelOrder(order: any) {
-    if (confirm(`Are you sure you want to cancel order ${order.order_id}?`)) {
-      this.order.order_status = 'cancelled';
-      this.currentStatusIndex = this.statuses.indexOf('cancelled');
-      console.log('Order cancelled:', order);
-      
-      // Show success message
-      alert(`Order ${order.order_id} has been cancelled successfully!`);
-      
-      // Here you would typically call your API service
-      // this.orderService.cancelOrder(order.order_id).subscribe(...);
-    }
+cancelOrder(order: any): void {
+  if (order.order_status === 'cancelled' || order.order_status === 'delivered') {
+    return; 
   }
+
+  if (confirm(`Are you sure you want to cancel order ${order.order_id}?`)) {
+    order.order_status = 'cancelled';
+    this.currentStatusIndex = this.statuses.indexOf('cancelled');
+    console.log('Order cancelled:', order);
+    alert(`Order ${order.order_id} has been cancelled successfully!`);
+  }
+}
+
 
   viewProductDetails(item: any) {
     console.log('View product details:', item);
@@ -272,4 +322,18 @@ getStepperStatus(): string {
   handleImageError(event: any) {
     event.target.src = 'assets/uploads/shirt.jpg';
   }
+
+getTopBarTitle(): string {
+  if (this.order.order_status === 'cancelled') {
+    return 'Your Order Has Been Cancelled !';
+  }
+  return this.getStepperStatus();
+}
+goBack(): void {
+  // Navigate back to previous page
+  window.history.back();
+  // Or, if using Angular Router:
+  // this.router.navigate(['/orders']);
+}
+
 }

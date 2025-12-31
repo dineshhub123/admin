@@ -263,9 +263,32 @@
   color: #721c24;
 }
 
+.status-Your_Order_Has-Been_Cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+
 .status-default {
   background-color: #e2e3e5;
   color: #383d41;
+}
+.cancelled-title {
+  color: #d32f2f; /* dark red */
+  background-color: #ffebee; /* light red background */
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.order-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
 }
 
 /* Rest of your existing CSS... */
@@ -308,5 +331,26 @@
   .actions-row {
     justify-content: flex-end;
     border-bottom: none;
+  }
+}
+
+.status-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-controls button {
+  font-weight: 500;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .status-controls {
+    flex-direction: column;
+  }
+
+  .status-controls button {
+    width: 100%;
   }
 }
