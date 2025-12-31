@@ -178,7 +178,7 @@ table {
 }
 
 ::ng-deep .search-field .mdc-line-ripple {
-  background-color: #0a4984;   /* active line */
+  background-color: #0a4984;   
 }
 .search-field {
   width: 200px;

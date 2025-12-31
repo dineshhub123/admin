@@ -42,7 +42,6 @@
 .meta-table th, .meta-table td {
   padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .meta-table th {
@@ -270,3 +269,44 @@
 }
 
 /* Rest of your existing CSS... */
+
+
+/* Mobile card styles */
+@media (max-width: 768px) {
+  .item-card {
+    margin-bottom: 16px;
+  }
+  
+  .card-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .card-label {
+    font-weight: 500;
+    color: #666;
+    min-width: 80px;
+    font-size: 14px;
+  }
+  
+  .card-value {
+    flex: 1;
+  }
+  
+  .image-row {
+    justify-content: center;
+  }
+  
+  .image-row .product-image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+  }
+  
+  .actions-row {
+    justify-content: flex-end;
+    border-bottom: none;
+  }
+}

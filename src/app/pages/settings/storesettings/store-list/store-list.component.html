@@ -15,7 +15,13 @@
   </mat-form-field>
 
   <!-- Loading spinner -->
-  <mat-spinner *ngIf="isLoading" diameter="100" class="loading-spinner"></mat-spinner>
+  <mat-progress-bar
+  *ngIf="isLoading"
+  mode="indeterminate"
+  color="primary"
+  class="loading-bar"
+></mat-progress-bar>
+
 
   <!-- Debug data (temporary) -->
   <!-- <pre *ngIf="dataSource.data">{{ dataSource.data | json }}</pre> -->

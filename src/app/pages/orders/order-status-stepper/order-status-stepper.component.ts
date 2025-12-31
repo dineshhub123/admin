@@ -24,7 +24,7 @@ export class OrderStatusStepperComponent implements OnChanges {
   
   statusSteps: OrderStatusStep[] = [
     {
-      label: 'Order Placed',
+      label: 'Pending',
       status: 'pending',
       description: 'Your order has been received',
       completed: false,
@@ -70,14 +70,6 @@ export class OrderStatusStepperComponent implements OnChanges {
       completed: false,
       active: false,
       icon: 'assignment_turned_in'
-    },
-    {
-      label: 'Cancelled',
-      status: 'cancelled',
-      description: 'Order has been cancelled',
-      completed: false,
-      active: false,
-      icon: 'cancel'
     }
   ];
 

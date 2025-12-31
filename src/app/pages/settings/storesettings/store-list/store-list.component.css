@@ -47,6 +47,11 @@
   width: 120px;
   text-align: center;
 }
+.loading-bar {
+  height: 4px;         /* thinner line */
+  border-radius: 2px;  /* rounded edges */
+  margin: 10px 0;      /* spacing above/below */
+}
 
 @media (max-width: 600px) {
   .header {
