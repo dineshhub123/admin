@@ -561,3 +561,63 @@ mat-list-item.mat-mdc-list-item.mdc-list-item.notification-item.mat-mdc-list-ite
 ::ng-deep .mat-mdc-menu-content{
 padding: 0px !important;
 }
+
+
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-dropdown {
+  position: absolute;
+  right: -48px;
+  top: 56px;
+  width: 265px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.order-item {
+  padding: 7px 15px 7px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.order-item:hover {
+  background: #f5f5f5;
+}
+
+.title {
+  font-weight: 500;
+  color:black;
+  font-size: 12px;
+  height: 22px;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: #555;
+  height: 22px;
+
+}
+
+.time {
+  font-size: 11px;
+  color: #999;
+  height: 22px;
+
+}
+
+.view-all {
+  padding: 10px;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  color: #0a4984;
+  font-size: 12px;
+}
+::ng-deep .mat-badge-medium.mat-badge-overlap.mat-badge-after .mat-badge-content{
+  top:0px !important;
+  left:25px !important
+}

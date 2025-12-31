@@ -33,6 +33,10 @@ export class ApiService {
   apigetStoreURL:string = environment.getStoreDetailsApiUrl;
   apideleteStoreURL:string = environment.deleteStoreDetailsApiUrl;
   apiOrderListUrl:string = environment.getOrderListApiUrl;
+  apiPendingOrderUrl:string = environment.getPendingOrderApiUrl;
+
+
+
   constructor(private http: HttpClient,private router:Router) { }
   
   commonHeaderFunction(){
@@ -104,4 +108,8 @@ export class ApiService {
   getOrderList():Observable<any>{
     return this.http.get(this.apiOrderListUrl).pipe(map((res:any)=>res))
   }
+  getPendingOrder():Observable<any>{
+    return this.http.get(this.apiPendingOrderUrl).pipe(map((res:any)=>res))
+  }
+
 }

@@ -25,6 +25,9 @@ export class AppComponent {
   public sellItemData: any
   public buyerUsername: any;
   public getNotifyUserArray: any;
+  public pendingOrders: any[] = [];
+  public pendingOrderCount = 0;
+  public showDropdown = false;
   constructor(
     public router: Router,
     private http: HttpClient,
@@ -41,15 +44,19 @@ export class AppComponent {
   }
   ngOnInit(): void {
     this.setExpandedPanel(this.router.url);
-    //this.userlist()
     this.loginService.getUsername().subscribe((name) => {
       this.username = name;
     });
+    const adminId = 1; // logged-in admin
+    this.fcm.initFCM(adminId);
+    // VERY IMPORTANT: attach foreground listener
+    this.fcm.listenMessages();
+    this.getPendingOrdersPreview();
+    // 🔔 when notification arrives
+    this.fcm.message$.subscribe(() => {
+      this.getPendingOrdersPreview();
+    });
   }
-
-
-
-
   setExpandedPanel(url: string): void {
     console.log(url, 'url')
     if (url.includes('/orders')) {
@@ -83,63 +90,25 @@ export class AppComponent {
   upload() {
     this.router.navigate(["upload"]);
   }
-
-
-  userlist() {
-    this.apiService.getUserBuyerDetails().subscribe((Response: any) => {
-      this.sellItemData = Response
-      let userlistData = this.sellItemData.map((item: any) =>
-        item.user_first_name)
-      let removeDuplicates = new Set(userlistData)
-      this.buyerUsername = [...removeDuplicates];
-      this.getNotifyUserArray = [];
-      for (let i = 0; i < this.buyerUsername.length; i++) {
-        let getNotifyUser = this.sellItemData.find((item: any) => item.user_first_name === this.buyerUsername[i])
-        if (getNotifyUser) {
-          this.getNotifyUserArray.push(getNotifyUser);
-        }
-
-      }
-    });
+  getPendingOrdersPreview() {
+    this.apiService.getPendingOrder().subscribe(res => {
+      this.pendingOrders = res;
+      this.pendingOrderCount = res.length;
+      console.log("pending", res)
+    })
+  }
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
   }
 
-
-  openNotification() {
-
+  goToOrders() {
+    this.router.navigate(['./orderlist']);
+    this.showDropdown = false;
   }
 
-  closeNotification() {
-
-  }
-  user = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    avatar: 'https://i.pravatar.cc/100?img=3',
-  };
-
-  notifications = [
-    {
-      avatar: 'https://i.pravatar.cc/100?img=4',
-      message: 'Anna sent you a message',
-      time: 'Just now',
-      read: true,
-    },
-    {
-      avatar: 'https://i.pravatar.cc/100?img=5',
-      message: 'Password changed successfully',
-      time: '5 min ago',
-      read: true,
-    },
-    {
-      avatar: 'https://i.pravatar.cc/100?img=6',
-      message: 'Welcome to our platform!',
-      time: '1 day ago',
-      read: true,
-    },
-  ];
-
-  clearAll() {
-    this.notifications = [];
+  goToOrder(orderId: number) {
+    this.router.navigate(['./orderlist', orderId]);
+    this.showDropdown = false;
   }
 
   goToSettings() {
