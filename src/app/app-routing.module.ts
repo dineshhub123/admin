@@ -31,10 +31,11 @@ import { OrderTrackingComponent } from './pages/orders/order-tracking/order-trac
 import { ProductListComponent } from './pages/products/product_list/product-list.component';
 import { UploadProductComponent } from './pages/products/add_product/upload-product.component';
 import { UploadComponent } from './pages/products/upload_product/upload_product.component';
+import { AuthGuard } from './login/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent ,canActivate: [AuthGuard]},
   { path: 'about', component: AboutComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: 'signup', component: SignupComponent },
