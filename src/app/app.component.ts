@@ -28,6 +28,7 @@ export class AppComponent {
   public pendingOrders: any[] = [];
   public pendingOrderCount = 0;
   public showDropdown = false;
+  public isLoggedIn:boolean = false
   constructor(
     public router: Router,
     private http: HttpClient,
@@ -43,10 +44,13 @@ export class AppComponent {
     });
   }
   ngOnInit(): void {
+    this.loginService.isLoggedIn$.subscribe(status => {
+       this.isLoggedIn = status;
+  });
     this.setExpandedPanel(this.router.url);
-    this.loginService.getUsername().subscribe((name) => {
-      this.username = name;
-    });
+    // this.loginService.getUsername().subscribe((name) => {
+    //   this.username = name;
+    // });
     const adminId = 1; // logged-in admin
     this.fcm.initFCM(adminId);
     // VERY IMPORTANT: attach foreground listener
@@ -79,10 +83,10 @@ export class AppComponent {
   }
 
 
-  adminLogout() {
-    localStorage.removeItem('adminMobile');
-    this.router.navigate(["login"]);
-  }
+logout() {
+  this.loginService.logout();
+  this.router.navigate(['/login']);
+}
   notification() {
     this.router.navigate(["sell-notification"]);
 

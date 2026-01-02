@@ -1,104 +1,52 @@
-<mat-toolbar class="mat-elevation-z8">
-<div class="menu">
-  <button class="btn-menu"
-    mat-icon-button
-    *ngIf="sidenav.mode === 'over'"
-    (click)="sidenav.toggle()"
-  >
-    <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
-    <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
-  </button>
-</div>
-    <div class="img_position">
-          <img class="imgSet" src="assets/img/ruralxLogo.png">
-        </div>
+<mat-toolbar class="mat-elevation-z8"*ngIf="router.url !== '/login'">
+  <div class="menu">
+    <button class="btn-menu" mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+      <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+    </button>
+  </div>
+  <div class="img_position">
+    <img class="imgSet" src="assets/img/ruralxLogo.png">
+  </div>
   <span class="xxxx-menu-spacer"></span>
   <div>
-    <!-- <a mat-button [routerLink]="'/accounts'"> Accounts </a>
-    <a mat-button [routerLink]="'/contacts'"> Contacts </a> -->
-   
   </div>
   <span class="toolbar-item-spacer"></span>
-  <a mat-button [routerLink]="'/login'" class="top-nav"> Login </a>
+  <div class="notification-wrapper">
 
+    <!-- 🔔 Bell -->
+    <button mat-icon-button (click)="toggleDropdown()" matBadge="{{ pendingOrderCount }}" matBadgeColor="warn">
+      <mat-icon>notifications</mat-icon>
+    </button>
 
+    <!-- ⬇ Dropdown -->
+    <div class="notification-dropdown" *ngIf="showDropdown">
 
- <!-- <div class="notification notification-wrapper dropdown-container" #notificationMenu  *ngIf="router.url.includes('/orderlist')">
-  <button mat-icon-button [matMenuTriggerFor]="notificationDropdown">
-    <mat-icon class="top-nav">notifications</mat-icon>
-    <span class="notification-badge" *ngIf="pendingOrderCount> 0">{{ pendingOrderCount  }}</span>
-  </button>
-  <mat-menu #notificationDropdown="matMenu" class="notification-menu menu-with-pointer">
-    
-  <mat-list class="notification-list">
-  <mat-list-item *ngFor="let item of getNotifyUserArray" (click)="openNotification()"  class="notification-item">
-    <div class="notification-container">
-      <img matListAvatar [src]="item.img_front.replace('admin/src', '..')" alt="avatar" class="notification-avatar"/>
-      
-      <div class="notification-content menu-content">
-        <div class="message-line">
-          <span class="sender-name">{{item?.product_name | titlecase}}</span>
+      <div *ngFor="let order of pendingOrders" class="order-item" (click)="goToOrder(order.id)">
+
+        <div class="title">
+          Order #{{ order.id }} — ₹{{ order.total_amount }}
         </div>
-       <div class="message-line">
-          <span class="message-text">{{item?.user_first_name | titlecase}}-{{item?.user_phone}}</span>
+
+        <div class="subtitle">
+          {{ order.delivery_address.name }},
+          {{ order.delivery_address.village }}
         </div>
-         <div class="meta-line">
-          <span class="additional-info">{{item?.user_address | titlecase}}</span>
+
+        <div class="time">
+          {{ order.created_at | date:'short' }}
         </div>
       </div>
-    </div>
-  </mat-list-item>
-</mat-list>
 
-  <mat-divider></mat-divider>
-    <ng-template #noNotif>
-      <button mat-menu-item disabled>No notifications</button>
-    </ng-template>
-  </mat-menu>
-</div> -->
-<div class="notification-wrapper">
-
-  <!-- 🔔 Bell -->
-  <button mat-icon-button (click)="toggleDropdown()"
-          matBadge="{{ pendingOrderCount }}"
-          matBadgeColor="warn">
-    <mat-icon>notifications</mat-icon>
-  </button>
-
-  <!-- ⬇ Dropdown -->
-  <div class="notification-dropdown" *ngIf="showDropdown">
-
-    <div *ngFor="let order of pendingOrders"
-         class="order-item"
-         (click)="goToOrder(order.id)">
-
-      <div class="title">
-        Order #{{ order.id }} — ₹{{ order.total_amount }}
+      <div class="view-all" (click)="goToOrders()">
+        View all orders →
       </div>
 
-      <div class="subtitle">
-        {{ order.delivery_address.name }},
-        {{ order.delivery_address.village }}
-      </div>
-
-      <div class="time">
-        {{ order.created_at | date:'short' }}
-      </div>
     </div>
-
-    <div class="view-all" (click)="goToOrders()">
-      View all orders →
-    </div>
-
   </div>
-</div>
 
 
-  <button
-    mat-icon-button
-    matTooltip="My Account"
-    [matMenuTriggerFor]="userAccountMenu"
-  >
+  <button mat-icon-button matTooltip="My Account" [matMenuTriggerFor]="userAccountMenu">
     <mat-icon class="top-nav">account_circle</mat-icon>
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
@@ -113,7 +61,7 @@
       <mat-icon>help</mat-icon><span>Help</span>
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="adminLogout()">
+    <button mat-menu-item (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>Logout
     </button>
   </mat-menu>
@@ -132,152 +80,130 @@
 
 
       <!-- Dashboard -->
-<div class="sidebar">
-      <mat-expansion-panel >
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>dashboard</mat-icon>
-            <span class="ml-2">Dashboard</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-          <a mat-list-item routerLink="dashboard" routerLinkActive="active-link">
-            <mat-icon matListIcon>dashboard</mat-icon> Overview
-          </a>
-        </mat-action-list>
-      </mat-expansion-panel>
+      <div class="sidebar">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>dashboard</mat-icon>
+              <span class="ml-2">Dashboard</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="dashboard" routerLinkActive="active-link">
+              <mat-icon matListIcon>dashboard</mat-icon> Overview
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel>
 
-      <!-- Orders -->
-      <mat-expansion-panel >
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>shopping_cart</mat-icon>
-            <span class="ml-2">Orders</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-         <!-- <a mat-list-item routerLink="/customerorder" routerLinkActive="active-link">
-            <mat-icon matListIcon>assignment</mat-icon> All Orders
-          </a> -->
-         <a mat-list-item routerLink="/orderlist" routerLinkActive="active-link">
-            <mat-icon matListIcon>assignment</mat-icon> All Orders
-          </a>
-          <!-- <a mat-list-item routerLink="/orders/new" routerLinkActive="active-link">
-            <mat-icon matListIcon>assignment</mat-icon> New Orders
-          </a>
-          <a mat-list-item routerLink="/orders/processing" routerLinkActive="active-link">
-            <mat-icon matListIcon>autorenew</mat-icon> Processing
-          </a>
-          <a mat-list-item routerLink="/orders/shipped" routerLinkActive="active-link">
-            <mat-icon matListIcon>local_shipping</mat-icon> Shipped
-          </a>
-          <a mat-list-item routerLink="/orders/delivered" routerLinkActive="active-link">
-            <mat-icon matListIcon>check_circle</mat-icon> Delivered
-          </a>
-          <a mat-list-item routerLink="/orders/cancelled" routerLinkActive="active-link">
-            <mat-icon matListIcon>cancel</mat-icon> Cancelled
-          </a>
-          <a mat-list-item routerLink="/orders/returned" routerLinkActive="active-link">
-            <mat-icon matListIcon>undo</mat-icon> Returned
-          </a> -->
-        </mat-action-list>
-      </mat-expansion-panel>
+        <!-- Orders -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>shopping_cart</mat-icon>
+              <span class="ml-2">Orders</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="/orderlist" routerLinkActive="active-link">
+              <mat-icon matListIcon>assignment</mat-icon> All Orders
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel>
 
-      <!-- Products -->
-        <mat-expansion-panel >
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>inventory_2</mat-icon>
-            <span class="ml-2">Products</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-          <a mat-list-item routerLink="/products/all" routerLinkActive="active-link">
-            <mat-icon matListIcon>inventory</mat-icon> All Products
-          </a>
-          <a mat-list-item routerLink="/uploadproduct" routerLinkActive="active-link">
-            <mat-icon matListIcon>add_box</mat-icon> Add Product
-          </a>
-          <a mat-list-item routerLink="/products/categories" routerLinkActive="active-link">
-            <mat-icon matListIcon>category</mat-icon> Categories
-          </a>
-          <a mat-list-item routerLink="/products/categories/brands" routerLinkActive="active-link">
-            <mat-icon matListIcon>layers</mat-icon> Brands
-          </a>
-          <a mat-list-item routerLink="/products/low-stock" routerLinkActive="active-link">
-            <mat-icon matListIcon>report_problem</mat-icon> Low Stock
-          </a>
-        </mat-action-list>
-      </mat-expansion-panel>
+        <!-- Products -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>inventory_2</mat-icon>
+              <span class="ml-2">Products</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="/products/all" routerLinkActive="active-link">
+              <mat-icon matListIcon>inventory</mat-icon> All Products
+            </a>
+            <a mat-list-item routerLink="/uploadproduct" routerLinkActive="active-link">
+              <mat-icon matListIcon>add_box</mat-icon> Add Product
+            </a>
+            <a mat-list-item routerLink="/products/categories" routerLinkActive="active-link">
+              <mat-icon matListIcon>category</mat-icon> Categories
+            </a>
+            <a mat-list-item routerLink="/products/categories/brands" routerLinkActive="active-link">
+              <mat-icon matListIcon>layers</mat-icon> Brands
+            </a>
+            <a mat-list-item routerLink="/products/low-stock" routerLinkActive="active-link">
+              <mat-icon matListIcon>report_problem</mat-icon> Low Stock
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel>
 
-      <!-- Customers -->
-      <!-- Customers -->
-     <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>group</mat-icon>
-            <span class="ml-2">Customers</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-          <a mat-list-item routerLink="/customers" routerLinkActive="active-link">
-            <mat-icon matListIcon>person</mat-icon> All Customers
-          </a>
-          <a mat-list-item routerLink="/customers/reviews" routerLinkActive="active-link">
-            <mat-icon matListIcon>star_rate</mat-icon> Reviews
-          </a>
-        </mat-action-list>
-      </mat-expansion-panel>
+        <!-- Customers -->
+        <!-- Customers -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>group</mat-icon>
+              <span class="ml-2">Customers</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="/customers" routerLinkActive="active-link">
+              <mat-icon matListIcon>person</mat-icon> All Customers
+            </a>
+            <a mat-list-item routerLink="/customers/reviews" routerLinkActive="active-link">
+              <mat-icon matListIcon>star_rate</mat-icon> Reviews
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel>
 
-      <!-- Reports -->
-      <!-- Customers -->
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>bar_chart</mat-icon>
-            <span class="ml-2">Reports</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-          <a mat-list-item routerLink="/reports/sales" routerLinkActive="active-link">
-            <mat-icon matListIcon>analytics</mat-icon> Sales Reports
-          </a>
-          <a mat-list-item routerLink="/reports/performance" routerLinkActive="active-link">
-            <mat-icon matListIcon>insights</mat-icon> Product Performance
-          </a>
-        </mat-action-list>
-      </mat-expansion-panel>
+        <!-- Reports -->
+        <!-- Customers -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>bar_chart</mat-icon>
+              <span class="ml-2">Reports</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="/reports/sales" routerLinkActive="active-link">
+              <mat-icon matListIcon>analytics</mat-icon> Sales Reports
+            </a>
+            <a mat-list-item routerLink="/reports/performance" routerLinkActive="active-link">
+              <mat-icon matListIcon>insights</mat-icon> Product Performance
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel>
 
-      <!-- Settings -->
-      <!-- Customers -->
-        <mat-expansion-panel >
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>settings</mat-icon>
-            <span class="ml-2">Settings</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-list>
-          <a mat-list-item routerLink="/settings/stores" routerLinkActive="active-link">
-            <mat-icon matListIcon>store</mat-icon> Store List
-          </a>
-          <a mat-list-item routerLink="/settings/store" routerLinkActive="active-link">
-            <mat-icon matListIcon>store</mat-icon> Store Settings
-          </a>
-          <a mat-list-item routerLink="/settings/security" routerLinkActive="active-link">
-            <mat-icon matListIcon>security</mat-icon> Security
-          </a>
-        </mat-action-list>
-      </mat-expansion-panel>
-    </div>
+        <!-- Settings -->
+        <!-- Customers -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>settings</mat-icon>
+              <span class="ml-2">Settings</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="/settings/stores" routerLinkActive="active-link">
+              <mat-icon matListIcon>store</mat-icon> Store List
+            </a>
+            <a mat-list-item routerLink="/settings/store" routerLinkActive="active-link">
+              <mat-icon matListIcon>store</mat-icon> Store Settings
+            </a>
+            <a mat-list-item routerLink="/settings/security" routerLinkActive="active-link">
+              <mat-icon matListIcon>security</mat-icon> Security
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel>
+      </div>
     </mat-accordion>
 
   </mat-sidenav>
 
   <mat-sidenav-content>
     <div class="main-content">
-    <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
