@@ -7,15 +7,16 @@ import { ProductEditDialogComponent } from '../product-edit-dialog/product-edit-
 
 
 @Component({
-  selector: 'app-all',
-  templateUrl: './all.component.html',
-  styleUrls: ['./all.component.css']
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
 })
-export class AllComponent {
+export class ProductListComponent {
 dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
  products: any[] = [];
+ isLoading: boolean = false;
  displayedColumns: string[] = [
     'index',
     'product_name',
@@ -64,7 +65,9 @@ deleteProduct(productId: any): void {
   }
 }
   getProductList() {
+ this.isLoading = true;
     this.apiService.getProductListDetailsData(1).subscribe(data => {
+    this.isLoading = false
     this.dataSource.data = data;
   console.log(data, 'data');
   });

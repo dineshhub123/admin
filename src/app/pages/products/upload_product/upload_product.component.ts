@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../api.service';
+
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { ADMIN_CATEGORY_MASTER  } from '../constants/category-master'
+import { ADMIN_CATEGORY_MASTER } from 'src/app/constants/category-master';
+import { ApiService } from 'src/app/api.service';
+
 @Component({
   selector: 'app-upload',
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.css']
+  templateUrl: './upload_product.component.html',
+  styleUrls: ['./upload_product.component.css']
 })
 export class UploadComponent implements OnInit {
   categories = ADMIN_CATEGORY_MASTER;

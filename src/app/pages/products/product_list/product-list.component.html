@@ -1,5 +1,8 @@
 <!-- Angular Material Table -->
-<div class="table-header">
+<mat-card class="mat-elevation-z4 order-container">
+  <div class="header-align">
+<div class="order-heading mb-3">Product List</div>
+ <div class="header-actions">
   <!-- Search Input -->
   <mat-form-field appearance="outline" class="search-field">
     <mat-icon matPrefix>search</mat-icon>
@@ -26,7 +29,12 @@
     </mat-select>
   </mat-form-field>
 </div>
-
+</div>
+ <div class="table-container">
+    <div class="loader-overlay" *ngIf="isLoading">
+      <mat-progress-bar mode="indeterminate" diameter="50">
+      </mat-progress-bar>
+    </div>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 pt-4" *ngIf="dataSource.data.length > 0">
 
   <!-- Index -->
@@ -112,7 +120,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-
+ </div>
 <!-- Mat Paginator -->
 <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
@@ -120,3 +128,5 @@
 <ng-template [ngIf]="dataSource.data.length === 0">
   <p>No products found.</p>
 </ng-template>
+
+</mat-card>

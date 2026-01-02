@@ -5,13 +5,10 @@ import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { AboutComponent } from './about/about/about.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
-import { UploadComponent } from './upload/upload.component';
 import { SellNotificationComponent } from './sell-notification/sell-notification.component';
 import { NewComponent } from './pages/orders/new/new.component';
 import { ShippedComponent } from './pages/orders/shipped/shipped.component';
 import { CancelledComponent } from './pages/orders/cancelled/cancelled.component';
-import { AllComponent } from './pages/products/all/all.component';
-import { AddComponent } from './pages/products/add/add.component';
 import { CategoriesComponent } from './pages/products/categories/categories.component';
 import { CustomersComponent } from './pages/customers/customers.component';
 import { ReportsComponent } from './pages/reports/reports.component';
@@ -31,11 +28,13 @@ import { StoreFormComponent } from './pages/settings/storesettings/store-form/st
 import { OrderlistComponent } from './pages/orders/orderlist/orderlist.component';
 import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper/order-status-stepper.component';
 import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
-import { AuthGuard } from './login/auth.guard';
+import { ProductListComponent } from './pages/products/product_list/product-list.component';
+import { UploadProductComponent } from './pages/products/add_product/upload-product.component';
+import { UploadComponent } from './pages/products/upload_product/upload_product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent ,canActivate: [AuthGuard]},
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'about', component: AboutComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: 'signup', component: SignupComponent },
@@ -52,8 +51,8 @@ const routes: Routes = [
   { path: 'orders/order-track', component: OrderTrackingComponent },
   { path: 'orders/order-status-stepper', component: OrderStatusStepperComponent },
   { path: 'orders/returned', component: ReturnedComponent },
-  { path: 'products/all', component: AllComponent },
-  { path: 'products/add', component: AddComponent },
+  { path: 'products/productlist', component: ProductListComponent },
+  { path: 'products/uploadproduct', component: UploadProductComponent },
   { path: 'products/categories', component: CategoriesComponent },
   { path: 'products/categories/brands', component: BrandsComponent },
   { path: 'products/low-stock', component: LowstockComponent },

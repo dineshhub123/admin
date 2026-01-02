@@ -15,7 +15,6 @@ import { LoginModule } from './login/login.module';
 import { SignupModule } from './signup/signup.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import { UploadComponent } from './upload/upload.component';
 import {AngularEditorModule } from '@kolkov/angular-editor';
 import { SellNotificationComponent } from './sell-notification/sell-notification.component';
 import { FirstLiPipe } from './first-li.pipe';
@@ -25,7 +24,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { AllComponent } from './pages/products/all/all.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SalereportsComponent } from './pages/reports/salereports/salereports.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -52,13 +50,15 @@ import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper
 import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ProductListComponent } from './pages/products/product_list/product-list.component';
+import { UploadComponent } from './pages/products/upload_product/upload_product.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UploadComponent,
     SellNotificationComponent,
-    AllComponent,
+    ProductListComponent,
     SalereportsComponent, 
     CustomersComponent,
     FirstLiPipe,

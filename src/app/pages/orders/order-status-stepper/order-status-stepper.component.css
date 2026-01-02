@@ -198,6 +198,10 @@
   background-color: #f44336;
 }
 
+.status-delivered .step-icon {
+  background-color: #1b5e20;;
+}
+
 /* Active Step Indicator */
 .step-indicator {
   display: flex;
