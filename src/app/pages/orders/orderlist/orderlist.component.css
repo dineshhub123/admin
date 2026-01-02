@@ -140,9 +140,10 @@ table {
   overflow-x: auto;
   padding-left: 15px;
   padding-right: 15px;
+  padding-bottom: 10px;
 }
 .header-align {
-  display: flex;
+  /* display: flex; */
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -168,6 +169,7 @@ table {
 .refresh {
   cursor: pointer;
   color: #0a4984;
+  padding-right: 15px;
 }
 
 .refresh:hover {
