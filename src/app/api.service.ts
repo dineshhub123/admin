@@ -53,8 +53,8 @@ export class ApiService {
      };
     }
   }
-  getProductListDetailsData(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiProductListURL}/${id}`);
+  getProductListDetailsData(): Observable<any> {
+  return this.http.get(this.apiProductListURL).pipe(map((res:any)=>res))
   }
   deleteProduct(id: number): Observable<any> {
   return this.http.post(this.apiDeleteProductURL, { id });
