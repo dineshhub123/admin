@@ -2,72 +2,41 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component'; 
-import { AboutComponent } from './about/about/about.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
-import { SellNotificationComponent } from './sell-notification/sell-notification.component';
-import { NewComponent } from './pages/orders/new/new.component';
-import { ShippedComponent } from './pages/orders/shipped/shipped.component';
-import { CancelledComponent } from './pages/orders/cancelled/cancelled.component';
-import { CategoriesComponent } from './pages/products/categories/categories.component';
 import { CustomersComponent } from './pages/customers/customers.component';
-import { ReportsComponent } from './pages/reports/reports.component';
-import { SettingsComponent } from './pages/settings/settings.component';
-import { ProcessingComponent } from './pages/orders/processing/processing.component';
-import { DeliveredComponent } from './pages/orders/delivered/delivered.component';
-import { ReturnedComponent } from './pages/orders/returned/returned.component';
-import { BrandsComponent } from './pages/products/categories/brands/brands.component';
-import { LowstockComponent } from './pages/products/lowstock/lowstock.component';
-import { ReviewsComponent } from './pages/customers/reviews/reviews.component';
 import { SalereportsComponent } from './pages/reports/salereports/salereports.component';
 import { OrderViewComponent } from './pages/orders/order-view/order-view.component';
-import { SecurityComponent } from './pages/settings/storesettings/security/security.component';
-import { StoresettingsComponent } from './pages/settings/storesettings/storesettings.component';
 import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
 import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
 import { OrderlistComponent } from './pages/orders/orderlist/orderlist.component';
-import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper/order-status-stepper.component';
-import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
 import { ProductListComponent } from './pages/products/product_list/product-list.component';
 import { UploadProductComponent } from './pages/products/add_product/upload-product.component';
 import { UploadComponent } from './pages/products/upload_product/upload_product.component';
 import { AuthGuard } from './login/auth.guard';
+import { EditCustomerDialogComponent } from './pages/customers/edit-customer-dialog/edit-customer-dialog.component';
+import { InvoiceComponent } from './pages/orders/invoice/invoice.component';
+import { ShippingLabelComponent } from './pages/orders/shipping-lable/shipping-label.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent ,canActivate: [AuthGuard]},
-  { path: 'about', component: AboutComponent },
-  { path: '404', component: PageNotFoundComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: '404', component: PageNotFoundComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'uploadproduct', component: UploadComponent },
-  { path: 'customerorder', component: SellNotificationComponent },
-  { path: 'orderlist', component: OrderlistComponent },
-  { path: 'orders/new', component: NewComponent },
-  { path: 'orders/shipped', component: ShippedComponent },
-  { path: 'orders/cancelled', component: CancelledComponent },
-  { path: 'orders/processing', component: ProcessingComponent },
-  { path: 'orders/delivered', component: DeliveredComponent },
-  { path: 'orders/orderview/:order_id', component: OrderViewComponent },
-  { path: 'orders/order-track', component: OrderTrackingComponent },
-  { path: 'orders/order-status-stepper', component: OrderStatusStepperComponent },
-  { path: 'orders/returned', component: ReturnedComponent },
-  { path: 'products/productlist', component: ProductListComponent },
-  { path: 'products/uploadproduct', component: UploadProductComponent },
-  { path: 'products/categories', component: CategoriesComponent },
-  { path: 'products/categories/brands', component: BrandsComponent },
-  { path: 'products/low-stock', component: LowstockComponent },
-  { path: 'customers', component: CustomersComponent },
-  { path: 'customers/reviews', component: ReviewsComponent },
-  { path: 'reports', component: ReportsComponent },
-  { path: 'reports/sales', component: SalereportsComponent },
-  { path: 'reports/performance', component: ReportsComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'settings/security', component: SecurityComponent },
-  { path: 'settings/store', component: StoresettingsComponent },
-  { path: 'settings/stores', component: StoreListComponent },
-  { path: 'settings/stores/add', component: StoreFormComponent },
-  { path: 'settings/stores/edit/:id', component: StoreFormComponent },
+  { path: 'uploadproduct', component: UploadComponent, canActivate: [AuthGuard] },
+  { path: 'orderlist', component: OrderlistComponent, canActivate: [AuthGuard] },
+  { path: 'orders/orderview/:order_id', component: OrderViewComponent, canActivate: [AuthGuard] },
+  { path: 'productlist', component: ProductListComponent, canActivate: [AuthGuard] },
+  { path: 'uploadproduct', component: UploadProductComponent, canActivate: [AuthGuard] },
+  { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] },
+   { path: 'customers/edit/:id', component: EditCustomerDialogComponent, canActivate: [AuthGuard] },
+  { path: 'salesreport', component: SalereportsComponent, canActivate: [AuthGuard] },
+  { path: 'settings/stores', component: StoreListComponent, canActivate: [AuthGuard] },
+  { path: 'settings/stores/add', component: StoreFormComponent, canActivate: [AuthGuard] },
+  { path: 'settings/stores/edit/:id', component: StoreFormComponent, canActivate: [AuthGuard] },
+  { path: 'invoice', component: InvoiceComponent },
+  { path: 'address-label', component: ShippingLabelComponent },
   { path: '', redirectTo: '/stores', pathMatch: 'full' },
   { path: '**', redirectTo: '404' },
 

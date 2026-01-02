@@ -152,7 +152,7 @@ export class OrderStatusStepperComponent implements OnChanges {
     if (this.currentStatus === 'cancelled') return 0;
     const statusHierarchy = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered'];
     const currentIndex = statusHierarchy.indexOf(this.currentStatus.toLowerCase());
-   return Math.round((currentIndex + 1) / statusHierarchy.length) * 100;
+   return Math.round((currentIndex / (statusHierarchy.length - 1)) * 100);
   }
 
   getCurrentStepLabel(): string {

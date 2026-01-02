@@ -1,29 +1,37 @@
+
+<mat-card class="mat-elevation-z4 order-container">
 <!-- Angular Material Table -->
-<div class="table-header">
-   <!-- Search Input -->
-   <mat-form-field appearance="outline" class="search-field">
-      <mat-icon matPrefix>search</mat-icon>
-      <input matInput placeholder="Search Customers..." (keyup)="applyProductSearch($event)" >
-   </mat-form-field>
-   <!-- Category Filter -->
-   <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>Filter by Category</mat-label>
-      <mat-select>
-         <mat-option>Test</mat-option>
-      </mat-select>
-   </mat-form-field>
-   <!-- Price Range Filter -->
-   <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>Price Range</mat-label>
-      <mat-select>
-         <mat-option value="">All Prices</mat-option>
-         <mat-option value="0-500">Under ₹500</mat-option>
-         <mat-option value="500-1000">₹500 - ₹1000</mat-option>
-         <mat-option value="1000-5000">₹1000 - ₹5000</mat-option>
-         <mat-option value="5000+">Over ₹5000</mat-option>
-      </mat-select>
-   </mat-form-field>
+  <div class="header-align">
+<div class="order-heading mb-3">Customer List</div>
+ <div class="header-actions">
+  <!-- Search Input -->
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput placeholder="Search products..." (keyup)="applyProductSearch($event)" >
+  </mat-form-field>
+
+  <!-- Category Filter -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Filter by Category</mat-label>
+    <mat-select>
+      <mat-option>Test</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Price Range Filter -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Price Range</mat-label>
+    <mat-select>
+      <mat-option value="">All Prices</mat-option>
+      <mat-option value="0-500">Under ₹500</mat-option>
+      <mat-option value="500-1000">₹500 - ₹1000</mat-option>
+      <mat-option value="1000-5000">₹1000 - ₹5000</mat-option>
+      <mat-option value="5000+">Over ₹5000</mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
+</div>
+<div class="table-container">
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 pt-4" *ngIf="dataSource.data.length > 0">
 <!-- Index -->
 <ng-container matColumnDef="index">
@@ -75,9 +83,12 @@
 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+</div>
 <!-- Mat Paginator -->
 <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 <!-- No Data Message -->
 <ng-template [ngIf]="dataSource.data.length === 0">
    <p>No products found.</p>
 </ng-template>
+
+</mat-card>

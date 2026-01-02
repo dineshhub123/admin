@@ -2,17 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { NewComponent } from './orders/new/new.component';
-import { ShippedComponent } from './orders/shipped/shipped.component';
 import { CancelledComponent } from './orders/cancelled/cancelled.component';
 import { CategoriesComponent } from './products/categories/categories.component';
 import { ReportsComponent } from './reports/reports.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ProcessingComponent } from './orders/processing/processing.component';
 import { DeliveredComponent } from './orders/delivered/delivered.component';
-import { ReturnedComponent } from './orders/returned/returned.component';
 import { BrandsComponent } from './products/categories/brands/brands.component';
 import { LowstockComponent } from './products/lowstock/lowstock.component';
-import { ReviewComponent } from './customers/review/review.component';
 import { StoresettingsComponent } from './settings/storesettings/storesettings.component';
 import { SecurityComponent } from './settings/storesettings/security/security.component';
 import { ReviewsComponent } from './customers/reviews/reviews.component';
@@ -31,27 +27,29 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UploadProductComponent } from './products/add_product/upload-product.component';
+import { StoreListComponent } from './settings/storesettings/store-list/store-list.component';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { OrderlistComponent } from './orders/orderlist/orderlist.component';
 
 @NgModule({
   declarations: [
     NewComponent,
-    ShippedComponent,
     CancelledComponent,
     UploadProductComponent,
     CategoriesComponent,
     ReportsComponent,
     SettingsComponent,
-    ProcessingComponent,
     DeliveredComponent,
-    ReturnedComponent,
     BrandsComponent,
     LowstockComponent,
-    ReviewComponent,
     StoresettingsComponent,
     SecurityComponent,
     ReviewsComponent,
     InvoiceComponent,
     OrderTrackingComponent,
+    StoreListComponent,
+    OrderlistComponent
   ],
   imports: [
     CommonModule,
@@ -69,7 +67,9 @@ import { UploadProductComponent } from './products/add_product/upload-product.co
     }),
     MatCardModule,
     MatChipsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatFormFieldModule,
+    MatProgressBarModule
 ]
 })
 export class PagesModule { }
