@@ -66,7 +66,7 @@ deleteProduct(productId: any): void {
 }
   getProductList() {
  this.isLoading = true;
-    this.apiService.getProductListDetailsData(1).subscribe(data => {
+    this.apiService.getProductListDetailsData().subscribe(data => {
     this.isLoading = false
     this.dataSource.data = data;
   console.log(data, 'data');

@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z8"*ngIf="router.url !== '/login'">
+<mat-toolbar class="mat-elevation-z8"*ngIf="router.url !== '/login' && router.url !== '/invoice' && router.url !== '/address-label'">
   <div class="menu">
     <button class="btn-menu" mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
       <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
@@ -119,20 +119,11 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <a mat-list-item routerLink="/products/productlist" routerLinkActive="active-link">
+            <a mat-list-item routerLink="/productlist" routerLinkActive="active-link">
               <mat-icon matListIcon>inventory</mat-icon> All Products
             </a>
             <a mat-list-item routerLink="/uploadproduct" routerLinkActive="active-link">
               <mat-icon matListIcon>add_box</mat-icon> Add Product
-            </a>
-            <a mat-list-item routerLink="/products/categories" routerLinkActive="active-link">
-              <mat-icon matListIcon>category</mat-icon> Categories
-            </a>
-            <a mat-list-item routerLink="/products/categories/brands" routerLinkActive="active-link">
-              <mat-icon matListIcon>layers</mat-icon> Brands
-            </a>
-            <a mat-list-item routerLink="/products/low-stock" routerLinkActive="active-link">
-              <mat-icon matListIcon>report_problem</mat-icon> Low Stock
             </a>
           </mat-action-list>
         </mat-expansion-panel>
@@ -150,9 +141,6 @@
             <a mat-list-item routerLink="/customers" routerLinkActive="active-link">
               <mat-icon matListIcon>person</mat-icon> All Customers
             </a>
-            <a mat-list-item routerLink="/customers/reviews" routerLinkActive="active-link">
-              <mat-icon matListIcon>star_rate</mat-icon> Reviews
-            </a>
           </mat-action-list>
         </mat-expansion-panel>
 
@@ -166,11 +154,8 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <a mat-list-item routerLink="/reports/sales" routerLinkActive="active-link">
+            <a mat-list-item routerLink="/salesreport" routerLinkActive="active-link">
               <mat-icon matListIcon>analytics</mat-icon> Sales Reports
-            </a>
-            <a mat-list-item routerLink="/reports/performance" routerLinkActive="active-link">
-              <mat-icon matListIcon>insights</mat-icon> Product Performance
             </a>
           </mat-action-list>
         </mat-expansion-panel>
@@ -187,12 +172,6 @@
           <mat-action-list>
             <a mat-list-item routerLink="/settings/stores" routerLinkActive="active-link">
               <mat-icon matListIcon>store</mat-icon> Store List
-            </a>
-            <a mat-list-item routerLink="/settings/store" routerLinkActive="active-link">
-              <mat-icon matListIcon>store</mat-icon> Store Settings
-            </a>
-            <a mat-list-item routerLink="/settings/security" routerLinkActive="active-link">
-              <mat-icon matListIcon>security</mat-icon> Security
             </a>
           </mat-action-list>
         </mat-expansion-panel>

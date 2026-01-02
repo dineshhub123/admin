@@ -9,14 +9,12 @@ import { MaterialModule } from './shared/material.module';
 import { SharedModule } from './shared/shared.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ErrorModule } from './error/error.module';
-import { AboutModule } from './about/about.module';
 import { FormsModule } from '@angular/forms';
 import { LoginModule } from './login/login.module';
 import { SignupModule } from './signup/signup.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import {AngularEditorModule } from '@kolkov/angular-editor';
-import { SellNotificationComponent } from './sell-notification/sell-notification.component';
 import { FirstLiPipe } from './first-li.pipe';
 import { FullLiPipe } from './full-li.pipe';
 import { MatMenuModule } from '@angular/material/menu';
@@ -39,7 +37,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { EditCustomerDialogComponent } from './pages/customers/edit-customer-dialog/edit-customer-dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProductEditDialogComponent } from './pages/products/product-edit-dialog/product-edit-dialog.component';
-import { OrderEditDialogComponent } from './sell-notification/order-edit-dialog/order-edit-dialog.component';
 import { ConfirmDialogComponent } from './pages/settings/storesettings/confirm-dialog/confirm-dialog.component';
 import { StoreFormComponent } from './pages/settings/storesettings/store-form/store-form.component';
 import { StoreListComponent } from './pages/settings/storesettings/store-list/store-list.component';
@@ -57,7 +54,6 @@ import { UploadComponent } from './pages/products/upload_product/upload_product.
   declarations: [
     AppComponent,
     UploadComponent,
-    SellNotificationComponent,
     ProductListComponent,
     SalereportsComponent, 
     CustomersComponent,
@@ -67,7 +63,6 @@ import { UploadComponent } from './pages/products/upload_product/upload_product.
     OrderViewComponent,
     EditCustomerDialogComponent,
     ProductEditDialogComponent, 
-    OrderEditDialogComponent,
     StoreFormComponent,
     ConfirmDialogComponent,
     StoreListComponent,
@@ -85,7 +80,6 @@ import { UploadComponent } from './pages/products/upload_product/upload_product.
     CommonModule,
     DashboardModule,
     ErrorModule,
-    AboutModule,
     LoginModule,
     SignupModule,
     HttpClientModule,
