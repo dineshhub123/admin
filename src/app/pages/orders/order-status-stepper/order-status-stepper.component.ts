@@ -18,7 +18,7 @@ export interface OrderStatusStep {
 })
 export class OrderStatusStepperComponent implements OnChanges {
   
-   @Input() currentStatus!: string;
+  @Input() currentStatus: string = 'pending';
   @Input() orderDate: string = '';
   @Input() deliveryDate: string = '';
   
@@ -101,7 +101,7 @@ export class OrderStatusStepperComponent implements OnChanges {
     }
 
     this.statusSteps.forEach((step, index) => {
-      if (step.status === 'delivered') {
+      if (step.status === 'cancelled') {
         step.completed = false;
         step.active = false;
         return;
@@ -149,14 +149,14 @@ export class OrderStatusStepperComponent implements OnChanges {
   }
 
   getProgressPercentage(): number {
-    if (this.currentStatus === 'pending') return 0;
+    if (this.currentStatus === 'cancelled') return 0;
     const statusHierarchy = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered'];
     const currentIndex = statusHierarchy.indexOf(this.currentStatus.toLowerCase());
-    return Math.round((currentIndex / (statusHierarchy.length - 1)) * 100);
+   return Math.round((currentIndex + 1) / statusHierarchy.length) * 100;
   }
 
   getCurrentStepLabel(): string {
     const currentStep = this.statusSteps.find(step => step.active);
-    return currentStep ? currentStep.label : 'Delivered';
+    return currentStep ? currentStep.label : 'Order Placed';
   }
 }
