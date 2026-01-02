@@ -31,10 +31,11 @@ import { StoreFormComponent } from './pages/settings/storesettings/store-form/st
 import { OrderlistComponent } from './pages/orders/orderlist/orderlist.component';
 import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper/order-status-stepper.component';
 import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
+import { AuthGuard } from './login/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent ,canActivate: [AuthGuard]},
   { path: 'about', component: AboutComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: 'signup', component: SignupComponent },

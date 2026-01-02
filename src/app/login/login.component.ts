@@ -32,6 +32,9 @@ isModalOpen = false;
   pass: any
   mobile: any
   ngOnInit() {
+    if (this.loginService.isLoggedIn()) {
+    this.router.navigate(['/dashboard']);
+  }
  this.showPrivacyPopup = !this.privacyService.hasUserResponded();
   }
   signup() {
@@ -44,7 +47,7 @@ openDialog(title: string): void {
       data: { title }
     });
   }
- adminLogin(loginData: any) {
+ login(loginData: any) {
   if (this.loginForm.valid) {
     this.apiService.getUserDetailsData().subscribe((res) => {
       try {
@@ -58,12 +61,9 @@ openDialog(title: string): void {
 
         if (findObject) {
           localStorage.setItem('login_user', JSON.stringify(findObject));
-          this.loginService.setUsername(findObject?.user_first_name);
+          this.loginService.login();
           this.toastr.success('Login successful!', 'Welcome');
-          setTimeout(() => {
-            this.router.navigate(['dashboard']);
-            this.loginForm.reset();
-          }, 2000);
+          this.router.navigate(['dashboard']);
         } else {
           this.toastr.error('User not found. Please register first.', 'Login Failed');
         }
