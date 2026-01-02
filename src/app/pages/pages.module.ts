@@ -4,7 +4,6 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { NewComponent } from './orders/new/new.component';
 import { ShippedComponent } from './orders/shipped/shipped.component';
 import { CancelledComponent } from './orders/cancelled/cancelled.component';
-import { AddComponent } from './products/add/add.component';
 import { CategoriesComponent } from './products/categories/categories.component';
 import { ReportsComponent } from './reports/reports.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -31,13 +30,14 @@ import { OrderTrackingComponent } from './orders/order-tracking/order-tracking.c
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { UploadProductComponent } from './products/add_product/upload-product.component';
 
 @NgModule({
   declarations: [
     NewComponent,
     ShippedComponent,
     CancelledComponent,
-    AddComponent,
+    UploadProductComponent,
     CategoriesComponent,
     ReportsComponent,
     SettingsComponent,

@@ -52,6 +52,55 @@
   border-radius: 2px;  /* rounded edges */
   margin: 10px 0;      /* spacing above/below */
 }
+.table-container {
+  max-height: calc(100vh - 150px);       /* table body height */
+  overflow-y: auto;
+  overflow-x: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 10px;
+}
+.header-align {
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding:  7px 15px 0px 15px;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.order-heading {
+    font-size: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+.header-align {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem; /* Optional: spacing between left and right */
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* space between title and search */
+}
+
+.order-heading {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.search-field {
+  width: 300px; /* adjust width as needed */
+}
+
+.header-right {
+  /* The button is on right by flexbox */
+}
 
 @media (max-width: 600px) {
   .header {
