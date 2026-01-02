@@ -16,26 +16,6 @@
 </div>
 
     <div class="order-filter-container pl-2">
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Change Order Status</mat-label>
-        <mat-select (selectionChange)="onStatusFilterChange($event.value)">
-          <mat-option value="all">All Orders</mat-option>
-          <mat-option value="pending">Pending</mat-option>
-          <mat-option value="confirmed">Confirmed</mat-option>
-          <mat-option value="processing">Processing</mat-option>
-          <mat-option value="shipped">Shipped</mat-option>
-          <mat-option value="out_for_delivery">Out for Delivery</mat-option>
-          <mat-option value="delivered">Delivered</mat-option>
-        </mat-select>
-      </mat-form-field> -->
- <!-- <div class="current-status">
-        <span class="status-label">Current Status:</span>
-        <mat-chip class="status-chip" [class]="getStatusClass(order.order_status)" selected>
-          <mat-icon class="status-icon">{{ getStatusIcon(order.order_status) }}</mat-icon>
-          {{ order.order_status | titlecase }}
-        </mat-chip>
-      </div> -->
-      <!-- Status Control Buttons -->
    <div class="status-wrapper">
   <!-- CONTROLS -->
 <div class="status-controls">
@@ -66,22 +46,6 @@
     </div>
 
     <mat-divider></mat-divider>
-
-  <!-- <app-order-tracking
-    [orderId]="order.order_id"
-    [expectedArrival]="order.delivery_date"
-    [carrier]="'USPS'"
-    [trackingNumber]="'241304E290480462'"
-    [orderStatus]="order.order_status">
-  </app-order-tracking> -->
-
-    <!-- Order Status Stepper -->
-     <!-- <app-order-status-stepper 
-      [currentStatus]="order.order_status"
-      [orderDate]="order.order_date"
-      [deliveryDate]="order.delivery_date"> 
-    </app-order-status-stepper>
-    <mat-divider></mat-divider> -->
 
 <!-- In your order-view.component.html -->
 <app-order-status-stepper 
@@ -295,74 +259,15 @@
   Cancel Order
 </button>
 
-  <button mat-raised-button color="accent" (click)="printOrder()">
+  <button mat-raised-button color="accent" (click)="printInvoice()">
         <mat-icon>print</mat-icon>
         Print Order
       </button>
- <!-- <div class="action-buttons-grid">
-      <h3>Quick Actions</h3>
-      <div class="action-buttons">
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="markAsPending(order)"
-                [disabled]="!isActionAllowed('pending') || order.order_status === 'pending'">
-          <mat-icon>schedule</mat-icon>
-          Mark as Pending
-        </button>
-
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="confirmOrder(order)"
-                [disabled]="!isActionAllowed('confirmed') || order.order_status === 'confirmed'">
-          <mat-icon>check_circle</mat-icon>
-          Confirm Order
-        </button>
-
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="processOrder(order)"
-                [disabled]="!isActionAllowed('processing') || order.order_status === 'processing'">
-          <mat-icon>build</mat-icon>
-          Start Processing
-        </button>
-
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="shipOrder(order)"
-                [disabled]="!isActionAllowed('shipped') || order.order_status === 'shipped'">
-          <mat-icon>local_shipping</mat-icon>
-          Mark as Shipped
-        </button>
-
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="outForDelivery(order)"
-                [disabled]="!isActionAllowed('out_for_delivery') || order.order_status === 'out_for_delivery'">
-          <mat-icon>delivery_dining</mat-icon>
-          Out for Delivery
-        </button>
-
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="deliverOrder(order)"
-                [disabled]="!isActionAllowed('delivered') || order.order_status === 'delivered'">
-          <mat-icon>assignment_turned_in</mat-icon>
-          Mark Delivered
-        </button>
-
-        <button mat-stroked-button 
-                color="warn" 
-                (click)="cancelOrder(order)"
-                [disabled]="!isActionAllowed('cancelled') || order.order_status === 'cancelled'">
-          <mat-icon>cancel</mat-icon>
-          Cancel Order
-        </button>
-  <button mat-raised-button color="accent" (click)="printOrder()">
+  <button mat-raised-button color="accent" (click)="printAdressLabel()">
         <mat-icon>print</mat-icon>
-        Print Order
+        Print Customer Address
       </button>
-      </div>
-      </div> -->
+
     </div>
   </mat-card>
 </div>
