@@ -44,7 +44,7 @@ public orderId!: number;
       transaction_id: "pay_NqfR64p2h3v0M8"
     },
     delivery_date: "Thu Jan 16",
-    order_status: "processing",
+    order_status: "pending",
     order_date: new Date("2025-10-25T10:15:00"),
     total_amount: 1800
   };
