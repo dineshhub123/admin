@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ApiService } from 'src/app/api.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 
 
 @Component({
@@ -63,7 +63,7 @@ isMobile = false;
   ];
 
   constructor(private breakpointObserver: BreakpointObserver, private apiService:ApiService,
-    public activatedRoute:ActivatedRoute) { }
+    public activatedRoute:ActivatedRoute,public router:Router) { }
 
   ngOnInit(): void {
     this.currentStatusIndex = this.statuses.indexOf(this.order.order_status);
@@ -315,10 +315,13 @@ cancelOrder(order: any): void {
 
   
 
-  printOrder() {
-    window.print();
+  printInvoice() {
+    this.router.navigate(["invoice"])
   }
+printAdressLabel(){
+      this.router.navigate(["address-label"])
 
+}
   handleImageError(event: any) {
     event.target.src = 'assets/uploads/shirt.jpg';
   }

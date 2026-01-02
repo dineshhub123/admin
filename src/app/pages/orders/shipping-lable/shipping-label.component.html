@@ -1,0 +1,45 @@
+<div class="label-wrapper" id="shipping-label" *ngIf="label">
+
+  <!-- Header -->
+  <div class="label-header">
+    <div class="logo">Rural<span>X</span></div>
+    <div class="title">SHIPPING LABEL</div>
+  </div>
+
+  <div class="label-body">
+
+    <!-- Address -->
+    <div class="address">
+      <h4>Delivery Address:</h4>
+      <p class="name">{{ label.customer.name }}</p>
+      <p>{{ label.customer.address }}</p>
+      <p>{{ label.customer.city }}, {{ label.customer.state }}, {{ label.customer.country }}</p>
+      <p>📞 {{ label.customer.phone }}</p>
+      <p>📧 {{ label.customer.email }}</p>
+    </div>
+
+    <!-- QR + Order -->
+    <div class="code-box">
+      <img [src]="label.qrCode" alt="QR Code">
+      <p><strong>Order ID:</strong> {{ label.orderId }}</p>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="label-footer">
+    <p>www.ruralx.com</p>
+    <div class="icons">
+      <span>☂ KEEP DRY</span>
+      <span>↑ HANDLE WITH CARE</span>
+    </div>
+  </div>
+
+  <!-- Print Button -->
+  <div class="print-btn">
+    <button mat-raised-button color="primary" (click)="printLabel()">
+      Print Label
+    </button>
+  </div>
+
+</div>
