@@ -74,6 +74,8 @@ mat-toolbar {
 .name {
   margin-top: 8px;
   font-weight: normal;
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .designation {
@@ -190,13 +192,15 @@ mat-divider {
   display: flex;
   justify-content: center;  
   align-items: center;     
-        
+  padding-top: 10px;    
+
 }
 
 .avatar_name {
   width: 50px;
   height: 50px;
-  background-color: #ccc;
+  background: #0a4984;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
