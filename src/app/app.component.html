@@ -22,7 +22,7 @@
     <!-- ⬇ Dropdown -->
     <div class="notification-dropdown" *ngIf="showDropdown">
 
-      <div *ngFor="let order of pendingOrders" class="order-item" (click)="goToOrder(order.id)">
+      <div *ngFor="let order of pendingOrders" class="order-item" (click)="goToOrderView(order.id)">
 
         <div class="title">
           Order #{{ order.id }} — ₹{{ order.total_amount }}
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div class="view-all" (click)="goToOrders()">
+      <div class="view-all" (click)="goToOrderList()">
         View all orders →
       </div>
 
@@ -52,7 +52,7 @@
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
     <button mat-menu-item routerLink="#">
       <mat-icon>person</mat-icon><span>
-        Hello, {{(username?username:'Sign in')|titlecase }} </span>
+        Hello, {{(firstUserName?firstUserName:'Sign in')|titlecase }} </span>
     </button>
     <button mat-menu-item routerLink="#">
       <mat-icon>settings</mat-icon><span>Settings</span>
@@ -72,9 +72,9 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8 sidebar-container">
     <div class="container">
-      <div class="avatar_name">T</div>
+      <div class="avatar_name">{{avatarLetter}}</div>
     </div>
-    <h4 class="name">Welcome, {{ username }}</h4>
+    <h4 class="name">Welcome, {{(userName?userName:'Sign in')|titlecase }} </h4>
 
     <mat-accordion multi="false">
 
@@ -89,7 +89,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <a mat-list-item routerLink="dashboard" routerLinkActive="active-link">
+            <a mat-list-item routerLink="dashboard" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>dashboard</mat-icon> Overview
             </a>
           </mat-action-list>
@@ -104,7 +104,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <a mat-list-item routerLink="/orderlist" routerLinkActive="active-link">
+            <a mat-list-item routerLink="/orderlist" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>assignment</mat-icon> All Orders
             </a>
           </mat-action-list>
@@ -119,10 +119,10 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <a mat-list-item routerLink="/productlist" routerLinkActive="active-link">
+            <a mat-list-item routerLink="/productlist" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>inventory</mat-icon> All Products
             </a>
-            <a mat-list-item routerLink="/uploadproduct" routerLinkActive="active-link">
+            <a mat-list-item routerLink="/uploadproduct" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>add_box</mat-icon> Add Product
             </a>
           </mat-action-list>
@@ -138,7 +138,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <a mat-list-item routerLink="/customers" routerLinkActive="active-link">
+            <a mat-list-item routerLink="/customers" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>person</mat-icon> All Customers
             </a>
           </mat-action-list>
@@ -154,7 +154,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <a mat-list-item routerLink="/salesreport" routerLinkActive="active-link">
+            <a mat-list-item routerLink="/salesreport" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>analytics</mat-icon> Sales Reports
             </a>
           </mat-action-list>
@@ -165,12 +165,12 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <mat-icon>settings</mat-icon>
-              <span class="ml-2">Settings</span>
+              <mat-icon>store</mat-icon>
+              <span class="ml-2">Store</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
-            <a mat-list-item routerLink="/settings/stores" routerLinkActive="active-link">
+            <a mat-list-item routerLink="/settings/stores" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>store</mat-icon> Store List
             </a>
           </mat-action-list>

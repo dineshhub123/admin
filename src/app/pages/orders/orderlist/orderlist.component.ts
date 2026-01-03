@@ -86,7 +86,7 @@ export class OrderlistComponent {
     console.log('Selected date:', date);
   }
   viewItem(orderId: string) {
-    this.router.navigate(['/orders/orderview', orderId]);
+    this.router.navigate(['/orderlist/orderview', orderId]);
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

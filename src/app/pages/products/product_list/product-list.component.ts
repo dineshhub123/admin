@@ -19,16 +19,17 @@ dataSource = new MatTableDataSource<any>();
  isLoading: boolean = false;
  displayedColumns: string[] = [
     'index',
-    'product_name',
-    'category',
+    'product_id',
     'images',
-    'description',
-    'product_mrp_price',
-    'product_discount',
-    'product_price',
-    'delivery_date',
+    'product_name',  
+    'category', 
+    'product_price', 
+    'stock',
+    'color',
+    'colorCode',
     'action'
   ];
+
   constructor(public apiService: ApiService,private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -45,10 +46,10 @@ sanitizeHtml(html: string): string {
 }
 
 deleteProduct(productId: any): void {
-  const confirmDelete = confirm(`Are you sure you want to delete "${productId.id}"?`);
+  const confirmDelete = confirm(`Are you sure you want to delete "${productId.product_id}"?`);
   if (confirmDelete) {
     console.log('Trying to delete ID:', productId.id);  
-    this.apiService.deleteProduct(productId.id).subscribe({
+    this.apiService.deleteProduct(productId.product_id).subscribe({
       next: (res) => {
         console.log('Delete response:', res);  
         alert('Product deleted successfully.');
@@ -64,15 +65,33 @@ deleteProduct(productId: any): void {
 
   }
 }
-  getProductList() {
- this.isLoading = true;
-    this.apiService.getProductListDetailsData().subscribe(data => {
-    this.isLoading = false
-    this.dataSource.data = data;
-  console.log(data, 'data');
-  });
 
-  }
+getProductList() {
+  this.isLoading = true;
+  this.apiService.getProductListDetailsData().subscribe({
+    next: (data: any[]) => {
+      this.isLoading = false;
+      const flattened = data.flatMap(product =>
+          product.variants.map((v: any) => ({
+          product_id: product.product_id,
+          product_name: product.product_name,
+          category:product.category,
+          product_price: product.product_price,
+          color: v.color,
+          stock: v.stock,
+          images: v.images,
+          colorCode: v.colorCode
+        }))
+      );
+      this.dataSource.data = flattened;
+      console.log('Flattened rows:', flattened);
+    },
+    error: () => {
+      this.isLoading = false;
+    }
+  });
+}
+
 applyProductSearch(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     if (filterValue.includes('-') || filterValue.endsWith('+')) {
