@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { ADMIN_CATEGORY_MASTER } from 'src/app/constants/category-master';
 import { ApiService } from 'src/app/api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-upload',
@@ -22,12 +23,12 @@ export class UploadComponent implements OnInit {
   }
 
   productForm: FormGroup;
-  productColor = ['Red', 'Blue', 'Green', 'Black','Darkgrey','Maroon', 'Yellow', 'Brown', 'Orange', 'Voilet', 'Pink', 'Light Sky', 'Light Green']
-  selectSizeOption = [true,false]
-  selectedSize:boolean = true;
+  productColor = ['Red', 'Blue', 'Green', 'Black', 'Darkgrey', 'Maroon', 'Yellow', 'Brown', 'Orange', 'Voilet', 'Pink', 'Light Sky', 'Light Green']
+  selectSizeOption = [true, false]
+  selectedSize: boolean = true;
   deleteVariant: boolean = false;
   selectedFiles: { [key: string]: File } = {};
-  constructor(private apiService: ApiService, private router: Router, private fb: FormBuilder) {
+  constructor(private apiService: ApiService, private router: Router, private fb: FormBuilder, private toastr: ToastrService,) {
     this.productForm = this.fb.group({
       p_name: [''],
       p_mrp: [''],
@@ -35,7 +36,7 @@ export class UploadComponent implements OnInit {
       p_price: [0],
       p_discount: [0],
       p_category: [''],
-      p_subcategory:[''],
+      p_subcategory: [''],
       delivery_date: [''],
       variants: this.fb.array([this.createVariant()])
     });
@@ -44,7 +45,7 @@ export class UploadComponent implements OnInit {
     return this.productForm.get('variants') as FormArray;
   }
   ngOnInit() {
-    this.productForm.patchValue({p_size_boolean:true})
+    this.productForm.patchValue({ p_size_boolean: true })
   }
   htmlContent: string = '';
   editorConfig = {
@@ -87,125 +88,86 @@ export class UploadComponent implements OnInit {
   };
 
 
-onSelectFile(event: any, index: number): void {
-  const files: FileList = event.target.files;
-  if (files && files.length > 0) {
-    // convert to array of files
-    const fileArray = Array.from(files);
+  onSelectFile(event: any, index: number): void {
+    const files: FileList = event.target.files;
+    if (files && files.length > 0) {
+      // convert to array of files
+      const fileArray = Array.from(files);
 
-    // set into the form control (store multiple files)
-    this.variants.at(index).get('image_url')?.setValue(fileArray);
+      // set into the form control (store multiple files)
+      this.variants.at(index).get('image_url')?.setValue(fileArray);
 
-    console.log("Variant updated with files:", this.variants.at(index).value);
-  }
-}
-
-uploadFormData(): void {
-  const formData = new FormData();
-
-  // Add product main info
-  formData.append('p_name', this.productForm.get('p_name')?.value);
-  formData.append('p_price', this.productForm.get('p_price')?.value);
-  formData.append('p_mrp', this.productForm.get('p_mrp')?.value);
-  formData.append('p_discount', this.productForm.get('p_discount')?.value);
-  formData.append('delivery_date', this.productForm.get('delivery_date')?.value);
-  formData.append('p_category', this.productForm.get('p_category')?.value);
-
-  formData.append('p_subcategory', this.productForm.get('p_subcategory')?.value);
-
-  formData.append('p_description', this.productForm.get('p_description')?.value);
-
-  const variantsData: any[] = [];
-
-  this.variants.controls.forEach((variantGroup, index) => {
-    const variant = variantGroup.value;
-    const imageKey = `variant_${index}`;
-
-    // add all files for this variant
-    if (Array.isArray(variant.image_url)) {
-      variant.image_url.forEach((file: File) => {
-        formData.append(imageKey + '[]', file); // ✅ append as array
-      });
+      console.log("Variant updated with files:", this.variants.at(index).value);
     }
+  }
 
-    variantsData.push({
-      //p_size: variant.p_size,
-      p_color: variant.p_color,
-      p_colorcode: variant.p_colorcode,
-      p_stock: variant.p_stock,
-      //p_view: variant.p_view,
-      image_key: imageKey
+  uploadFormData(): void {
+    const formData = new FormData();
+    // Add product main info
+    formData.append('p_name', this.productForm.get('p_name')?.value);
+    formData.append('p_price', this.productForm.get('p_price')?.value);
+    formData.append('p_mrp', this.productForm.get('p_mrp')?.value);
+    formData.append('p_discount', this.productForm.get('p_discount')?.value);
+    formData.append('delivery_date', this.productForm.get('delivery_date')?.value);
+    formData.append('p_category', this.productForm.get('p_category')?.value);
+    formData.append('p_subcategory', this.productForm.get('p_subcategory')?.value);
+    formData.append('p_description', this.productForm.get('p_description')?.value);
+    const variantsData: any[] = [];
+    this.variants.controls.forEach((variantGroup, index) => {
+      const variant = variantGroup.value;
+      const imageKey = `variant_${index}`;
+      // add all files for this variant
+      if (Array.isArray(variant.image_url)) {
+        variant.image_url.forEach((file: File) => {
+          formData.append(imageKey + '[]', file); // ✅ append as array
+        });
+      }
+      variantsData.push({
+        //p_size: variant.p_size,
+        p_color: variant.p_color,
+        p_colorcode: variant.p_colorcode,
+        p_stock: variant.p_stock,
+        //p_view: variant.p_view,
+        image_key: imageKey
+      });
     });
-  });
+    // append variant metadata
+    formData.append('variant', JSON.stringify(variantsData));
+    this.apiService.uploadData(formData).subscribe({
+      next: (res: any) => {
+        if (res?.success) {
+          this.toastr.success('Product Uploaded Successfully');
+          this.productForm.reset();
+          this.variants.controls.forEach(control => {
+            const variantGroup = control as FormGroup;
+            variantGroup.patchValue({
+              p_color: null,
+              p_colorcode: null,
+              p_stock: null,
+              image_url: []
+            });
+            variantGroup.markAsPristine();
+            variantGroup.markAsUntouched();
+          });
 
-  // append variant metadata
-  formData.append('variant', JSON.stringify(variantsData));
+        } else {
+          this.toastr.error(res?.message || 'Product Upload failed');
+        }
+      },
+      error: (err) => {
+        console.error('Upload failed:', err);
+        this.toastr.error('Server error while uploading');
+      }
+    });
 
-  this.apiService.uploadData(formData).subscribe({
-    next: (res) => console.log('Upload success:', res),
-    error: (err) => console.error('Upload failed:', err)
-  });
-}
-
-// onSelectFile(event: any, index: number): void {
-//   const file: File = event.target.files[0];
-//   if (file) {
-//     this.variants.at(index).get('image_url')?.setValue(file); // set File object
-//     console.log("variants",this.variants)
-//   }
-// }
-
-
-// uploadFormData(data: any): void {
-//   const formData = new FormData();
-//   // Add product main info
-//   formData.append('p_name', this.productForm.get('p_name')?.value);
-//   formData.append('p_price', this.productForm.get('p_price')?.value);
-//   formData.append('p_mrp', this.productForm.get('p_mrp')?.value);
-//   formData.append('p_discount', this.productForm.get('p_discount')?.value);
-//   formData.append('delivery_date', this.productForm.get('delivery_date')?.value);
-//   formData.append('p_category', this.productForm.get('p_category')?.value);
-//   formData.append('p_size_boolean', this.productForm.get('p_size_boolean')?.value);
-//   formData.append('p_description', this.productForm.get('p_description')?.value);
-//   const variantsData: any[] = [];
-//   this.variants.controls.forEach((variantGroup, index) => {
-//     const variant = variantGroup.value;
-//     const imageKey = `image_url_${index}`;
-//     const imageFile = variant.image_url;
-//     if (imageFile instanceof File) {
-//       formData.append(imageKey, imageFile); // attach image
-//     }
-
-//     variantsData.push({
-//       p_size: variant.p_size,
-//       p_color: variant.p_color,
-//       p_colorcode: variant.p_colorcode,
-//       p_stock: variant.p_stock,
-//       p_view: variant.p_view,
-//       image_key: imageKey
-//     });
-//   });
-
-//   formData.append('variant', JSON.stringify(variantsData));
-
-//   this.apiService.uploadData(formData).subscribe({
-//     next: (res) => {
-//       console.log('Upload success:', res);
-//     },
-//     error: (err) => {
-//       console.error('Upload failed:', err);
-//     }
-//   });
-// }
+  }
 
   createVariant(): FormGroup {
     return this.fb.group({
-      p_size: [null],
-      p_color: [''],
-      p_stock: [''],
-      p_view: [''],
-      image_url:[''],
-      p_colorcode:['']
+      p_color: [null, Validators.required],
+      p_stock: [null, Validators.required],
+      p_colorcode: [null, Validators.required],
+      image_url: [[]],
     });
   }
   addVariant() {
@@ -226,7 +188,7 @@ uploadFormData(): void {
       event.preventDefault(); // only allow 0-9
     }
   }
-afterSelectSize(event:any) {
-this.selectedSize = event;
-}
+  afterSelectSize(event: any) {
+    this.selectedSize = event;
+  }
 }
