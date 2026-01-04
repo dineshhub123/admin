@@ -93,11 +93,8 @@ export class UploadComponent implements OnInit {
     if (files && files.length > 0) {
       // convert to array of files
       const fileArray = Array.from(files);
-
       // set into the form control (store multiple files)
       this.variants.at(index).get('image_url')?.setValue(fileArray);
-
-      console.log("Variant updated with files:", this.variants.at(index).value);
     }
   }
 
@@ -138,18 +135,8 @@ export class UploadComponent implements OnInit {
         if (res?.success) {
           this.toastr.success('Product Uploaded Successfully');
           this.productForm.reset();
-          this.variants.controls.forEach(control => {
-            const variantGroup = control as FormGroup;
-            variantGroup.patchValue({
-              p_color: null,
-              p_colorcode: null,
-              p_stock: null,
-              image_url: []
-            });
-            variantGroup.markAsPristine();
-            variantGroup.markAsUntouched();
-          });
-
+          this.variants.clear();
+          this.variants.push(this.createVariant());
         } else {
           this.toastr.error(res?.message || 'Product Upload failed');
         }
@@ -167,7 +154,7 @@ export class UploadComponent implements OnInit {
       p_color: [null, Validators.required],
       p_stock: [null, Validators.required],
       p_colorcode: [null, Validators.required],
-      image_url: [[]],
+      image_url: this.fb.control([]),
     });
   }
   addVariant() {
