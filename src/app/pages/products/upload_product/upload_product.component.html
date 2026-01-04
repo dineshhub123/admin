@@ -6,25 +6,25 @@
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Product Name</mat-label>
-            <input matInput type="text" formControlName="p_name" ngModel />
+            <input matInput type="text" formControlName="p_name" ngModel required/>
           </mat-form-field>
         </div>
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Product MRP Price</mat-label>
-            <input matInput type="number" formControlName="p_mrp" ngModel />
+            <input matInput type="number" formControlName="p_mrp" ngModel required/>
           </mat-form-field>
         </div>
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Product Price</mat-label>
-            <input matInput type="number" formControlName="p_price" ngModel />
+            <input matInput type="number" formControlName="p_price" ngModel required/>
           </mat-form-field>
         </div>
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Delivery Date</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="delivery_date" ngModel />
+            <input matInput [matDatepicker]="picker" formControlName="delivery_date" ngModel required />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -32,13 +32,13 @@
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Product Discount (save) Price</mat-label>
-            <input matInput type="number" formControlName="p_discount" ngModel />
+            <input matInput type="number" formControlName="p_discount" ngModel required/>
           </mat-form-field>
         </div>
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Category</mat-label>
-            <mat-select formControlName="p_category" (selectionChange)="onCategoryChange($event.value)">
+            <mat-select formControlName="p_category" (selectionChange)="onCategoryChange($event.value)" required>
               <mat-option *ngFor="let cat of categories" [value]="cat.category">{{ cat.category | titlecase
                 }}</mat-option>
             </mat-select>
@@ -53,7 +53,7 @@
               <div class="col-md-4">
                 <mat-form-field appearance="outline">
                   <mat-label>Color</mat-label>
-                  <mat-select formControlName="p_color">
+                  <mat-select formControlName="p_color" required>
                     <mat-option *ngFor="let color of productColor" [value]="color">{{ color }}</mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -61,13 +61,13 @@
               <div class="col-md-4">
                 <mat-form-field appearance="outline">
                   <mat-label>Color Code</mat-label>
-                  <input matInput type="text" formControlName="p_colorcode" />
+                  <input matInput type="text" formControlName="p_colorcode" required/>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
                 <mat-form-field appearance="outline">
                   <mat-label>Stock</mat-label>
-                  <input matInput type="text" (keypress)="allowOnlyNumbers($event)" formControlName="p_stock">
+                  <input matInput type="text" (keypress)="allowOnlyNumbers($event)" formControlName="p_stock" required>
                 </mat-form-field>
               </div>
             </div>
@@ -75,7 +75,7 @@
               <div class="col-md-6">
                 <div class="file-inputs mb-3">
                   <label>Image</label>
-                  <input type="file" (change)="onSelectFile($event, i)" multiple />
+                  <input type="file" (change)="onSelectFile($event, i)" multiple required/>
                 </div>
               </div>
               <div class="col-md-6">
@@ -93,7 +93,7 @@
         <div class="col-md-6">
           <mat-form-field appearance="outline" class="w-100" *ngIf="selectedCategory">
             <mat-label>SubCategory</mat-label>
-            <mat-select [(value)]="selectedSubCategory" formControlName="p_subcategory">
+            <mat-select [(value)]="selectedSubCategory" formControlName="p_subcategory" required>
               <mat-option *ngFor="let sub of selectedCategory.subCategories" [value]="sub.key">
                 {{ sub.label }}
               </mat-option>
@@ -104,12 +104,12 @@
           <div class="editor-section">
             <label>Product Description</label>
             <angular-editor formControlName="p_description" [config]="editorConfig"
-              [(ngModel)]="htmlContent"></angular-editor>
+              [(ngModel)]="htmlContent" required></angular-editor>
           </div>
         </div>
       </div>
       <div class="text-left pt-4 mb-4 ml-2 float-right">
-        <button mat-raised-button color="primary" type="submit" class="ml-2">Upload</button>
+        <button mat-raised-button color="primary" [disabled]="productForm.invalid" type="submit" class="ml-2">Upload</button>
       </div>
     </div>
   </form>
