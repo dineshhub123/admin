@@ -37,7 +37,7 @@ export const environment = {
 
   // getUserDetailsApiURL: 'http://localhost/getUserLoginDetails.php',
   // searchApiUrl: 'http://localhost/search_product.php',
-  // uploadDataApiUrl: 'http://localhost/uploadAdminData.php',
+   //uploadDataApiUrl: 'http://localhost/uploadAdminData.php',
   // insertUserDetailsApiUrl: 'http://localhost/insertUserDetailsData.php',
   // getProductListDetailsApiUrl: 'http://localhost/getProductDetails.php',
   // productBuyerApiUrl: 'http://localhost/productbuyer.php',

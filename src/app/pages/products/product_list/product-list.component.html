@@ -53,7 +53,7 @@
   <ng-container matColumnDef="images">
     <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Images</th>
     <td mat-cell *matCellDef="let element">
-      <img class="img-responsive img-tbl"  [src]="element.images[0] |  replacePath:'new-ruralx/src':''">
+       <img class="img-responsive img-tbl"  [src]="imageBaseUrl + element.images[0]">
     </td>
   </ng-container>
 

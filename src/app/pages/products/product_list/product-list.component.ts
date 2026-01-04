@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductEditDialogComponent } from '../product-edit-dialog/product-edit-dialog.component';
-
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-product-list',
@@ -12,8 +12,8 @@ import { ProductEditDialogComponent } from '../product-edit-dialog/product-edit-
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
+imageBaseUrl = environment.imageBaseUrl;
 dataSource = new MatTableDataSource<any>();
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
  products: any[] = [];
  isLoading: boolean = false;
