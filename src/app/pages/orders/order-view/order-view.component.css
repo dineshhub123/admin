@@ -45,7 +45,7 @@
 }
 
 .meta-table th {
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
   font-weight: 600;
   width: 150px;
 }
@@ -57,7 +57,7 @@
 
 .transaction-id {
   font-family: monospace;
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
   padding: 4px 8px;
   border-radius: 4px;
 }
@@ -69,16 +69,18 @@
 }
 
 .product-image {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
+ width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin: 5px;
+
 }
 
 .product-name {
   font-weight: 500;
   margin-bottom: 4px;
+  font-size: 12px;
 }
 
 .product-category {
@@ -117,7 +119,7 @@
 .current-price {
   font-weight: 600;
   color: #2e7d32;
-  font-size: 1.1em;
+  font-size: 12px;
 }
 
 .mrp-price {
@@ -279,6 +281,7 @@
   padding: 8px 12px;
   border-radius: 4px;
   font-weight: bold;
+  font-size: 14px;
 }
 .order-header {
   display: flex;

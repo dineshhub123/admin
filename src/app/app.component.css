@@ -576,9 +576,9 @@ padding: 0px !important;
 
 .notification-dropdown {
   position: absolute;
-  right: -45px;
+  right: -40px;
   top: 56px;
-  width: 265px;
+  width: 290px;
   background: #ffffff;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   border-radius: 8px;

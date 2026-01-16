@@ -22,10 +22,10 @@
     <!-- ⬇ Dropdown -->
     <div class="notification-dropdown" *ngIf="showDropdown">
 
-      <div *ngFor="let order of pendingOrders" class="order-item" (click)="goToOrderView(order.id)">
+      <div *ngFor="let order of pendingOrders" class="order-item" (click)="goToOrderView(order.order_id)">
 
         <div class="title">
-          Order #{{ order.id }} — ₹{{ order.total_amount }}
+          Order #{{ order.order_id }} — ₹{{ order.total_amount }}
         </div>
 
         <div class="subtitle">

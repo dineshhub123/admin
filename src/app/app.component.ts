@@ -98,6 +98,7 @@ export class AppComponent {
   getPendingOrdersPreview() {
     this.apiService.getPendingOrder().subscribe(res => {
       this.pendingOrders = res;
+      console.log("pendingOrders",this.pendingOrders)
       this.pendingOrderCount = res.length;
     })
   }

@@ -47,33 +47,69 @@ openDialog(title: string): void {
       data: { title }
     });
   }
- login(loginData: any) {
-  if (this.loginForm.valid) {
-    this.apiService.getUserDetailsData().subscribe((res) => {
-      try {
-        const findObject = res.find(
-          (item: any) =>
-            item.user_password === loginData?.password &&
-            (item?.user_phone === loginData?.mobile || item?.user_email === loginData?.mobile)
+//  login(loginData: any) {
+//   if (this.loginForm.valid) {
+//     this.apiService.getUserDetailsData().subscribe((res) => {
+//       try {
+//         const findObject = res.find(
+//           (item: any) =>
+//             item.user_password === loginData?.password &&
+//             (item?.user_phone === loginData?.mobile || item?.user_email === loginData?.mobile)
+//         );
+
+//         console.log(findObject, 'find');
+
+//         if (findObject) {
+//           localStorage.setItem('login_user', JSON.stringify(findObject));
+//           this.loginService.login();
+//           this.toastr.success('Login successful!', 'Welcome');
+//           this.router.navigate(['dashboard']);
+//         } else {
+//           this.toastr.error('User not found. Please register first.', 'Login Failed');
+//         }
+//       } catch (error) {
+//         console.error('An error occurred during login:', error);
+//         this.toastr.error('An unexpected error occurred. Please try again.', 'Login Error');
+//       }
+//     });
+//   }
+// }
+
+  login(loginData: any): void {
+    if (!this.loginForm.valid) return;
+
+    const payload = {
+      login: loginData.mobile,   // email OR phone
+      password: loginData.password
+    };
+
+    this.apiService.getUserDetailsData(payload).subscribe({
+      next: (res: any) => {
+        const user = res.user;
+        user.userId = `user_${user.id}`;
+       // user.isGuest = false;
+
+        // const guestId = this.loginService.getUser()?.userId;
+        // this.loginService.setUser(user);
+
+        // if (guestId?.startsWith('guest_')) {
+        //   this.addcartService.transferCart(guestId, user.userId);
+        // }
+        localStorage.setItem('login_user', JSON.stringify(user));
+        this.loginService.login();
+        this.loginForm.reset();
+        this.router.navigate(['dashboard']);
+        this.toastr.success(
+          'You are login successfully!',
+          `Welcome, ${user.user_first_name}`
         );
-
-        console.log(findObject, 'find');
-
-        if (findObject) {
-          localStorage.setItem('login_user', JSON.stringify(findObject));
-          this.loginService.login();
-          this.toastr.success('Login successful!', 'Welcome');
-          this.router.navigate(['dashboard']);
-        } else {
-          this.toastr.error('User not found. Please register first.', 'Login Failed');
-        }
-      } catch (error) {
-        console.error('An error occurred during login:', error);
-        this.toastr.error('An unexpected error occurred. Please try again.', 'Login Error');
+      },
+      error: err => {
+        console.error(err);
+        this.toastr.error('User not found. Please register first or might be wrong credential.', 'Login Failed');
       }
     });
   }
-}
 canLogin(): boolean {
   return this.privacyService.hasUserResponded();
 }
