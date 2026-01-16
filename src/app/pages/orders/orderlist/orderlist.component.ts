@@ -48,16 +48,16 @@ export class OrderlistComponent {
     try {
       this.isLoading = true;
       this.apiService.getOrderList().subscribe(res => {
-        console.log("resOrder", res)
+        // console.log("resOrder", res)
         this.isLoading = false
         const rows: any[] = [];
         res.forEach((order: any) => {
           order.items.forEach((item: any) => {
             rows.push({
-              order_id: order.id,
+              order_id: order.order_id,
               customer: order.delivery_address.name,
               mobile: order.delivery_address.mobile,
-              address: `${order.delivery_address.address}, ${order.delivery_address.village}, ${order.delivery_address.district}`,
+              address: order.delivery_address.address,
               product: item.product_name,
               price: item.price,
               quantity: item.quantity,
@@ -69,7 +69,6 @@ export class OrderlistComponent {
             this.dataSource.data = rows;
           })
         })
-
       });
     } catch (err) {
       this.isLoading = false;

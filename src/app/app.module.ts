@@ -49,7 +49,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ProductListComponent } from './pages/products/product_list/product-list.component';
 import { UploadComponent } from './pages/products/upload_product/upload_product.component';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -102,6 +102,7 @@ import { UploadComponent } from './pages/products/upload_product/upload_product.
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

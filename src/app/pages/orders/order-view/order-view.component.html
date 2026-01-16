@@ -1,7 +1,14 @@
 <!-- order-view.component.html -->
 <div class="order-view-container">
-  
+
+
   <mat-card class="order-card">
+  <mat-progress-bar
+  *ngIf="loading"
+  mode="indeterminate"
+  diameter="50">
+</mat-progress-bar>
+
    <div class="order-header">
   <button mat-icon-button color="primary" (click)="goBack()">
     <mat-icon>arrow_back</mat-icon>
@@ -9,7 +16,7 @@
   <h2>Order Details</h2>
 </div>
     <div class="order-top-bar">
- <h2 *ngIf="order.order_status === 'cancelled'" class="cancelled-title">
+ <h2 *ngIf="orderDetailData?.status === 'cancelled'" class="cancelled-title">
   {{ getTopBarTitle() }}
 </h2>
 
@@ -23,7 +30,7 @@
     mat-raised-button
     color="primary"
     (click)="changeStatus(-1)"
-    [disabled]="currentStatusIndex === 0 || order.order_status === 'cancelled'"
+    [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'"
   >
     <mat-icon>arrow_back</mat-icon> Prev
   </button>
@@ -32,7 +39,7 @@
     mat-raised-button
     color="primary"
     (click)="changeStatus(1)"
-    [disabled]="currentStatusIndex === statuses.length - 2 || order.order_status === 'cancelled'"
+    [disabled]="currentStatusIndex === statuses.length - 2 || orderDetailData?.status === 'cancelled'"
   >
     {{ getCurrentStatus() }}
     <mat-icon>arrow_forward</mat-icon>
@@ -47,37 +54,36 @@
 
     <mat-divider></mat-divider>
 
+
 <!-- In your order-view.component.html -->
 <app-order-status-stepper 
   [currentStatus]="getStepperStatus()"
-  [orderDate]="order.order_date"
-  [deliveryDate]="order.delivery_date">
+  [orderDate]="orderDetailData?.created_at">
 </app-order-status-stepper>
 
 <mat-divider></mat-divider>
-
     <!-- Order Basic Information -->
     <div class="order-basic-info">
       <table class="meta-table">
         <tr>
           <th>Order ID:</th>
-          <td>{{ order.order_id }}</td>
+          <td>{{ orderDetailData?.order_id }}</td>
           <th>Status:</th>
           <td>
-            <mat-chip [color]="getStatusColor(order.order_status)" selected>
-              {{ order.order_status | titlecase }}
+            <mat-chip [color]="getStatusColor(orderDetailData?.status)" selected>
+              {{ orderDetailData?.status | titlecase }}
             </mat-chip>
           </td>
         </tr>
         <tr>
           <th>Order Date:</th>
-          <td>{{ order.order_date | date:'medium' }}</td>
-          <th>Delivery Date:</th>
-          <td>{{ order.delivery_date }}</td>
+          <td>{{ orderDetailData?.created_at | date:'medium' }}</td>
+          <!-- <th>Delivery Date:</th>
+          <td>{{ order.delivery_date }}</td> -->
         </tr>
         <tr>
           <th>Total Amount:</th>
-          <td colspan="3"><strong class="total-amount">₹{{ order.total_amount }}</strong></td>
+          <td colspan="3"><strong class="total-amount">₹{{ orderDetailData?.total_amount }}</strong></td>
         </tr>
       </table>
     </div>
@@ -85,21 +91,21 @@
     <!-- User Information -->
     <h3>User Information</h3>
     <table class="meta-table">
-      <tr><th>Name:</th><td>{{ order.user.user_first_name }} {{ order.user.user_last_name }}</td></tr>
-      <tr><th>Email:</th><td>{{ order.user.user_email }}</td></tr>
-      <tr><th>Phone:</th><td>{{ order.user.user_phone }}</td></tr>
-      <tr><th>Address:</th><td>{{ order.user.user_address }} - {{ order.user.user_pincode }}</td></tr>
+      <tr><th>Name:</th><td>{{ orderDetailData?.delivery_address.name }}</td></tr>
+       <tr><th>Email:</th><td>{{ orderDetailData.delivery_address.email }}</td></tr> 
+      <tr><th>Phone:</th><td>{{ orderDetailData?.delivery_address.mobile }}</td></tr>
+      <tr><th>Address:</th><td>{{ orderDetailData?.delivery_address.address }}</td></tr>
     </table>
 
     <!-- Order Items -->
-    <h3>Order Items ({{ order.items.length }})</h3>
-    <mat-table [dataSource]="order.items" class="mat-elevation-z2 items-table" *ngIf="!isMobile">
+    <h3>Order Items ({{ orderDetailData?.items.length }})</h3>
+    <mat-table [dataSource]="orderDetailData?.items" class="mat-elevation-z2 items-table" *ngIf="!isMobile">
 
       <!-- Image -->
       <ng-container matColumnDef="image">
         <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
         <mat-cell *matCellDef="let item">
-          <img [src]="item.image_url" alt="{{ item.product_name }}" class="product-image">
+         <img [src]="imageBaseUrl + item.image[0]" alt="" class="product-image">
         </mat-cell>
       </ng-container>
 
@@ -108,12 +114,12 @@
         <mat-header-cell *matHeaderCellDef> Product </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <div class="product-name">{{ item.product_name }}</div>
-          <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div>
+          <!-- <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div> -->
         </mat-cell>
       </ng-container>
 
       <!-- Variant -->
-      <ng-container matColumnDef="variant">
+      <!-- <ng-container matColumnDef="variant">
         <mat-header-cell *matHeaderCellDef> Variant </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <div class="variant-info">
@@ -121,7 +127,7 @@
             {{ item.variant.color }} ({{ item.variant.size }})
           </div>
         </mat-cell>
-      </ng-container>
+      </ng-container> -->
 
       <!-- Quantity -->
       <ng-container matColumnDef="quantity">
@@ -136,19 +142,19 @@
         <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <div class="price-info">
-            <span class="current-price">₹{{ item.product_price }}</span>
-            <span class="mrp-price"><del>₹{{ item.product_mrp_price }}</del></span>
+            <span class="current-price">₹{{ item.price }}</span>
+            <!-- <span class="mrp-price"><del>₹{{ item.product_mrp_price }}</del></span> -->
           </div>
         </mat-cell>
       </ng-container>
 
       <!-- Discount -->
-      <ng-container matColumnDef="discount">
+      <!-- <ng-container matColumnDef="discount">
         <mat-header-cell *matHeaderCellDef> Discount </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <span class="discount-badge">-₹{{ item.product_discount }}</span>
         </mat-cell>
-      </ng-container>
+      </ng-container> -->
 
       <!-- Actions -->
       <!-- <ng-container matColumnDef="actions">
@@ -167,21 +173,21 @@
 
 <!-- Mobile Card View -->
 <ng-container *ngIf="isMobile">
-  <mat-card *ngFor="let item of order.items" class="item-card">
+  <mat-card *ngFor="let item of orderDetailData?.items" class="item-card">
     <div class="card-content">
       <div class="card-row image-row">
-        <img [src]="item.image_url" alt="{{ item.product_name }}" class="product-image">
+        <img [src]="imageBaseUrl + item.image[0]" alt="" class="product-image">
       </div>
 
       <div class="card-row ml-2">
         <div class="card-label">Product : </div>
         <div class="card-value">
           <div class="product-name">{{ item.product_name }}</div>
-          <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div>
+          <!-- <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div> -->
         </div>
       </div>
 
-      <div class="card-row  ml-2">
+      <!-- <div class="card-row  ml-2">
         <div class="card-label">Variant  : </div>
         <div class="card-value">
           <div class="variant-info">
@@ -189,7 +195,7 @@
             {{ item.variant.color }} ({{ item.variant.size }})
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="card-row  ml-2">
         <div class="card-label">Qty  : </div>
@@ -202,18 +208,17 @@
         <div class="card-label">Price  : </div>
         <div class="card-value">
           <div class="price-info">
-            <span class="current-price">₹{{ item.product_price }}</span>
-            <span class="mrp-price"><del>₹{{ item.product_mrp_price }}</del></span>
+            <span class="current-price">₹{{ item.price }}</span>
           </div>
         </div>
       </div>
 
-      <div class="card-row  ml-2">
+      <!-- <div class="card-row  ml-2">
         <div class="card-label">Discount  : </div>
         <div class="card-value">
           <span class="discount-badge">-₹{{ item.product_discount }}</span>
         </div>
-      </div>
+      </div> -->
 
 <!-- <div class="card-row  ml-2">
         <div class="card-label">View</div>
@@ -233,17 +238,17 @@
     <table class="meta-table">
       <tr>
         <th>Method:</th>
-        <td>{{ order.payment.method }}</td>
+        <td>{{ orderDetailData?.payment_method }}</td>
         <th>Status:</th>
         <td>
-          <mat-chip [color]="getPaymentStatusColor(order.payment.status)" selected>
-            {{ order.payment.status | titlecase }}
+          <mat-chip [color]="getPaymentStatusColor(orderDetailData?.status)" selected>
+            {{ orderDetailData?.status | titlecase }}
           </mat-chip>
         </td>
       </tr>
       <tr>
         <th>Transaction ID:</th>
-        <td colspan="3" class="transaction-id">{{ order.payment.transaction_id }}</td>
+        <td colspan="3" class="transaction-id">N/A</td>
       </tr>
     </table>
 
@@ -252,8 +257,8 @@
     <button
   mat-raised-button
   color="warn"
-  (click)="cancelOrder(order)"
-  [disabled]="order.order_status === 'cancelled' || order.order_status === 'delivered'"
+  (click)="cancelOrder(orderDetailData)"
+  [disabled]="orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'delivered'"
 >
   <mat-icon>cancel</mat-icon>
   Cancel Order
