@@ -1,12 +1,12 @@
 /* order-view.component.css */
 .order-view-container {
-  padding: 20px;
+  padding: 10px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .order-card {
-  padding: 24px;
+  padding: 10px;
 }
 
 .order-filter-container {
@@ -283,6 +283,15 @@
   font-weight: bold;
   font-size: 14px;
 }
+.delivered-title{
+  background-color: #d1f7c4;
+  color: #0f5132;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+
+}
 .order-header {
   display: flex;
   align-items: center;
@@ -291,7 +300,8 @@
 
 .order-header h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 /* Rest of your existing CSS... */

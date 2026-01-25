@@ -4,6 +4,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ApiService } from 'src/app/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
+import { OrderNotificationService } from 'src/app/order-notification.service';
 
 @Component({
   selector: 'app-order-view',
@@ -29,7 +30,8 @@ export class OrderViewComponent {
   ];
 
   constructor(private breakpointObserver: BreakpointObserver, private apiService: ApiService,
-    public activatedRoute: ActivatedRoute, public router: Router) {
+    public activatedRoute: ActivatedRoute, public router: Router,private orderNotify: OrderNotificationService,
+    ) {
 
   }
 
@@ -101,6 +103,10 @@ export class OrderViewComponent {
       }
       this.apiService.updateOrderStatus(statusPayload).subscribe((res: any) => {
         if (res) {
+      this.apiService.getPendingOrder().subscribe((res: any[]) => {
+      this.orderNotify.setPendingOrders(res);
+    });
+
           this.loading = false;
         }
       })
@@ -307,8 +313,12 @@ export class OrderViewComponent {
 
   getTopBarTitle(): string {
     if (this.orderDetailData.status === 'cancelled') {
-      return 'Your Order Has Been Cancelled !';
+      return 'Order Has Been Cancelled !';
     }
+    if (this.orderDetailData.status === 'delivered') {
+      return 'Order Has Been Delivered !';
+    }
+
     return this.getStepperStatus();
   }
   goBack(): void {

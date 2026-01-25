@@ -34,6 +34,7 @@ export const environment = {
   getPendingOrderApiUrl: 'https://ruralx.in/api/pending_order.php',
   getOrderByIdApiUrl: 'https://ruralx.in/api/get_order_by_id.php',
   upadateStatusApiUrl: 'https://ruralx.in/api/update_order_status.php',
+  getOrderListByStatusApiUrl: 'https://ruralx.in/api/getOrderListByStatus.php',
 
   // getUserDetailsApiURL: 'http://localhost/getUserLoginDetails.php',
   // searchApiUrl: 'http://localhost/search_product.php',

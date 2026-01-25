@@ -1,7 +1,5 @@
 <!-- order-view.component.html -->
 <div class="order-view-container">
-
-
   <mat-card class="order-card">
   <mat-progress-bar
   *ngIf="loading"
@@ -15,14 +13,16 @@
   </button>
   <h2>Order Details</h2>
 </div>
-    <div class="order-top-bar">
+<div class="order-top-bar">
  <h2 *ngIf="orderDetailData?.status === 'cancelled'" class="cancelled-title">
+  {{ getTopBarTitle() }}
+</h2>
+ <h2 *ngIf="orderDetailData?.status === 'delivered'" class="delivered-title">
   {{ getTopBarTitle() }}
 </h2>
 
 </div>
-
-    <div class="order-filter-container pl-2">
+  <div class="order-filter-container pl-2">
    <div class="status-wrapper">
   <!-- CONTROLS -->
 <div class="status-controls">
@@ -30,8 +30,7 @@
     mat-raised-button
     color="primary"
     (click)="changeStatus(-1)"
-    [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'"
-  >
+    [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'|| orderDetailData?.status === 'delivered'">
     <mat-icon>arrow_back</mat-icon> Prev
   </button>
 
@@ -91,10 +90,10 @@
     <!-- User Information -->
     <h3>User Information</h3>
     <table class="meta-table">
-      <tr><th>Name:</th><td>{{ orderDetailData?.delivery_address.name }}</td></tr>
-       <tr><th>Email:</th><td>{{ orderDetailData.delivery_address.email }}</td></tr> 
+      <tr><th>Name:</th><td>{{ orderDetailData?.delivery_address.name | titlecase}}</td></tr>
+       <tr><th>Email:</th><td>{{ orderDetailData?.delivery_address.email }}</td></tr> 
       <tr><th>Phone:</th><td>{{ orderDetailData?.delivery_address.mobile }}</td></tr>
-      <tr><th>Address:</th><td>{{ orderDetailData?.delivery_address.address }}</td></tr>
+      <tr><th>Address:</th><td>{{ orderDetailData?.delivery_address.address | titlecase}}</td></tr>
     </table>
 
     <!-- Order Items -->
@@ -113,7 +112,7 @@
       <ng-container matColumnDef="product_name">
         <mat-header-cell *matHeaderCellDef> Product </mat-header-cell>
         <mat-cell *matCellDef="let item">
-          <div class="product-name">{{ item.product_name }}</div>
+          <div class="product-name">{{ item.product_name | titlecase}}</div>
           <!-- <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div> -->
         </mat-cell>
       </ng-container>
@@ -182,7 +181,7 @@
       <div class="card-row ml-2">
         <div class="card-label">Product : </div>
         <div class="card-value">
-          <div class="product-name">{{ item.product_name }}</div>
+          <div class="product-name">{{ item.product_name | titlecase}}</div>
           <!-- <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div> -->
         </div>
       </div>
@@ -264,7 +263,7 @@
   Cancel Order
 </button>
 
-  <button mat-raised-button color="accent" (click)="printInvoice()">
+  <button mat-raised-button color="accent" (click)="printInvoice()" [disabled]="orderDetailData?.status === 'cancelled'">
         <mat-icon>print</mat-icon>
         Print Invoice
       </button>
