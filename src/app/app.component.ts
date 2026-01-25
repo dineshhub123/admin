@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ApiService } from './api.service';
 import { LoginService } from './login.service';
 import { FcmService } from './fcm.service';
+import { OrderNotificationService } from './order-notification.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,6 +16,7 @@ export class AppComponent {
   title = 'material-ui-angular';
   username: string | null = '';
   expandedPanel: string = '';
+  private msgSub!: Subscription;
   public data: any;
   public retrieveResonse: any;
   public base64Data: any;
@@ -38,6 +40,7 @@ export class AppComponent {
     public apiService: ApiService,
     private loginService: LoginService,
     private fcm: FcmService,
+    private orderNotify: OrderNotificationService,
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -46,6 +49,10 @@ export class AppComponent {
     });
   }
   ngOnInit(): void {
+
+    this.orderNotify.pendingCount$.subscribe((c:any) => this.pendingOrderCount = c);
+  this.orderNotify.preview$.subscribe(list => this.pendingOrders = list);
+
     this.loginService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
       const userData = localStorage.getItem('login_user'); // 👈 key name
@@ -57,19 +64,25 @@ export class AppComponent {
         this.firstUserName = `${user.user_first_name}`;
         // First letter of first name in CAPITAL
         this.avatarLetter = user.user_first_name?.charAt(0)?.toUpperCase();
-      }
-    });
     this.setExpandedPanel(this.router.url);
-    const adminId = 1; // logged-in admin
+    const adminId = user.id; // logged-in admin
     this.fcm.initFCM(adminId);
     // VERY IMPORTANT: attach foreground listener
     this.fcm.listenMessages();
     this.getPendingOrdersPreview();
     // 🔔 when notification arrives
-    this.fcm.message$.subscribe(() => {
+     this.msgSub = this.fcm.message$.subscribe(() => {
       this.getPendingOrdersPreview();
     });
+
+      }
+    });
   }
+
+    ngOnDestroy() {
+  if (this.msgSub) this.msgSub.unsubscribe();
+}
+
   setExpandedPanel(url: string): void {
     if (url.includes('/orders')) {
       this.expandedPanel = 'orders';
@@ -97,9 +110,10 @@ export class AppComponent {
   }
   getPendingOrdersPreview() {
     this.apiService.getPendingOrder().subscribe(res => {
-      this.pendingOrders = res;
-      console.log("pendingOrders",this.pendingOrders)
-      this.pendingOrderCount = res.length;
+      this.orderNotify.setPendingOrders(res);
+     // this.pendingOrders = res.slice(0, 5);
+      //console.log("pendingOrders",this.pendingOrders?.length)
+     // this.pendingOrderCount = res?.length;
     })
   }
   toggleDropdown() {

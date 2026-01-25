@@ -34,7 +34,7 @@
         </div>
 
         <div class="time">
-          {{ order.created_at | date:'short' }}
+          {{ order.created_at | date:'short' }} -  <span class="notify-pending"> {{order.status | titlecase}}</span>
         </div>
       </div>
 
