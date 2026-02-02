@@ -36,7 +36,13 @@ export class ApiService {
   apiPendingOrderUrl:string = environment.getPendingOrderApiUrl;
   apiOrderByIdUrl:string = environment.getOrderByIdApiUrl;
   apiUpadateStatusUrl = environment.upadateStatusApiUrl;
-  apiOrderListByStatusUrl = environment.getOrderListByStatusApiUrl;
+  apiGetEmployeeURL: string = environment.getEmployeeDetailsApiUrl;
+  apiSaveEmployeeURL: string = environment.saveEmployeeDetailsApiUrl;
+  apiUpdateEmployeeURL: string = environment.updateEmployeeDetailsApiUrl;
+  apiDeleteEmployeeURL: string = environment.deleteEmployeeDetailsApiUrl;
+  apiOrderListByStatusUrl: string = environment.getOrderListByStatusApiUrl;
+  apiDownloadSalaryURL: string = environment.getSalarySlipApiUrl;
+  employeeId: any;
 
 
 
@@ -123,5 +129,28 @@ export class ApiService {
   getOrderByStatus(status:string):Observable<any>{
     return this.http.get(`${this.apiOrderListByStatusUrl}?status=${status}`).pipe(map((res:any)=>res))
   }
+ getEmployees() {
+    return this.http.get(this.apiGetEmployeeURL).pipe(map((res: any) => res));
+  }
+  getEmployeeById(id: number) {
+    return this.http.get(`${this.apiGetEmployeeURL}?id=${id}`).pipe(map((res: any) => res));
+  }
+  saveEmployee(object: FormData) {
+    return this.http.post(this.apiSaveEmployeeURL, object).pipe(map((res: any) => res));
+  }
+  updateEmployee(formData: FormData) {
+  return this.http.post(this.apiUpdateEmployeeURL, formData).pipe(map((res: any) => res));
+  }
+  deleteEmployee(id: number) {
+    return this.http.delete(`${this.apiDeleteEmployeeURL}?id=${id}`).pipe(map((res: any) => res));
+  }
+downloadSalarySlip(employeeId: number, month: string) {
+  return this.http.get(
+    `${this.apiDownloadSalaryURL}?employee_id=${employeeId}&month=${month}`,
+    { responseType: 'blob' }
+  );
+}
+
+
 
 }

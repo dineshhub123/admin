@@ -1,0 +1,315 @@
+<div class="page">
+
+  <!-- LEFT PROFILE -->
+ <mat-card class="employee-card">
+    <img
+      class="avatar"
+      [src]="employee.photo 
+        ? 'http://localhost/uploads/' + employee.photo 
+        : 'assets/default-user.png'"
+    />
+
+    <h3>{{ employee.full_name }}</h3>
+    <p class="designation">Employee</p>
+
+    <div class="status">
+      <mat-icon color="primary">check_circle</mat-icon>
+      Active
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="info">
+      <p><mat-icon>badge</mat-icon> {{ employee.employee_id }}</p>
+      <p><mat-icon>call</mat-icon> {{ employee.mobile }}</p>
+      <p><mat-icon>email</mat-icon> {{ employee.email }}</p>
+    </div>
+  </mat-card>
+
+
+  <!-- RIGHT -->
+  <div class="right">
+
+    <mat-tab-group>
+
+      <!-- 🔹 PERSONAL INFO TAB -->
+   <mat-tab label="Personal Info">
+ <div class="employee-page" *ngIf="employee">
+
+  <!-- LEFT PROFILE CARD -->
+ 
+
+  <!-- RIGHT DETAILS -->
+  <mat-card class="details-card">
+    <h2>Personal Information</h2>
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Full Name: </label>
+        <span>{{ employee.full_name }}</span>
+      </div>
+
+      <div class="field">
+        <label>Mobile:</label>
+        <span>{{ employee.mobile }}</span>
+      </div>
+
+      <div class="field">
+        <label>Employee ID: </label>
+        <span>{{ employee.employee_id }}</span>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <span>{{ employee.email }}</span>
+      </div>
+
+      <div class="field">
+        <label>Date of Birth: </label>
+        <span>{{ employee.dob }}</span>
+      </div>
+
+      <div class="field">
+        <label>Gender: </label>
+        <span>{{ employee.gender }}</span>
+      </div>
+
+      <div class="field">
+        <label>Blood Group: </label>
+        <span>{{ employee.blood_group }}</span>
+      </div>
+
+    </div>
+  </mat-card>
+
+</div>
+
+
+
+</mat-tab>
+
+      <!-- 🔹 SALARY SLIPS TAB -->
+      <mat-tab label="Job Details">
+        <mat-card class="tab-card">
+
+          <h3>Salary Slip Download</h3>
+
+          <form [formGroup]="salaryForm" class="download-row">
+            <span>Select Month:</span>
+
+            <mat-form-field appearance="outline">
+              <mat-select formControlName="month">
+                <mat-option *ngFor="let m of months" [value]="m">
+                  {{ m }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary"  (click)="downloadSlip(salaryForm.value.month)">
+              Download Salary Slip
+            </button>
+          </form>
+
+        </mat-card>
+
+        <!-- SUMMARY -->
+        <div class="summary">
+          <mat-card class="summary-card">
+            <mat-icon class="green">payments</mat-icon>
+            <div>
+              <span>Basic Salary</span>
+              <h4>$ ******</h4>
+            </div>
+          </mat-card>
+
+          <mat-card class="summary-card">
+            <mat-icon class="gold">account_balance_wallet</mat-icon>
+            <div>
+              <span>Net Salary</span>
+              <h4>$ ******</h4>
+            </div>
+          </mat-card>
+
+          <mat-card class="summary-card">
+            <mat-icon class="blue">account_balance</mat-icon>
+            <div>
+              <span>Bank Account</span>
+              <h4>•••• 5678</h4>
+              <small>Bank Name</small>
+            </div>
+          </mat-card>
+        </div>
+
+        <!-- DOCUMENTS -->
+        <h3>Documents</h3>
+        <div class="docs">
+          <mat-card class="doc">Appointment Letter<button mat-raised-button>Download</button></mat-card>
+          <mat-card class="doc">Salary Slip<button mat-raised-button>Download</button></mat-card>
+          <mat-card class="doc">ID Proof<button mat-stroked-button>View</button></mat-card>
+          <mat-card class="doc">Offer Letter<button mat-stroked-button>View</button></mat-card>
+        </div>
+      </mat-tab>
+
+
+  <mat-tab label="Documents">
+   <mat-card class="doc-wrapper">
+  <h3 class="doc-title">Documents</h3>
+
+  <div class="doc-grid">
+
+    <mat-card class="doc-card">
+      <mat-icon class="doc-icon">description</mat-icon>
+      <p class="doc-name">Appointment Letter</p>
+      <button mat-raised-button color="primary">Download</button>
+    </mat-card>
+
+    <mat-card class="doc-card">
+      <mat-icon class="doc-icon">receipt_long</mat-icon>
+      <p class="doc-name">Salary Slip</p>
+      <button mat-raised-button color="primary">Download</button>
+    </mat-card>
+
+    <mat-card class="doc-card">
+      <mat-icon class="doc-icon">badge</mat-icon>
+      <p class="doc-name">ID Proof</p>
+      <button mat-stroked-button color="primary">View</button>
+    </mat-card>
+
+    <mat-card class="doc-card">
+      <mat-icon class="doc-icon">folder_open</mat-icon>
+      <p class="doc-name">Offer Letter</p>
+      <button mat-stroked-button color="primary">View</button>
+    </mat-card>
+
+  </div>
+</mat-card>
+       
+      </mat-tab>
+
+
+  <mat-tab label="Salary">
+        <mat-card class="tab-card">
+
+          <h3>Salary Slip Download</h3>
+
+          <form [formGroup]="salaryForm" class="download-row">
+            <span>Select Month:</span>
+
+            <mat-form-field appearance="outline">
+              <mat-select formControlName="month">
+                <mat-option *ngFor="let m of months" [value]="m">
+                  {{ m }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary"  (click)="downloadSlip(salaryForm.value.month)">
+              Download Salary Slip
+            </button>
+          </form>
+
+        </mat-card>
+
+        <!-- SUMMARY -->
+        <div class="summary">
+          <mat-card class="summary-card">
+            <mat-icon class="green">payments</mat-icon>
+            <div>
+              <span>Basic Salary</span>
+              <h4>$ ******</h4>
+            </div>
+          </mat-card>
+
+          <mat-card class="summary-card">
+            <mat-icon class="gold">account_balance_wallet</mat-icon>
+            <div>
+              <span>Net Salary</span>
+              <h4>$ ******</h4>
+            </div>
+          </mat-card>
+
+          <mat-card class="summary-card">
+            <mat-icon class="blue">account_balance</mat-icon>
+            <div>
+              <span>Bank Account</span>
+              <h4>•••• 5678</h4>
+              <small>Bank Name</small>
+            </div>
+          </mat-card>
+        </div>
+
+        <!-- DOCUMENTS -->
+        <h3>Documents</h3>
+        <div class="docs">
+          <mat-card class="doc">Appointment Letter<button mat-raised-button>Download</button></mat-card>
+          <mat-card class="doc">Salary Slip<button mat-raised-button>Download</button></mat-card>
+          <mat-card class="doc">ID Proof<button mat-stroked-button>View</button></mat-card>
+          <mat-card class="doc">Offer Letter<button mat-stroked-button>View</button></mat-card>
+        </div>
+      </mat-tab>
+
+  <mat-tab label="Salary Slips">
+        <mat-card class="tab-card">
+
+          <h3>Salary Slip Download</h3>
+
+          <form [formGroup]="salaryForm" class="download-row">
+            <span>Select Month:</span>
+
+            <mat-form-field appearance="outline">
+              <mat-select formControlName="month">
+                <mat-option *ngFor="let m of months" [value]="m">
+                  {{ m }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary"  (click)="downloadSlip(salaryForm.value.month)">
+              Download Salary Slip
+            </button>
+          </form>
+
+        </mat-card>
+
+        <!-- SUMMARY -->
+        <div class="summary">
+          <mat-card class="summary-card">
+            <mat-icon class="green">payments</mat-icon>
+            <div>
+              <span>Basic Salary</span>
+              <h4>$ ******</h4>
+            </div>
+          </mat-card>
+
+          <mat-card class="summary-card">
+            <mat-icon class="gold">account_balance_wallet</mat-icon>
+            <div>
+              <span>Net Salary</span>
+              <h4>$ ******</h4>
+            </div>
+          </mat-card>
+
+          <mat-card class="summary-card">
+            <mat-icon class="blue">account_balance</mat-icon>
+            <div>
+              <span>Bank Account</span>
+              <h4>•••• 5678</h4>
+              <small>Bank Name</small>
+            </div>
+          </mat-card>
+        </div>
+
+        <!-- DOCUMENTS -->
+        <h3>Documents</h3>
+        <div class="docs">
+          <mat-card class="doc">Appointment Letter<button mat-raised-button>Download</button></mat-card>
+          <mat-card class="doc">Salary Slip<button mat-raised-button>Download</button></mat-card>
+          <mat-card class="doc">ID Proof<button mat-stroked-button>View</button></mat-card>
+          <mat-card class="doc">Offer Letter<button mat-stroked-button>View</button></mat-card>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+</div>
