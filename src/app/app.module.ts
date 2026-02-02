@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { environment } from 'src/environments/environment'; 
 import { MaterialModule } from './shared/material.module';
 import { SharedModule } from './shared/shared.module';
@@ -14,7 +14,7 @@ import { LoginModule } from './login/login.module';
 import { SignupModule } from './signup/signup.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-import {AngularEditorModule } from '@kolkov/angular-editor';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { FirstLiPipe } from './first-li.pipe';
 import { FullLiPipe } from './full-li.pipe';
 import { MatMenuModule } from '@angular/material/menu';
@@ -44,32 +44,45 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ReplacePathPipe } from './replace-path.pipe';
 import { OrderlistComponent } from './pages/orders/orderlist/orderlist.component';
 import { OrderStatusStepperComponent } from './pages/orders/order-status-stepper/order-status-stepper.component';
-import { OrderTrackingComponent } from './pages/orders/order-tracking/order-tracking.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ProductListComponent } from './pages/products/product_list/product-list.component';
 import { UploadComponent } from './pages/products/upload_product/upload_product.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { EmployeeDetailsComponent } from './pages/employee/employee-details/employee-details.component';
+import { EmployeeAddComponent } from './pages/employee/employee/employee-add/employee-add.component';
+import { EmployeeDeleteComponent } from './pages/employee/employee/employee-delete/employee-delete.component';
+import { EmployeeEditComponent } from './pages/employee/employee/employee-edit/employee-edit.component';
+import { EmployeeListComponent } from './pages/employee/employee/employee-list/employee-list.component';
+import { InvoiceComponent } from './pages/orders/invoice/invoice.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { SafePipe } from './safe.pipe';
 @NgModule({
   declarations: [
     AppComponent,
     UploadComponent,
     ProductListComponent,
-    SalereportsComponent, 
+    SalereportsComponent,
     CustomersComponent,
     FirstLiPipe,
     FullLiPipe,
     PrivacyPopupComponent,
     OrderViewComponent,
     EditCustomerDialogComponent,
-    ProductEditDialogComponent, 
+    ProductEditDialogComponent,
     StoreFormComponent,
     ConfirmDialogComponent,
     StoreListComponent,
     OrderlistComponent,
-   OrderStatusStepperComponent,
-   OrderTrackingComponent,
-    ReplacePathPipe
+    OrderStatusStepperComponent,
+    EmployeeListComponent,
+    EmployeeAddComponent,
+    EmployeeEditComponent,
+    EmployeeDeleteComponent,
+    EmployeeDetailsComponent,
+    InvoiceComponent,
+    ReplacePathPipe,
+    SafePipe
   ],
   imports: [
     BrowserModule,
@@ -84,9 +97,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SignupModule,
     HttpClientModule,
     AngularEditorModule,
-    MatMenuModule, 
-    MatListModule, 
-    MatBadgeModule,  
+    MatMenuModule,
+    MatListModule,
+    MatBadgeModule,
     MatTooltipModule,
     MatExpansionModule,
     MatMenuModule,
@@ -103,6 +116,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    PdfViewerModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
