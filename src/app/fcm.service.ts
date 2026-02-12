@@ -9,7 +9,7 @@ export class FcmService {
 
   // 🔥 Firebase messaging instance
   private messaging = getMessaging(firebaseApp);
-
+  private isListening = false;
   // 🔁 Observable to share notification with components
   private messageSource = new Subject<any>();
   message$ = this.messageSource.asObservable();
@@ -53,6 +53,8 @@ export class FcmService {
 
   // Listen foreground notifications
   listenMessages(): void {
+    if (this.isListening) return;   // 🔥 stop duplicate listener
+     this.isListening = true;
     onMessage(this.messaging, payload => {
       // ✅ emit to subscribed components
       this.messageSource.next(payload);

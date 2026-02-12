@@ -32,7 +32,7 @@ dataSource = new MatTableDataSource<any>();
   private dialog: MatDialog  ) {}
 
   ngOnInit(): void {
- this.getUserDetailsData();
+ //this.getUserDetailsData();
 
   }
  ngAfterViewInit() {
@@ -43,17 +43,17 @@ editProduct(product: any): void {
   console.log('Edit clicked:', product);
 }
 
-getUserDetailsData() {
-  this.apiService.getUserDetailsData().subscribe(
-    (data) => {
-      this.dataSource.data = data;
-      console.log(data, 'userdata');
-    },
-    (error) => {
-      console.error('Error fetching user details:', error);
-    }
-  );
-}
+// getUserDetailsData() {
+//   this.apiService.getUserDetailsData().subscribe(
+//     (data) => {
+//       this.dataSource.data = data;
+//       console.log(data, 'userdata');
+//     },
+//     (error) => {
+//       console.error('Error fetching user details:', error);
+//     }
+//   );
+// }
   
 editCustomer(customer: any): void {
   const dialogRef = this.dialog.open(EditCustomerDialogComponent, {
@@ -92,9 +92,9 @@ deleteCustomerList(userId: any): void {
   }
 }
  deleteCustomer() {
-    this.apiService.getUserDetailsData().subscribe(data => {
-  this.dataSource.data = data;
-  });
+  //this.apiService.getUserDetailsData().subscribe(data => {
+  //this.dataSource.data = data;
+ // });
 
   }
 applyProductSearch(event: Event) {

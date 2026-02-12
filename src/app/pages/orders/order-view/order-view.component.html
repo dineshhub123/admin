@@ -1,94 +1,88 @@
 <!-- order-view.component.html -->
 <div class="order-view-container">
-  
   <mat-card class="order-card">
-    <h2>Order Details</h2>
-    
-    <div class="order-filter-container pl-2">
-      <mat-form-field appearance="outline">
-        <mat-label>Change Order Status</mat-label>
-        <mat-select (selectionChange)="onStatusFilterChange($event.value)">
-          <mat-option value="all">All Orders</mat-option>
-          <mat-option value="pending">Pending</mat-option>
-          <mat-option value="confirmed">Confirmed</mat-option>
-          <mat-option value="processing">Processing</mat-option>
-          <mat-option value="shipped">Shipped</mat-option>
-          <mat-option value="out_for_delivery">Out for Delivery</mat-option>
-          <mat-option value="delivered">Delivered</mat-option>
-          <mat-option value="cancelled">Cancelled</mat-option>
-        </mat-select>
-      </mat-form-field>
- <!-- <div class="current-status">
-        <span class="status-label">Current Status:</span>
-        <mat-chip class="status-chip" [class]="getStatusClass(order.order_status)" selected>
-          <mat-icon class="status-icon">{{ getStatusIcon(order.order_status) }}</mat-icon>
-          {{ order.order_status | titlecase }}
-        </mat-chip>
-      </div> -->
-      <!-- Status Control Buttons -->
-      <div class="status-controls">
-        <button mat-raised-button color="primary" (click)="changeStatus(-1)" 
-                [disabled]="currentStatusIndex === 0">
-          <mat-icon>arrow_back</mat-icon>
-          Previous Status
-        </button>
-        <button mat-raised-button color="primary" (click)="changeStatus(1)" 
-                [disabled]="currentStatusIndex === statuses.length - 1">
-          Next Status
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </div>
+  <mat-progress-bar
+  *ngIf="loading"
+  mode="indeterminate"
+  diameter="50">
+</mat-progress-bar>
+
+   <div class="order-header">
+  <button mat-icon-button color="primary" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h2>Order Details</h2>
+</div>
+<div class="order-top-bar">
+ <h2 *ngIf="orderDetailData?.status === 'cancelled'" class="cancelled-title">
+  {{ getTopBarTitle() }}
+</h2>
+ <h2 *ngIf="orderDetailData?.status === 'delivered'" class="delivered-title">
+  {{ getTopBarTitle() }}
+</h2>
+
+</div>
+  <div class="order-filter-container pl-2">
+   <div class="status-wrapper">
+  <!-- CONTROLS -->
+<div class="status-controls">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="changeStatus(-1)"
+    [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'|| orderDetailData?.status === 'delivered'">
+    <mat-icon>arrow_back</mat-icon> Prev
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="changeStatus(1)"
+    [disabled]="currentStatusIndex === statuses.length - 2 || orderDetailData?.status === 'cancelled'"
+  >
+    {{ getCurrentStatus() }}
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>
+
+
+
+</div>
+
     </div>
 
     <mat-divider></mat-divider>
 
-  <!-- <app-order-tracking
-    [orderId]="order.order_id"
-    [expectedArrival]="order.delivery_date"
-    [carrier]="'USPS'"
-    [trackingNumber]="'241304E290480462'"
-    [orderStatus]="order.order_status">
-  </app-order-tracking> -->
-
-    <!-- Order Status Stepper -->
-     <!-- <app-order-status-stepper 
-      [currentStatus]="order.order_status"
-      [orderDate]="order.order_date"
-      [deliveryDate]="order.delivery_date"> 
-    </app-order-status-stepper>
-    <mat-divider></mat-divider> -->
 
 <!-- In your order-view.component.html -->
 <app-order-status-stepper 
   [currentStatus]="getStepperStatus()"
-  [orderDate]="order.order_date"
-  [deliveryDate]="order.delivery_date">
+  [orderDate]="orderDetailData?.created_at">
 </app-order-status-stepper>
 
 <mat-divider></mat-divider>
-
     <!-- Order Basic Information -->
     <div class="order-basic-info">
       <table class="meta-table">
         <tr>
           <th>Order ID:</th>
-          <td>{{ order.order_id }}</td>
+          <td>{{ orderDetailData?.order_id }}</td>
           <th>Status:</th>
           <td>
-            <mat-chip [color]="getStatusColor(order.order_status)" selected>
-              {{ order.order_status | titlecase }}
+            <mat-chip [color]="getStatusColor(orderDetailData?.status)" selected>
+              {{ orderDetailData?.status | titlecase }}
             </mat-chip>
           </td>
         </tr>
         <tr>
           <th>Order Date:</th>
-          <td>{{ order.order_date | date:'medium' }}</td>
-          <th>Delivery Date:</th>
-          <td>{{ order.delivery_date }}</td>
+          <td>{{ orderDetailData?.created_at | date:'medium' }}</td>
+          <!-- <th>Delivery Date:</th>
+          <td>{{ order.delivery_date }}</td> -->
         </tr>
         <tr>
           <th>Total Amount:</th>
-          <td colspan="3"><strong class="total-amount">₹{{ order.total_amount }}</strong></td>
+          <td colspan="3"><strong class="total-amount">₹{{ orderDetailData?.total_amount }}</strong></td>
         </tr>
       </table>
     </div>
@@ -96,21 +90,21 @@
     <!-- User Information -->
     <h3>User Information</h3>
     <table class="meta-table">
-      <tr><th>Name:</th><td>{{ order.user.user_first_name }} {{ order.user.user_last_name }}</td></tr>
-      <tr><th>Email:</th><td>{{ order.user.user_email }}</td></tr>
-      <tr><th>Phone:</th><td>{{ order.user.user_phone }}</td></tr>
-      <tr><th>Address:</th><td>{{ order.user.user_address }} - {{ order.user.user_pincode }}</td></tr>
+      <tr><th>Name:</th><td>{{ orderDetailData?.delivery_address.name | titlecase}}</td></tr>
+       <tr><th>Email:</th><td>{{ orderDetailData?.delivery_address.email }}</td></tr> 
+      <tr><th>Phone:</th><td>{{ orderDetailData?.delivery_address.mobile }}</td></tr>
+      <tr><th>Address:</th><td>{{ orderDetailData?.delivery_address.address | titlecase}}</td></tr>
     </table>
 
     <!-- Order Items -->
-    <h3>Order Items ({{ order.items.length }})</h3>
-    <mat-table [dataSource]="order.items" class="mat-elevation-z2 items-table">
+    <h3>Order Items ({{ orderDetailData?.items.length }})</h3>
+    <mat-table [dataSource]="orderDetailData?.items" class="mat-elevation-z2 items-table" *ngIf="!isMobile">
 
       <!-- Image -->
       <ng-container matColumnDef="image">
         <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
         <mat-cell *matCellDef="let item">
-          <img [src]="item.image_url" alt="{{ item.product_name }}" class="product-image">
+         <img [src]="imageBaseUrl + item.image[0]" alt="" class="product-image">
         </mat-cell>
       </ng-container>
 
@@ -118,13 +112,13 @@
       <ng-container matColumnDef="product_name">
         <mat-header-cell *matHeaderCellDef> Product </mat-header-cell>
         <mat-cell *matCellDef="let item">
-          <div class="product-name">{{ item.product_name }}</div>
-          <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div>
+          <div class="product-name">{{ item.product_name | titlecase}}</div>
+          <!-- <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div> -->
         </mat-cell>
       </ng-container>
 
       <!-- Variant -->
-      <ng-container matColumnDef="variant">
+      <!-- <ng-container matColumnDef="variant">
         <mat-header-cell *matHeaderCellDef> Variant </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <div class="variant-info">
@@ -132,7 +126,7 @@
             {{ item.variant.color }} ({{ item.variant.size }})
           </div>
         </mat-cell>
-      </ng-container>
+      </ng-container> -->
 
       <!-- Quantity -->
       <ng-container matColumnDef="quantity">
@@ -147,128 +141,137 @@
         <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <div class="price-info">
-            <span class="current-price">₹{{ item.product_price }}</span>
-            <span class="mrp-price"><del>₹{{ item.product_mrp_price }}</del></span>
+            <span class="current-price">₹{{ item.price }}</span>
+            <!-- <span class="mrp-price"><del>₹{{ item.product_mrp_price }}</del></span> -->
           </div>
         </mat-cell>
       </ng-container>
 
       <!-- Discount -->
-      <ng-container matColumnDef="discount">
+      <!-- <ng-container matColumnDef="discount">
         <mat-header-cell *matHeaderCellDef> Discount </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <span class="discount-badge">-₹{{ item.product_discount }}</span>
         </mat-cell>
-      </ng-container>
+      </ng-container> -->
 
       <!-- Actions -->
-      <ng-container matColumnDef="actions">
+      <!-- <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <button mat-icon-button color="primary" (click)="viewProductDetails(item)">
             <mat-icon>visibility</mat-icon>
           </button>
         </mat-cell>
-      </ng-container>
+      </ng-container> -->
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
+
+<!-- Mobile Card View -->
+<ng-container *ngIf="isMobile">
+  <mat-card *ngFor="let item of orderDetailData?.items" class="item-card">
+    <div class="card-content">
+      <div class="card-row image-row">
+        <img [src]="imageBaseUrl + item.image[0]" alt="" class="product-image">
+      </div>
+
+      <div class="card-row ml-2">
+        <div class="card-label">Product : </div>
+        <div class="card-value">
+          <div class="product-name">{{ item.product_name | titlecase}}</div>
+          <!-- <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div> -->
+        </div>
+      </div>
+
+      <!-- <div class="card-row  ml-2">
+        <div class="card-label">Variant  : </div>
+        <div class="card-value">
+          <div class="variant-info">
+            <span class="color-dot" [style.background-color]="item.variant.colorCode"></span>
+            {{ item.variant.color }} ({{ item.variant.size }})
+          </div>
+        </div>
+      </div> -->
+
+      <div class="card-row  ml-2">
+        <div class="card-label">Qty  : </div>
+        <div class="card-value">
+          <span class="quantity-badge">{{ item.quantity }}</span>
+        </div>
+      </div>
+
+      <div class="card-row  ml-2">
+        <div class="card-label">Price  : </div>
+        <div class="card-value">
+          <div class="price-info">
+            <span class="current-price">₹{{ item.price }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="card-row  ml-2">
+        <div class="card-label">Discount  : </div>
+        <div class="card-value">
+          <span class="discount-badge">-₹{{ item.product_discount }}</span>
+        </div>
+      </div> -->
+
+<!-- <div class="card-row  ml-2">
+        <div class="card-label">View</div>
+        <div class="card-value">
+        <mat-icon (click)="viewProductDetails(item)">visibility</mat-icon>
+        </div>
+      </div> -->
+    </div>
+  </mat-card>
+</ng-container>
+
+
+<!-- Original table for desktop -->
 
     <!-- Payment Information -->
     <h3>Payment Information</h3>
     <table class="meta-table">
       <tr>
         <th>Method:</th>
-        <td>{{ order.payment.method }}</td>
+        <td>{{ orderDetailData?.payment_method }}</td>
         <th>Status:</th>
         <td>
-          <mat-chip [color]="getPaymentStatusColor(order.payment.status)" selected>
-            {{ order.payment.status | titlecase }}
+          <mat-chip [color]="getPaymentStatusColor(orderDetailData?.status)" selected>
+            {{ orderDetailData?.status | titlecase }}
           </mat-chip>
         </td>
       </tr>
       <tr>
         <th>Transaction ID:</th>
-        <td colspan="3" class="transaction-id">{{ order.payment.transaction_id }}</td>
+        <td colspan="3" class="transaction-id">N/A</td>
       </tr>
     </table>
 
     <!-- Action Buttons -->
     <div class="action-buttons">
-      <!-- <button mat-raised-button color="primary" (click)="viewOrderDetails(order)">
-        <mat-icon>description</mat-icon>
-        View Full Details
-      </button> -->
-      <!-- <button mat-raised-button color="warn" (click)="cancelOrder(order)" 
-              *ngIf="order.order_status !== 'cancelled' && order.order_status !== 'delivered'">
-        <mat-icon>cancel</mat-icon>
-        Cancel Order
-      </button> -->
- <div class="action-buttons-grid">
-      <h3>Quick Actions</h3>
-      <div class="action-buttons">
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="markAsPending(order)"
-                [disabled]="!isActionAllowed('pending') || order.order_status === 'pending'">
-          <mat-icon>schedule</mat-icon>
-          Mark as Pending
-        </button>
+    <button
+  mat-raised-button
+  color="warn"
+  (click)="cancelOrder(orderDetailData)"
+  [disabled]="orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'delivered'"
+>
+  <mat-icon>cancel</mat-icon>
+  Cancel Order
+</button>
 
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="confirmOrder(order)"
-                [disabled]="!isActionAllowed('confirmed') || order.order_status === 'confirmed'">
-          <mat-icon>check_circle</mat-icon>
-          Confirm Order
-        </button>
-
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="processOrder(order)"
-                [disabled]="!isActionAllowed('processing') || order.order_status === 'processing'">
-          <mat-icon>build</mat-icon>
-          Start Processing
-        </button>
-
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="shipOrder(order)"
-                [disabled]="!isActionAllowed('shipped') || order.order_status === 'shipped'">
-          <mat-icon>local_shipping</mat-icon>
-          Mark as Shipped
-        </button>
-
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="outForDelivery(order)"
-                [disabled]="!isActionAllowed('out_for_delivery') || order.order_status === 'out_for_delivery'">
-          <mat-icon>delivery_dining</mat-icon>
-          Out for Delivery
-        </button>
-
-        <button mat-stroked-button 
-                color="primary" 
-                (click)="deliverOrder(order)"
-                [disabled]="!isActionAllowed('delivered') || order.order_status === 'delivered'">
-          <mat-icon>assignment_turned_in</mat-icon>
-          Mark Delivered
-        </button>
-
-        <button mat-stroked-button 
-                color="warn" 
-                (click)="cancelOrder(order)"
-                [disabled]="!isActionAllowed('cancelled') || order.order_status === 'cancelled'">
-          <mat-icon>cancel</mat-icon>
-          Cancel Order
-        </button>
-  <button mat-raised-button color="accent" (click)="printOrder()">
+  <button mat-raised-button color="accent" (click)="printInvoice()" [disabled]="orderDetailData?.status === 'cancelled'">
         <mat-icon>print</mat-icon>
-        Print Order
+        Print Invoice
       </button>
-      </div>
-      </div>
+  <button mat-raised-button color="accent" (click)="printAdressLabel()">
+        <mat-icon>print</mat-icon>
+        Print Address
+      </button>
+
     </div>
   </mat-card>
 </div>

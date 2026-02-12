@@ -32,6 +32,19 @@ export class ApiService {
   apiStoreInsertURL:string = environment.insertStoreDetailsApiUrl;
   apigetStoreURL:string = environment.getStoreDetailsApiUrl;
   apideleteStoreURL:string = environment.deleteStoreDetailsApiUrl;
+  apiOrderListUrl:string = environment.getOrderListApiUrl;
+  apiPendingOrderUrl:string = environment.getPendingOrderApiUrl;
+  apiOrderByIdUrl:string = environment.getOrderByIdApiUrl;
+  apiUpadateStatusUrl = environment.upadateStatusApiUrl;
+  apiGetEmployeeURL: string = environment.getEmployeeDetailsApiUrl;
+  apiSaveEmployeeURL: string = environment.saveEmployeeDetailsApiUrl;
+  apiUpdateEmployeeURL: string = environment.updateEmployeeDetailsApiUrl;
+  apiDeleteEmployeeURL: string = environment.deleteEmployeeDetailsApiUrl;
+  apiOrderListByStatusUrl: string = environment.getOrderListByStatusApiUrl;
+  apiDownloadSalaryURL: string = environment.getSalarySlipApiUrl;
+  employeeId: any;
+
+
 
   constructor(private http: HttpClient,private router:Router) { }
   
@@ -47,8 +60,8 @@ export class ApiService {
      };
     }
   }
-  getProductListDetailsData(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiProductListURL}/${id}`);
+  getProductListDetailsData(): Observable<any> {
+  return this.http.get(this.apiProductListURL).pipe(map((res:any)=>res))
   }
   deleteProduct(id: number): Observable<any> {
   return this.http.post(this.apiDeleteProductURL, { id });
@@ -59,8 +72,8 @@ export class ApiService {
  deleteOrder(id: number): Observable<any> {
   return this.http.post(this.apiDeleteOrderURL, { id });
   }
-  getUserDetailsData(): Observable<any> {
-    return this.http.get(this.getUserInfoURL).pipe(map((res: any) => res)); 
+  getUserDetailsData(object:any): Observable<any> {
+    return this.http.post(this.getUserInfoURL,object).pipe(map((res: any) => res)); 
   }
   searchData(object:any): Observable<any> {
     return this.http.post(this.apiSearchURL,object).pipe(map((res: any) => res));
@@ -101,5 +114,43 @@ export class ApiService {
   getStorelist(): Observable<any> {
   return this.http.get(this.apigetStoreURL).pipe(map((res:any)=>res))
   }
-  
+  getOrderList():Observable<any>{
+    return this.http.get(this.apiOrderListUrl).pipe(map((res:any)=>res))
+  }
+  getPendingOrder():Observable<any>{
+    return this.http.get(this.apiPendingOrderUrl).pipe(map((res:any)=>res))
+  }
+  getOrderByID(orderId:number):Observable<any>{
+    return this.http.get(`${this.apiOrderByIdUrl}?order_id=${orderId}`).pipe(map((res:any)=>res))
+  }
+  updateOrderStatus(object:any): Observable<any> {
+    return this.http.post(this.apiUpadateStatusUrl,object).pipe(map((res: any) => res));
+  }
+  getOrderByStatus(status:string):Observable<any>{
+    return this.http.get(`${this.apiOrderListByStatusUrl}?status=${status}`).pipe(map((res:any)=>res))
+  }
+ getEmployees() {
+    return this.http.get(this.apiGetEmployeeURL).pipe(map((res: any) => res));
+  }
+  getEmployeeById(id: number) {
+    return this.http.get(`${this.apiGetEmployeeURL}?id=${id}`).pipe(map((res: any) => res));
+  }
+  saveEmployee(object: FormData) {
+    return this.http.post(this.apiSaveEmployeeURL, object).pipe(map((res: any) => res));
+  }
+  updateEmployee(formData: FormData) {
+  return this.http.post(this.apiUpdateEmployeeURL, formData).pipe(map((res: any) => res));
+  }
+  deleteEmployee(id: number) {
+    return this.http.delete(`${this.apiDeleteEmployeeURL}?id=${id}`).pipe(map((res: any) => res));
+  }
+downloadSalarySlip(employeeId: number, month: string) {
+  return this.http.get(
+    `${this.apiDownloadSalaryURL}?employee_id=${employeeId}&month=${month}`,
+    { responseType: 'blob' }
+  );
+}
+
+
+
 }

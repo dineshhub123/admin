@@ -1,20 +1,45 @@
-/* Center the dialog content */
-mat-dialog-content {
-  padding: 16px 0;
+/* Dialog Title */
+.dialog-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Dialog Content */
+.dialog-content p {
+  font-size: 16px;
+  color: #555;
   margin: 0;
+  line-height: 1.5;
 }
 
-/* Add some spacing between buttons */
-mat-dialog-actions {
-  padding: 8px 0;
-  gap: 8px;
+/* Dialog Actions */
+.dialog-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
 }
 
-/* Optional: Add some hover effects */
-.confirm-button:hover {
-  opacity: 0.9;
+/* Cancel Button */
+.cancel-button {
+  min-width: 100px;
 }
 
-.cancel-button:hover {
-  background-color: rgba(0, 0, 0, 0.04);
+/* Confirm Button */
+.confirm-button {
+  min-width: 100px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .dialog-actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .cancel-button, 
+  .confirm-button {
+    width: 100%;
+  }
 }

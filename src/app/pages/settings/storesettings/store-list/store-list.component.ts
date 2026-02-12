@@ -16,7 +16,7 @@ import { ApiService } from 'src/app/api.service';
 })
 export class StoreListComponent {
  dataSource = new MatTableDataSource<any>();
- displayedColumns: string[] = ['name', 'address', 'phone', 'email', 'edit', 'delete'];
+ displayedColumns: string[] = ['name', 'address', 'phone', 'email', 'action'];
 
   isLoading = true;
 
@@ -33,6 +33,9 @@ export class StoreListComponent {
 
   ngOnInit(): void {
     this.loadStores();
+  }
+ ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
  loadStores(): void {
@@ -90,7 +93,7 @@ export class StoreListComponent {
     });
   }
 
-  deleteStore(id: number): void {
+ deleteStore(id: number): void {
   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
     width: '400px',
     data: {
@@ -105,24 +108,28 @@ export class StoreListComponent {
   dialogRef.afterClosed().subscribe(confirmed => {
     if (confirmed) {
       this.isLoading = true;
+
       this.apiService.deletestorelist(id).subscribe({
         next: () => {
-          this.snackBar.open('Store deleted successfully', 'Close', {
-            duration: 100
-          });
-          this.loadStores();
+          this.isLoading = false;
+
+          // Remove the deleted store from the table instantly
+          this.dataSource.data = this.dataSource.data.filter(store => store.id !== id);
+
+          this.snackBar.open('Store deleted successfully', 'Close', { duration: 2000 });
         },
         error: (err) => {
+          this.isLoading = false;
           console.error('Delete error:', err);
           this.snackBar.open('Failed to delete store', 'Close', {
-            duration: 100,
+            duration: 2000,
             panelClass: ['error-snackbar']
           });
-          this.isLoading = false;
         }
       });
     }
   });
 }
+
 }
 
