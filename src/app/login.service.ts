@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-
+   private TOKEN_KEY = 'admin_token';
    private loggedInSubject = new BehaviorSubject<boolean>(
     localStorage.getItem('isLoggedIn') === 'true'
   );
@@ -19,7 +19,8 @@ export class LoginService {
   }
 
   logout() {
-    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.setItem('isLoggedIn', 'false');
     localStorage.removeItem('login_admin'); // optional
     this.loggedInSubject.next(false);
   }

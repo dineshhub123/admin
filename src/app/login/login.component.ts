@@ -8,7 +8,7 @@ import { PrivacyService } from '../services/privacy.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PrivacyPopupComponent } from '../privacy-popup/privacy-popup.component';
 import { OrderNotificationService } from '../order-notification.service';
-
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,9 +16,9 @@ import { OrderNotificationService } from '../order-notification.service';
   providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
-isModalOpen = false;
+  isModalOpen = false;
   modalTitle = '';
- showPrivacyPopup = false;
+  showPrivacyPopup = false;
   loginForm: FormGroup = new FormGroup({
     mobile: new FormControl('', [Validators.required, Validators.pattern(/^([0-9]{10}|[^\s@]+@[^\s@]+\.[^\s@]+)$/)]),
     password: new FormControl('', [Validators.required])
@@ -26,24 +26,26 @@ isModalOpen = false;
 
   public loginErrToast: boolean = false;
   constructor(public router: Router,
-    public loginService: LoginService,private dialog: MatDialog,
+    public loginService: LoginService, private dialog: MatDialog,
     private apiService: ApiService,
-    private toastr: ToastrService,private privacyService: PrivacyService,private orderNotify: OrderNotificationService,
-    
+    private toastr: ToastrService,
+    private authService: AuthService,
+    private privacyService: PrivacyService, private orderNotify: OrderNotificationService,
+
     private ngZone: NgZone) { }
   pass: any
   mobile: any
   ngOnInit() {
     if (this.loginService.isLoggedIn()) {
-    this.router.navigate(['/dashboard']);
-  }
- this.showPrivacyPopup = !this.privacyService.hasUserResponded();
+      this.router.navigate(['/dashboard']);
+    }
+    this.showPrivacyPopup = !this.privacyService.hasUserResponded();
   }
   signup() {
     this.router.navigate(['signup'])
   }
 
-openDialog(title: string): void {
+  openDialog(title: string): void {
     this.dialog.open(PrivacyPopupComponent, {
       width: '600px',
       data: { title }
@@ -51,16 +53,19 @@ openDialog(title: string): void {
   }
   login(loginData: any): void {
     if (!this.loginForm.valid) return;
-
     const payload = {
-      login: loginData.mobile,   // email OR phone
+      login: loginData.mobile,
       password: loginData.password
     };
-
     this.apiService.getAdminLoginDetailsData(payload).subscribe({
       next: (res: any) => {
         const user = res.admin;
+        const token = res.token;
+     /* Save token using auth service */
+      this.authService.saveToken(token);
+      /* Save admin data */
         localStorage.setItem('login_admin', JSON.stringify(user));
+        /* Update auth state */
         this.loginService.login();
         this.loginForm.reset();
         this.router.navigate(['dashboard']);
@@ -72,9 +77,13 @@ openDialog(title: string): void {
       },
       error: err => {
         console.error(err);
-        this.toastr.error('User not found. Please register first or might be wrong credential.', 'Login Failed');
+        this.toastr.error(
+          'User not found. Please register first or wrong credentials.',
+          'Login Failed'
+        );
       }
     });
+
   }
 
   getPendingOrdersPreview() {
@@ -84,9 +93,9 @@ openDialog(title: string): void {
   }
 
 
-canLogin(): boolean {
-  return this.privacyService.hasUserResponded();
-}
+  canLogin(): boolean {
+    return this.privacyService.hasUserResponded();
+  }
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

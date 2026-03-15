@@ -1,7 +1,3 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
   production: false,
   firebase: {
@@ -16,7 +12,7 @@ export const environment = {
   searchApiUrl: 'https://ruralx.in/api/search_product.php',
   uploadDataApiUrl: 'https://ruralx.in/api/uploadAdminData.php',
   insertAdminLoginDetailsApiUrl: 'https://ruralx.in/api/insertAdminLoginDetails.php',
-  getProductListDetailsApiUrl: 'https://ruralx.in/api/getProductDetails.php',
+  getProductListDetailsApiUrl: 'https://ruralx.in/api/getAdminProductList.php',
   getProductNotifyApiUrl: 'https://ruralx.in/api/getProductNotification.php',
   deleteProductListDetailsApiUrl: 'https://ruralx.in/api/delete_product.php',
   deleteCustomerListDetailsApiUrl: 'https://ruralx.in/api/delete_customer.php',
