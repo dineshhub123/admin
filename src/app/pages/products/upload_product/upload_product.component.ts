@@ -23,7 +23,6 @@ export class UploadComponent implements OnInit {
   }
 
   productForm: FormGroup;
-  productColor = ['Red', 'Blue', 'Green', 'Black', 'Darkgrey', 'Maroon', 'Yellow', 'Brown', 'Orange', 'Voilet', 'Pink', 'Light Sky', 'Light Green']
   selectSizeOption = [true, false]
   selectedSize: boolean = true;
   deleteVariant: boolean = false;
@@ -37,13 +36,16 @@ export class UploadComponent implements OnInit {
       p_discount: [0],
       p_category: [''],
       p_subcategory: [''],
-      delivery_date: [''],
+      hsn_code: [''],
+      gst_rate: [''],
       variants: this.fb.array([this.createVariant()])
     });
   }
   get variants(): FormArray {
     return this.productForm.get('variants') as FormArray;
   }
+  gstRates = [0, 5, 12, 18, 28];
+
   ngOnInit() {
     this.productForm.patchValue({ p_size_boolean: true })
   }
@@ -105,10 +107,12 @@ export class UploadComponent implements OnInit {
     formData.append('p_price', this.productForm.get('p_price')?.value);
     formData.append('p_mrp', this.productForm.get('p_mrp')?.value);
     formData.append('p_discount', this.productForm.get('p_discount')?.value);
-    formData.append('delivery_date', this.productForm.get('delivery_date')?.value);
     formData.append('p_category', this.productForm.get('p_category')?.value);
     formData.append('p_subcategory', this.productForm.get('p_subcategory')?.value);
     formData.append('p_description', this.productForm.get('p_description')?.value);
+    formData.append('hsn_code', this.productForm.get('hsn_code')?.value);
+    formData.append('gst_rate', this.productForm.get('gst_rate')?.value);
+
     const variantsData: any[] = [];
     this.variants.controls.forEach((variantGroup, index) => {
       const variant = variantGroup.value;

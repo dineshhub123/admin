@@ -48,21 +48,16 @@ sanitizeHtml(html: string): string {
 deleteProduct(productId: any): void {
   const confirmDelete = confirm(`Are you sure you want to delete "${productId.product_id}"?`);
   if (confirmDelete) {
-    console.log('Trying to delete ID:', productId.id);  
     this.apiService.deleteProduct(productId.product_id).subscribe({
       next: (res) => {
-        console.log('Delete response:', res);  
         alert('Product deleted successfully.');
+        this.getProductList()
       },
       error: (err) => {
         console.error('Delete failed', err);  
         alert('Failed to delete product.');
       }
     });
-   setTimeout(() => {
-      this.getProductList()
-    }, 100)
-
   }
 }
 

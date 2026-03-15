@@ -55,7 +55,6 @@ import { EmployeeDeleteComponent } from './pages/employee/employee/employee-dele
 import { EmployeeEditComponent } from './pages/employee/employee/employee-edit/employee-edit.component';
 import { EmployeeListComponent } from './pages/employee/employee/employee-list/employee-list.component';
 import { InvoiceComponent } from './pages/orders/invoice/invoice.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { SafePipe } from './safe.pipe';
 @NgModule({
   declarations: [
@@ -116,7 +115,6 @@ import { SafePipe } from './safe.pipe';
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    PdfViewerModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

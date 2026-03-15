@@ -5,11 +5,13 @@ import { ApiService } from 'src/app/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment.prod';
 import { OrderNotificationService } from 'src/app/order-notification.service';
-
+import { MatDialog } from '@angular/material/dialog';
+import { ShippingLabelComponent } from '../shipping-lable/shipping-label.component';
+import { InvoiceComponent } from '../invoice/invoice.component';
 @Component({
   selector: 'app-order-view',
   templateUrl: './order-view.component.html',
-  styleUrls: ['./order-view.component.css']
+  styleUrls: ['./order-view.component.css'],
 })
 export class OrderViewComponent {
   imageBaseUrl = environment.imageBaseUrl
@@ -29,7 +31,7 @@ export class OrderViewComponent {
     // 'discount',
   ];
 
-  constructor(private breakpointObserver: BreakpointObserver, private apiService: ApiService,
+  constructor(private breakpointObserver: BreakpointObserver, private apiService: ApiService,private dialog: MatDialog,
     public activatedRoute: ActivatedRoute, public router: Router,private orderNotify: OrderNotificationService,
     ) {
 
@@ -301,12 +303,22 @@ export class OrderViewComponent {
 
 
   printInvoice() {
-    this.router.navigate(["invoice"])
+    this.dialog.open(InvoiceComponent, {
+    width: "100vw",
+    height: "100vh",
+    maxWidth: "100vw",
+    data: this.orderDetailData
+  });
   }
   printAdressLabel() {
-    this.router.navigate(["address-label"])
-
+    this.dialog.open(ShippingLabelComponent, {
+    width: "100vw",
+    height: "100vh",
+    maxWidth: "100vw",
+    data: this.orderDetailData
+  });
   }
+
   handleImageError(event: any) {
     event.target.src = 'assets/uploads/shirt.jpg';
   }

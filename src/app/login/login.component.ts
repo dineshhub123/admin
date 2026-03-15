@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { PrivacyService } from '../services/privacy.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PrivacyPopupComponent } from '../privacy-popup/privacy-popup.component';
+import { OrderNotificationService } from '../order-notification.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ isModalOpen = false;
   modalTitle = '';
  showPrivacyPopup = false;
   loginForm: FormGroup = new FormGroup({
-    mobile: new FormControl('', [Validators.required]),
+    mobile: new FormControl('', [Validators.required, Validators.pattern(/^([0-9]{10}|[^\s@]+@[^\s@]+\.[^\s@]+)$/)]),
     password: new FormControl('', [Validators.required])
   });
 
@@ -27,7 +28,8 @@ isModalOpen = false;
   constructor(public router: Router,
     public loginService: LoginService,private dialog: MatDialog,
     private apiService: ApiService,
-    private toastr: ToastrService,private privacyService: PrivacyService,
+    private toastr: ToastrService,private privacyService: PrivacyService,private orderNotify: OrderNotificationService,
+    
     private ngZone: NgZone) { }
   pass: any
   mobile: any
@@ -47,34 +49,6 @@ openDialog(title: string): void {
       data: { title }
     });
   }
-//  login(loginData: any) {
-//   if (this.loginForm.valid) {
-//     this.apiService.getUserDetailsData().subscribe((res) => {
-//       try {
-//         const findObject = res.find(
-//           (item: any) =>
-//             item.user_password === loginData?.password &&
-//             (item?.user_phone === loginData?.mobile || item?.user_email === loginData?.mobile)
-//         );
-
-//         console.log(findObject, 'find');
-
-//         if (findObject) {
-//           localStorage.setItem('login_user', JSON.stringify(findObject));
-//           this.loginService.login();
-//           this.toastr.success('Login successful!', 'Welcome');
-//           this.router.navigate(['dashboard']);
-//         } else {
-//           this.toastr.error('User not found. Please register first.', 'Login Failed');
-//         }
-//       } catch (error) {
-//         console.error('An error occurred during login:', error);
-//         this.toastr.error('An unexpected error occurred. Please try again.', 'Login Error');
-//       }
-//     });
-//   }
-// }
-
   login(loginData: any): void {
     if (!this.loginForm.valid) return;
 
@@ -83,26 +57,18 @@ openDialog(title: string): void {
       password: loginData.password
     };
 
-    this.apiService.getUserDetailsData(payload).subscribe({
+    this.apiService.getAdminLoginDetailsData(payload).subscribe({
       next: (res: any) => {
-        const user = res.user;
-        user.userId = `user_${user.id}`;
-       // user.isGuest = false;
-
-        // const guestId = this.loginService.getUser()?.userId;
-        // this.loginService.setUser(user);
-
-        // if (guestId?.startsWith('guest_')) {
-        //   this.addcartService.transferCart(guestId, user.userId);
-        // }
-        localStorage.setItem('login_user', JSON.stringify(user));
+        const user = res.admin;
+        localStorage.setItem('login_admin', JSON.stringify(user));
         this.loginService.login();
         this.loginForm.reset();
         this.router.navigate(['dashboard']);
         this.toastr.success(
           'You are login successfully!',
-          `Welcome, ${user.user_first_name}`
+          `Welcome, ${user.name}`
         );
+        this.getPendingOrdersPreview();
       },
       error: err => {
         console.error(err);
@@ -110,6 +76,14 @@ openDialog(title: string): void {
       }
     });
   }
+
+  getPendingOrdersPreview() {
+    this.apiService.getPendingOrder().subscribe(res => {
+      this.orderNotify.setPendingOrders(res);
+    })
+  }
+
+
 canLogin(): boolean {
   return this.privacyService.hasUserResponded();
 }

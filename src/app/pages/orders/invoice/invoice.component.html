@@ -1,30 +1,32 @@
 <div class="invoice-wrapper" id="invoice">
+
   <!-- Header -->
   <div class="invoice-header">
-    <div class="logo">Rural<span>X</span></div>
+    <img class="imgSet" src="assets/img/ruralxLogo.png">
     <div class="bill-meta">
-      <div><strong>Bill No:</strong> {{ invoice.billNo }}</div>
-      <div><strong>Date:</strong> {{ invoice.date }}</div>
+      <div><strong>Bill No:</strong> {{ data.order_id }}</div>
+      <div><strong>Date:</strong> {{ data.created_at | date:'yyyy-MM-dd' }}</div>
     </div>
   </div>
 
-  <h2 class="title">Customer Bill</h2>
+  <h2 class="title">TAX INVOICE</h2>
 
   <!-- Customer + Invoice Info -->
   <div class="info-grid">
     <div>
       <h4>Billed To:</h4>
-      <p><strong>{{ invoice.customer.name }}</strong></p>
-      <p>{{ invoice.customer.address }}</p>
-      <p>📧 {{ invoice.customer.email }}</p>
-      <p>📞 {{ invoice.customer.phone }}</p>
+      <p><strong>{{ data.delivery_address.name }}</strong></p>
+      <p>{{ data.delivery_address.address }}</p>
+      <p>📞 {{ data.delivery_address.mobile }}</p>
+      <p>📧 {{ data.delivery_address.email }}</p>
     </div>
 
     <div>
-      <p><strong>Invoice Date:</strong> {{ invoice.date }}</p>
-      <p><strong>Expected Delivery:</strong> {{ invoice.delivery }}</p>
-      <p><strong>Payment Method:</strong> {{ invoice.payment.method }}</p>
-      <p><strong>Transaction ID:</strong> {{ invoice.payment.transactionId }}</p>
+      <p><strong>Invoice Date:</strong> {{ data.created_at | date:'yyyy-MM-dd' }}</p>
+      <p><strong>Payment Method:</strong> {{ data.payment_method }}</p>
+      <p><strong>Order ID:</strong> {{ data.order_id }}</p>
+      <p><strong>GSTIN:</strong> 23AAPCR4320N1Z4</p> 
+      <p><strong>Place of Supply:</strong> Madhya Pradesh (23)</p>
     </div>
   </div>
 
@@ -34,57 +36,122 @@
   <table class="order-table">
     <thead>
       <tr>
+        <th>Item</th>
         <th>Product</th>
-        <th>Category</th>
         <th>Variant</th>
+        <th>HSN</th>
+        <th>GST %</th>
         <th>Qty</th>
-        <th>Unit Price</th>
-        <th>Discount</th>
+        <th>Rate</th>
+        <th>Taxable</th>
+        <th>CGST</th>
+        <th>SGST</th>
         <th>Total</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let item of invoice.items">
-        <td class="product">
-          <img src="assets/img/shoes-yellow4.webp" alt="product">
+      <tr *ngFor="let item of data.items">
 
-          <div>
-            <strong>{{ item.name }}</strong>
-          </div>
+        <td class="product">
+          <img [src]="imageBaseUrl + item.image[0]" alt="product">
         </td>
-        <td>{{ item.category }}</td>
-        <td>{{ item.variant }}</td>
-        <td>{{ item.qty }}</td>
-        <td>₹{{ item.price }}</td>
-        <td class="discount">-₹{{ item.discount }}</td>
-        <td class="total">₹{{ item.total }}</td>
+
+        <td>
+          {{ item.product_name | titlecase }} <br>
+        </td>
+
+        <td>
+          {{ item.color | titlecase }} ({{ item.size }})
+        </td>
+
+        <td>{{ item.hsn_code || 'NA' }}</td>
+
+       <td>{{ item.gst_rate != null ? item.gst_rate + '%' : '0%' }}</td>
+
+        <td>{{ item.quantity }}</td>
+
+        <td>₹{{ item.price | number:'1.2-2' }}</td>
+
+        <!-- Taxable Amount -->
+        <td>₹{{ item.taxableAmount | number:'1.2-2' }}</td>
+
+        <!-- CGST -->
+        <td>
+  ₹{{ item.cgst ? (item.cgst | number:'1.2-2') : '0.00' }}
+</td>
+
+        <!-- SGST -->
+      <td>
+  ₹{{ item.sgst ? (item.sgst | number:'1.2-2') : '0.00' }}
+</td>
+
+        <!-- Total Row -->
+<td class="total">
+  ₹{{
+    ((item.taxableAmount || 0) +
+     (item.cgst || 0) +
+     (item.sgst || 0)) | number:'1.2-2'
+  }}
+</td>
       </tr>
     </tbody>
   </table>
 
   <!-- Summary -->
   <div class="summary">
-    <div><span>Subtotal</span><span>₹{{ invoice.subtotal }}</span></div>
-    <div class="discount"><span>Discount</span><span>-₹{{ invoice.discount }}</span></div>
-    <div class="grand"><span>Grand Total</span><span>₹{{ invoice.grandTotal }}</span></div>
-  </div>
 
-  <p class="thanks">Thank you for your order!</p>
+    <div>
+      <span>Subtotal (Taxable Amount)</span>
+      <span>₹{{ subtotal | number:'1.2-2' }}</span>
+    </div>
+
+    <div>
+      <span>Total CGST</span>
+      <span>₹{{ (totalCgst || 0) | number:'1.2-2' }}</span>
+    </div>
+
+    <div>
+      <span>Total SGST</span>
+      <span>₹{{ (totalSgst || 0) | number:'1.2-2' }}</span>
+    </div>
+
+    <div class="discount">
+      <span>Total Discount</span>
+      <span>-₹{{ totalDiscount | number:'1.2-2' }}</span>
+    </div>
+
+    <div class="grand">
+      <span>Grand Total</span>
+      <span>₹{{ ( grandTotal  || 0)| number:'1.2-2' }}</span>
+    </div>
+  </div>
+<div class="amount-words">
+  <strong>Amount in Words:</strong>
+  {{ amountInWords }}
+</div>
+
+  <p class="thanks">Thank you for shopping with Ruralx!</p>
 
   <!-- Footer -->
   <div class="footer">
     <h4>RURALX STORE</h4>
-    <p>481331, Warasioni, MadhyaPradesh, India - </p>
-    <p>📧 info@ruralx.com</p>
+    <p>
+      Ward No.09 Nirmal Nagar, Railway Station Road,<br>
+      Waraseoni, Dist Balaghat, Madhya Pradesh, India - 481331
+    </p>
+    <p>Email to : info@ruralx.in</p>
   </div>
 
-  <!-- Print Button (hidden in print) -->
+  <!-- Print Button -->
   <div class="print-btn">
+    <mat-dialog-actions align="center">
+      <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
       <button mat-raised-button color="accent" (click)="printInvoice()">
-       <mat-icon>print</mat-icon>
+        <mat-icon>print</mat-icon>
         Print Invoice
       </button>
-
+    </mat-dialog-actions>
   </div>
+
 </div>

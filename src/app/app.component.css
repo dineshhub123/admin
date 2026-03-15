@@ -6,7 +6,6 @@ mat-toolbar {
 .main-content {
   height: calc(100vh - 65px); /* header + footer space */
   /* overflow-y: auto; */
-  background-color: #f5f5f5;
   padding: 15px;
 }
 
