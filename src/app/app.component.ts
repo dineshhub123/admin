@@ -49,11 +49,10 @@ export class AppComponent {
     });
   }
   ngOnInit(): void {
-
-    this.orderNotify.pendingCount$.subscribe((c:any) => this.pendingOrderCount = c);
-  this.orderNotify.preview$.subscribe(list => this.pendingOrders = list);
-
-    this.loginService.isLoggedIn$.subscribe(status => {
+     this.getPendingOrdersPreview();
+     this.orderNotify.pendingCount$.subscribe((c:any) => this.pendingOrderCount = c);
+     this.orderNotify.preview$.subscribe(list => this.pendingOrders = list);
+     this.loginService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
       const userData = localStorage.getItem('login_user'); // 👈 key name
       if (userData) {
@@ -111,9 +110,6 @@ export class AppComponent {
   getPendingOrdersPreview() {
     this.apiService.getPendingOrder().subscribe(res => {
       this.orderNotify.setPendingOrders(res);
-     // this.pendingOrders = res.slice(0, 5);
-      //console.log("pendingOrders",this.pendingOrders?.length)
-     // this.pendingOrderCount = res?.length;
     })
   }
   toggleDropdown() {

@@ -22,7 +22,6 @@ export class OrderNotificationService {
   // ✅ Call this whenever you fetch pending orders API
   setPendingOrders(list: any[]) {
     const safeList = Array.isArray(list) ? list : [];
-
     this.allPendingSource.next(safeList);
     this.previewSource.next(safeList.slice(0, 5));
     this.pendingCountSource.next(safeList.length);
@@ -39,4 +38,5 @@ export class OrderNotificationService {
   setCount(count: number) {
     this.pendingCountSource.next(count || 0);
   }
+  
 }

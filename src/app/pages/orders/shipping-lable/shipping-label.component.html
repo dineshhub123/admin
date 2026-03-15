@@ -1,45 +1,38 @@
-<div class="label-wrapper" id="shipping-label" *ngIf="label">
-
-  <!-- Header -->
+ <div class="label-wrapper" id="shipping-label">
   <div class="label-header">
-    <div class="logo">Rural<span>X</span></div>
+    <div class="logo">
+    <img class="imgSet" src="assets/img/ruralxLogo.png">
+    </div>
     <div class="title">SHIPPING LABEL</div>
   </div>
-
   <div class="label-body">
-
-    <!-- Address -->
     <div class="address">
-      <h4>Delivery Address:</h4>
-      <p class="name">{{ label.customer.name }}</p>
-      <p>{{ label.customer.address }}</p>
-      <p>{{ label.customer.city }}, {{ label.customer.state }}, {{ label.customer.country }}</p>
-      <p>📞 {{ label.customer.phone }}</p>
-      <p>📧 {{ label.customer.email }}</p>
+      <h4 class="name">Delivery Address:</h4>
+      <p>{{data?.delivery_address?.name }}</p>
+      <p>{{ data?.delivery_address?.address }}</p>
+      <p>📞 {{ data?.delivery_address?.mobile }}</p>
+      <p>📧 {{ data?.delivery_address?.email }}</p>
     </div>
-
-    <!-- QR + Order -->
     <div class="code-box">
-      <img [src]="label.qrCode" alt="QR Code">
-      <p><strong>Order ID:</strong> {{ label.orderId }}</p>
+      <!-- <img [src]="label.qrCode" alt="QR Code"> -->
+      <p><strong>Order ID:</strong> {{ data?.order_id }}</p>
     </div>
-
   </div>
-
-  <!-- Footer -->
   <div class="label-footer">
-    <p>www.ruralx.com</p>
+    <p>www.ruralx.in</p>
     <div class="icons">
       <span>☂ KEEP DRY</span>
       <span>↑ HANDLE WITH CARE</span>
     </div>
   </div>
-
-  <!-- Print Button -->
   <div class="print-btn">
+    <mat-dialog-actions align="center">
+    <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
     <button mat-raised-button color="primary" (click)="printLabel()">
       Print Label
     </button>
+    </mat-dialog-actions>
   </div>
+</div> 
 
-</div>
+
