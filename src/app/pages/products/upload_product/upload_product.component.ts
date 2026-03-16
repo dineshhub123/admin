@@ -16,7 +16,7 @@ export class UploadComponent implements OnInit {
   categories = ADMIN_CATEGORY_MASTER;
   selectedCategory: any = null;
   selectedSubCategory: string | null = null;
-
+  isLoading:boolean = false;
   onCategoryChange(categoryKey: string) {
     this.selectedCategory = this.categories.find(c => c.category === categoryKey);
     this.selectedSubCategory = null; // reset subcategory
@@ -101,6 +101,7 @@ export class UploadComponent implements OnInit {
   }
 
   uploadFormData(): void {
+    this.isLoading = true;
     const formData = new FormData();
     // Add product main info
     formData.append('p_name', this.productForm.get('p_name')?.value);
@@ -137,6 +138,7 @@ export class UploadComponent implements OnInit {
     this.apiService.uploadData(formData).subscribe({
       next: (res: any) => {
         if (res?.success) {
+          this.isLoading = false;
           this.toastr.success('Product Uploaded Successfully');
           this.productForm.reset();
           this.variants.clear();

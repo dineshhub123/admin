@@ -57,6 +57,7 @@ import { InvoiceComponent } from './pages/orders/invoice/invoice.component';
 import { SafePipe } from './safe.pipe';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminInterceptor } from './admin.interceptor';
+import { LoaderComponent } from './loader/loader.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,7 +83,8 @@ import { AdminInterceptor } from './admin.interceptor';
     EmployeeDetailsComponent,
     InvoiceComponent,
     ReplacePathPipe,
-    SafePipe
+    SafePipe,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
