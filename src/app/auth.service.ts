@@ -21,6 +21,8 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem('login_admin');
+    localStorage.setItem('isLoggedIn', 'false');
+
   }
 
 }

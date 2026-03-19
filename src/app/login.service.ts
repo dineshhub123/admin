@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,7 @@ export class LoginService {
 
   isLoggedIn$ = this.loggedInSubject.asObservable();
 
-  constructor() {}
+  constructor(public router:Router) {}
 
   login() {
     localStorage.setItem('isLoggedIn', 'true');
