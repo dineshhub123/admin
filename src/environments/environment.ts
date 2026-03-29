@@ -34,6 +34,9 @@ export const environment = {
   updateEmployeeDetailsApiUrl: 'https://ruralx.in/employee-update.php',
   deleteEmployeeDetailsApiUrl: 'https://ruralx.in/employee-delete.php',
   getSalarySlipApiUrl: 'https://ruralx.in/get_salary_months.php',
+  sendOtpApiUrl:'https://ruralx.in/api/send-otp.php',
+  verifyOtpApiUrl:'https://ruralx.in/api/verify-otp.php'
+  
   // getUserDetailsApiURL: 'https://ruralx.in/getUserLoginDetails.php',
   // searchApiUrl: 'https://ruralx.in/search_product.php',
    //uploadDataApiUrl: 'https://ruralx.in/uploadAdminData.php',

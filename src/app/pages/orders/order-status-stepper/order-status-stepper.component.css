@@ -48,7 +48,7 @@
   text-transform: capitalize;
 }
 
-.status-pending { background-color: #ffffff; color: #856404; }
+.status-pending { background-color: #fff3cd; color: #856404; }
 .status-confirmed { background-color: #d1edff; color: #0c5460; }
 .status-processing { background-color: #e3f2fd; color: #1565c0; }
 .status-shipped { background-color: #e8f5e8; color: #2e7d32; }

@@ -58,6 +58,7 @@ import { SafePipe } from './safe.pipe';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminInterceptor } from './admin.interceptor';
 import { LoaderComponent } from './loader/loader.component';
+import { RecordVideoDialogComponent } from './record-video-dialog/record-video-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,7 +85,8 @@ import { LoaderComponent } from './loader/loader.component';
     InvoiceComponent,
     ReplacePathPipe,
     SafePipe,
-    LoaderComponent
+    LoaderComponent,
+    RecordVideoDialogComponent
   ],
   imports: [
     BrowserModule,
