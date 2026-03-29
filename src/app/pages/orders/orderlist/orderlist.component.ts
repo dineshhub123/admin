@@ -27,6 +27,7 @@ export class OrderlistComponent {
     'status',
     'updated_at',
     'created_at',
+    'approve-reject',
     'view'
   ];
 
@@ -154,6 +155,11 @@ export class OrderlistComponent {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+approveReturn(approve:any){
 
+}
+rejectReturn(reject:any){
+
+}
 }
 

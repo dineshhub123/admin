@@ -24,12 +24,12 @@
         <!-- CONTROLS -->
         <div class="status-controls">
           <button mat-raised-button color="primary" (click)="changeStatus(-1)"
-            [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'|| orderDetailData?.status === 'delivered'">
+            [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'|| orderDetailData?.status === 'delivered'|| orderDetailData?.status === 'Return_requested'">
             <mat-icon>arrow_back</mat-icon> Prev
           </button>
 
           <button mat-raised-button color="primary" (click)="changeStatus(1)"
-            [disabled]="currentStatusIndex === statuses.length - 2 || orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'out_for_delivery' || orderDetailData?.status === 'processing'">
+            [disabled]="currentStatusIndex === statuses.length - 2 || orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'out_for_delivery' || orderDetailData?.status === 'processing'|| orderDetailData?.status === 'Return_requested'">
             {{ getCurrentStatus() }}
             <mat-icon>arrow_forward</mat-icon>
           </button>
@@ -264,7 +264,7 @@
     <!-- Action Buttons -->
     <div class="action-buttons">
       <button mat-raised-button color="warn" (click)="cancelOrder(orderDetailData)"
-        [disabled]="orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'delivered'">
+        [disabled]="orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'delivered'|| orderDetailData?.status === 'Return_requested'">
         <mat-icon>cancel</mat-icon>
         Cancel Order
       </button>
