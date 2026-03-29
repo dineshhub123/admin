@@ -95,21 +95,6 @@
           </mat-action-list>
         </mat-expansion-panel>
 
-        <!-- Orders -->
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>shopping_cart</mat-icon>
-              <span class="ml-2">Orders</span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-action-list>
-            <a mat-list-item routerLink="/orderlist" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon matListIcon>assignment</mat-icon> All Orders
-            </a>
-          </mat-action-list>
-        </mat-expansion-panel>
-
         <!-- Products -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -120,7 +105,7 @@
           </mat-expansion-panel-header>
           <mat-action-list>
             <a mat-list-item routerLink="/productlist" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon matListIcon>inventory</mat-icon> All Products
+              <mat-icon matListIcon>inventory</mat-icon> All Stored Products
             </a>
             <a mat-list-item routerLink="/uploadproduct" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>add_box</mat-icon> Add Product
@@ -128,9 +113,27 @@
           </mat-action-list>
         </mat-expansion-panel>
 
-        <!-- Customers -->
-        <!-- Customers -->
+        <!-- Orders -->
         <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>shopping_cart</mat-icon>
+              <span class="ml-2">Orders</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="/orderlist" routerLinkActive="active-link"(click)="sidenav.toggle()">
+              <mat-icon matListIcon>assignment</mat-icon> All Recieved Orders
+            </a>
+              <a mat-list-item routerLink="/return" routerLinkActive="active-link"(click)="sidenav.toggle()">
+              <mat-icon matListIcon>assignment</mat-icon> Return Orders
+            </a>
+
+          </mat-action-list>
+        </mat-expansion-panel>
+
+        <!-- Customers -->
+        <!-- <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>group</mat-icon>
@@ -142,9 +145,8 @@
               <mat-icon matListIcon>person</mat-icon> All Customers
             </a>
           </mat-action-list>
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
 
-        <!-- Reports -->
         <!-- Customers -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
@@ -160,9 +162,8 @@
           </mat-action-list>
         </mat-expansion-panel>
 
-        <!-- Settings -->
-        <!-- Customers -->
-        <mat-expansion-panel>
+        <!-- store -->
+        <!-- <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>store</mat-icon>
@@ -174,7 +175,7 @@
               <mat-icon matListIcon>store</mat-icon> Store List
             </a>
           </mat-action-list>
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
 
    <mat-expansion-panel>
           <mat-expansion-panel-header>

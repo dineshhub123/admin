@@ -1,5 +1,5 @@
 // order-view.component.ts
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ApiService } from 'src/app/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,9 @@ import { OrderNotificationService } from 'src/app/order-notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ShippingLabelComponent } from '../shipping-lable/shipping-label.component';
 import { InvoiceComponent } from '../invoice/invoice.component';
+import { RecordVideoDialogComponent } from 'src/app/record-video-dialog/record-video-dialog.component';
+import { ToastrService } from 'ngx-toastr';
+import { number } from 'echarts';
 @Component({
   selector: 'app-order-view',
   templateUrl: './order-view.component.html',
@@ -18,6 +21,8 @@ export class OrderViewComponent {
   public orderDetailData: any;
   public orderId!: number;
   public loading = false;
+  enteredOtp: string = '';
+  public otpSent: boolean = false;
   // Available statuses for the stepper
   statuses = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered', 'cancelled'];
   currentStatusIndex = 2; // Start with processing
@@ -25,24 +30,93 @@ export class OrderViewComponent {
   displayedColumns: string[] = [
     'image',
     'product_name',
-    // 'variant',
+    'variant',
     'quantity',
     'price',
-    // 'discount',
   ];
 
-  constructor(private breakpointObserver: BreakpointObserver, private apiService: ApiService,private dialog: MatDialog,
-    public activatedRoute: ActivatedRoute, public router: Router,private orderNotify: OrderNotificationService,
-    ) {
+  constructor(public toastr: ToastrService, private breakpointObserver: BreakpointObserver, private apiService: ApiService, private dialog: MatDialog,
+    public activatedRoute: ActivatedRoute, public router: Router, private orderNotify: OrderNotificationService,
+  ) {
 
   }
+  sendOtp(order: any) {
+    const payload = {
+      order_id: order.order_id,
+      mobile: order.delivery_address.mobile
+    };
+    this.apiService.sendOtp(payload).subscribe({
+      next: (res: any) => {
+        console.log("res", res)
+        if (res.status === 'success') { }
+        this.toastr.success(res.message)
+        this.otpSent = true;
+      },
+      error: (err) => {
+        console.error("Order API error", err);
+      }
+    });
+  }
 
+  verifyOtp(order: any) {
+    const payload = {
+      order_id: order.order_id,
+      otp: this.enteredOtp
+    }
+    console.log(payload)
+    this.apiService.verifyOtp(payload).subscribe({
+      next: (res: any) => {
+      console.log("verify",res)
+      if(res.status === 'success'){
+      this.toastr.success(res.message)
+      this.getOrderByID()
+      }else{
+        this.toastr.error(res.message)
+      }
+      },
+      error: (err) => {
+        console.error("Order API error", err);
+      }
+    });
+  }
+
+  openRecorder() {
+    const dialogRef = this.dialog.open(RecordVideoDialogComponent, {
+      width: '600px',
+      height: '600px',
+      data: this.orderDetailData
+    });
+    dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.updateOrderStatus(this.orderDetailData, 'shipped', '');
+      this.callStatusApiAfterVideo(result);
+
+    }
+  });
+  }
+callStatusApiAfterVideo(data:any){
+    try {
+      let statusPayload = {
+        order_id: data.order_id,
+        status: 'shipped'
+      }
+      this.apiService.updateOrderStatus(statusPayload).subscribe((res: any) => {
+        if (res) {
+          this.apiService.getPendingOrder().subscribe((res: any[]) => {
+            this.orderNotify.setPendingOrders(res);
+          });
+          this.loading = false;
+        }
+      })
+    }
+    catch (err) {
+      this.loading = false;
+    }
+}
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
       const order_id = params['order_id'];
       this.orderId = order_id;
-      console.log(this.orderId)
-
       if (this.orderId) {
         this.getOrderByID();
       }
@@ -60,10 +134,10 @@ export class OrderViewComponent {
     this.apiService.getOrderByID(this.orderId).subscribe({
       next: (res: any) => {
         this.orderDetailData = res?.data;
+        console.log("orderDetailData",this.orderDetailData)
         if (res?.data?.status) {
           this.currentStatusIndex = this.statuses.indexOf(res?.data?.status);
         }
-        console.log("orderDetailData", this.orderDetailData)
       },
       error: (err) => {
         console.error("Order API error", err);
@@ -105,9 +179,9 @@ export class OrderViewComponent {
       }
       this.apiService.updateOrderStatus(statusPayload).subscribe((res: any) => {
         if (res) {
-      this.apiService.getPendingOrder().subscribe((res: any[]) => {
-      this.orderNotify.setPendingOrders(res);
-    });
+          this.apiService.getPendingOrder().subscribe((res: any[]) => {
+            this.orderNotify.setPendingOrders(res);
+          });
 
           this.loading = false;
         }
@@ -218,7 +292,7 @@ export class OrderViewComponent {
     console.log(`Order status changed from ${previousStatus} to ${newStatus}:`, order);
 
     // Show success message
-    alert(`${successMessage}! Order #${order.order_id}`);
+   // alert(`${successMessage}! Order #${order.order_id}`);
 
     // Here you would typically call your API service
     // this.orderService.updateOrderStatus(order.order_id, newStatus).subscribe(...);
@@ -304,19 +378,19 @@ export class OrderViewComponent {
 
   printInvoice() {
     this.dialog.open(InvoiceComponent, {
-    width: "100vw",
-    height: "100vh",
-    maxWidth: "100vw",
-    data: this.orderDetailData
-  });
+      width: "100vw",
+      height: "100vh",
+      maxWidth: "100vw",
+      data: this.orderDetailData
+    });
   }
   printAdressLabel() {
     this.dialog.open(ShippingLabelComponent, {
-    width: "100vw",
-    height: "100vh",
-    maxWidth: "100vw",
-    data: this.orderDetailData
-  });
+      width: "100vw",
+      height: "100vh",
+      maxWidth: "100vw",
+      data: this.orderDetailData
+    });
   }
 
   handleImageError(event: any) {

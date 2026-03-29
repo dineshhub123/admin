@@ -40,8 +40,8 @@ export class ApiService {
   apiDeleteEmployeeURL: string = environment.deleteEmployeeDetailsApiUrl;
   apiOrderListByStatusUrl: string = environment.getOrderListByStatusApiUrl;
   apiDownloadSalaryURL: string = environment.getSalarySlipApiUrl;
-  employeeId: any;
-
+  apiSendOtpUrl:string = environment.sendOtpApiUrl;
+  apiVerifyOtpUrl:string = environment.verifyOtpApiUrl
 
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -91,11 +91,8 @@ export class ApiService {
   getCustomerById(customerData: any): Observable<any> {
     return this.http.put(this.apiUpdateUserInfoURL, { customerData });
   }
-  updateProduct(id: number): Observable<any> {
-    return this.http.put(this.apiUpdateProductInfoURL, { id });
-  }
-  getCategories(id: number): Observable<any> {
-    return this.http.put(this.apiUpdateProductInfoURL, { id });
+  updateProduct(object:any): Observable<any> {
+    return this.http.post(this.apiUpdateProductInfoURL, object).pipe(map((res: any) => res));
   }
   updateOrder(id: number): Observable<any> {
     return this.http.put(this.apiEditOrderInfoURL, { id });
@@ -142,7 +139,13 @@ export class ApiService {
       { responseType: 'blob' }
     );
   }
+  sendOtp(object: any): Observable<any>  {
+    return this.http.post(this.apiSendOtpUrl, object).pipe(map((res: any) => res));
+  }
 
+  verifyOtp(object: any): Observable<any>  {
+    return this.http.post(this.apiVerifyOtpUrl, object).pipe(map((res: any) => res));
+  }
 
 
 }

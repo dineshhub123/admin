@@ -25,7 +25,7 @@
       <p><strong>Invoice Date:</strong> {{ data.created_at | date:'yyyy-MM-dd' }}</p>
       <p><strong>Payment Method:</strong> {{ data.payment_method }}</p>
       <p><strong>Order ID:</strong> {{ data.order_id }}</p>
-      <p><strong>GSTIN:</strong> 23AAPCR4320N1Z4</p> 
+      <p><strong>GSTIN:</strong> 23AAPCR4320N1Z4</p>
       <p><strong>Place of Supply:</strong> Madhya Pradesh (23)</p>
     </div>
   </div>
@@ -54,7 +54,7 @@
       <tr *ngFor="let item of data.items">
 
         <td class="product">
-          <img [src]="imageBaseUrl + item.image[0]" alt="product">
+          <img [src]="imageBaseUrl + item.image" alt="product">
         </td>
 
         <td>
@@ -67,7 +67,7 @@
 
         <td>{{ item.hsn_code || 'NA' }}</td>
 
-       <td>{{ item.gst_rate != null ? item.gst_rate + '%' : '0%' }}</td>
+        <td>{{ item.gst_rate != null ? item.gst_rate + '%' : '0%' }}</td>
 
         <td>{{ item.quantity }}</td>
 
@@ -78,22 +78,22 @@
 
         <!-- CGST -->
         <td>
-  ₹{{ item.cgst ? (item.cgst | number:'1.2-2') : '0.00' }}
-</td>
+          ₹{{ item.cgst ? (item.cgst | number:'1.2-2') : '0.00' }}
+        </td>
 
         <!-- SGST -->
-      <td>
-  ₹{{ item.sgst ? (item.sgst | number:'1.2-2') : '0.00' }}
-</td>
+        <td>
+          ₹{{ item.sgst ? (item.sgst | number:'1.2-2') : '0.00' }}
+        </td>
 
         <!-- Total Row -->
-<td class="total">
-  ₹{{
-    ((item.taxableAmount || 0) +
-     (item.cgst || 0) +
-     (item.sgst || 0)) | number:'1.2-2'
-  }}
-</td>
+        <td class="total">
+          ₹{{
+          ((item.taxableAmount || 0) +
+          (item.cgst || 0) +
+          (item.sgst || 0)) | number:'1.2-2'
+          }}
+        </td>
       </tr>
     </tbody>
   </table>
@@ -123,13 +123,13 @@
 
     <div class="grand">
       <span>Grand Total</span>
-      <span>₹{{ ( grandTotal  || 0)| number:'1.2-2' }}</span>
+      <span>₹{{ ( grandTotal || 0)| number:'1.2-2' }}</span>
     </div>
   </div>
-<div class="amount-words">
-  <strong>Amount in Words:</strong>
-  {{ amountInWords }}
-</div>
+  <div class="amount-words">
+    <strong>Amount in Words:</strong>
+    {{ amountInWords }}
+  </div>
 
   <p class="thanks">Thank you for shopping with Ruralx!</p>
 

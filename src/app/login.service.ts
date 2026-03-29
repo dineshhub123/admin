@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-
+   private TOKEN_KEY = 'admin_token';
    private loggedInSubject = new BehaviorSubject<boolean>(
     localStorage.getItem('isLoggedIn') === 'true'
   );
 
   isLoggedIn$ = this.loggedInSubject.asObservable();
 
-  constructor() {}
+  constructor(public router:Router) {}
 
   login() {
     localStorage.setItem('isLoggedIn', 'true');
@@ -19,7 +20,8 @@ export class LoginService {
   }
 
   logout() {
-    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.setItem('isLoggedIn', 'false');
     localStorage.removeItem('login_admin'); // optional
     this.loggedInSubject.next(false);
   }

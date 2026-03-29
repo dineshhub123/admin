@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { environment } from 'src/environments/environment'; 
 import { MaterialModule } from './shared/material.module';
 import { SharedModule } from './shared/shared.module';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -56,6 +55,10 @@ import { EmployeeEditComponent } from './pages/employee/employee/employee-edit/e
 import { EmployeeListComponent } from './pages/employee/employee/employee-list/employee-list.component';
 import { InvoiceComponent } from './pages/orders/invoice/invoice.component';
 import { SafePipe } from './safe.pipe';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AdminInterceptor } from './admin.interceptor';
+import { LoaderComponent } from './loader/loader.component';
+import { RecordVideoDialogComponent } from './record-video-dialog/record-video-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,7 +84,9 @@ import { SafePipe } from './safe.pipe';
     EmployeeDetailsComponent,
     InvoiceComponent,
     ReplacePathPipe,
-    SafePipe
+    SafePipe,
+    LoaderComponent,
+    RecordVideoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -125,7 +130,9 @@ import { SafePipe } from './safe.pipe';
       progressBar: true                     // optional: progress bar
     }), // ToastrModule added
   ],
-  providers: [],
+  providers: [
+  { provide: HTTP_INTERCEPTORS, useClass: AdminInterceptor, multi: true }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

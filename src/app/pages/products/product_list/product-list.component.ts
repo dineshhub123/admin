@@ -12,82 +12,81 @@ import { environment } from 'src/environments/environment.prod';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
-imageBaseUrl = environment.imageBaseUrl;
-dataSource = new MatTableDataSource<any>();
+  imageBaseUrl = environment.imageBaseUrl;
+  dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
- products: any[] = [];
- isLoading: boolean = false;
- displayedColumns: string[] = [
+  products: any[] = [];
+  isLoading: boolean = false;
+  displayedColumns: string[] = [
     'index',
     'product_id',
     'images',
-    'product_name',  
-    'category', 
-    'product_price', 
+    'product_name',
+    'category',
+    'product_price',
     'stock',
     'color',
     'colorCode',
     'action'
   ];
 
-  constructor(public apiService: ApiService,private dialog: MatDialog) {}
+  constructor(public apiService: ApiService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
- this.getProductList();
+    this.getProductList();
 
   }
- ngAfterViewInit() {
+  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
 
-sanitizeHtml(html: string): string {
-  return html.replace(/font-size\s*:\s*[^;"]+;?/gi, '');
-}
+  sanitizeHtml(html: string): string {
+    return html.replace(/font-size\s*:\s*[^;"]+;?/gi, '');
+  }
 
-deleteProduct(productId: any): void {
-  const confirmDelete = confirm(`Are you sure you want to delete "${productId.product_id}"?`);
-  if (confirmDelete) {
-    this.apiService.deleteProduct(productId.product_id).subscribe({
-      next: (res) => {
-        alert('Product deleted successfully.');
-        this.getProductList()
+  deleteProduct(productId: any): void {
+    const confirmDelete = confirm(`Are you sure you want to delete "${productId.product_id}"?`);
+    if (confirmDelete) {
+      this.apiService.deleteProduct(productId.product_id).subscribe({
+        next: (res) => {
+          alert('Product deleted successfully.');
+          this.getProductList()
+        },
+        error: (err) => {
+          console.error('Delete failed', err);
+          alert('Failed to delete product.');
+        }
+      });
+    }
+  }
+
+  getProductList() {
+    this.isLoading = true;
+    this.apiService.getProductListDetailsData().subscribe({
+      next: (data: any[]) => {
+        this.isLoading = false;
+        const flattened = data.flatMap(product =>
+          product.variants.map((v: any) => ({
+            product_id: product.product_id,
+            product_name: product.product_name,
+            category: product.category,
+            product_price: product.product_price,
+            color: v.color,
+            stock: v.stock,
+            images: v.images,
+            colorCode: v.colorCode
+          }))
+        );
+        this.dataSource.data = flattened;
       },
-      error: (err) => {
-        console.error('Delete failed', err);  
-        alert('Failed to delete product.');
+      error: () => {
+        this.isLoading = false;
       }
     });
   }
-}
 
-getProductList() {
-  this.isLoading = true;
-  this.apiService.getProductListDetailsData().subscribe({
-    next: (data: any[]) => {
-      this.isLoading = false;
-      const flattened = data.flatMap(product =>
-          product.variants.map((v: any) => ({
-          product_id: product.product_id,
-          product_name: product.product_name,
-          category:product.category,
-          product_price: product.product_price,
-          color: v.color,
-          stock: v.stock,
-          images: v.images,
-          colorCode: v.colorCode
-        }))
-      );
-      this.dataSource.data = flattened;
-      console.log('Flattened rows:', flattened);
-    },
-    error: () => {
-      this.isLoading = false;
-    }
-  });
-}
-
-applyProductSearch(event: Event) {
+  applyProductSearch(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     if (filterValue.includes('-') || filterValue.endsWith('+')) {
       this.dataSource.filter = filterValue.trim();
@@ -95,27 +94,17 @@ applyProductSearch(event: Event) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
   }
-editProduct(product: any): void {
-  const dialogRef = this.dialog.open(ProductEditDialogComponent, {
-    width: '800px',
-    data: { product: { ...product } } // Pass a copy of the product
-  });
+  editProduct(product: any): void {
+    const dialogRef = this.dialog.open(ProductEditDialogComponent, {
+      width: '800px',
+      data: { product: { ...product } } // Pass a copy of the product
+    });
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      // Update the table data
-      const index = this.dataSource.data.findIndex(p => p.id === result.id);
-      if (index !== -1) {
-        const updatedData = [...this.dataSource.data];
-        updatedData[index] = result;
-        this.dataSource.data = updatedData;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getProductList();
       }
-    }
-  });
-}
-
-getModifiedPath(path: string): string {
-  return path.replace('new-ruralx/src', '..');
-}
+    });
+  }
 
 }
