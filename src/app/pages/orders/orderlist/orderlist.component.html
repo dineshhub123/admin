@@ -12,15 +12,17 @@
           <mat-option value="out_for_delivery" class="opt-out">Out For Delivery</mat-option>
           <mat-option value="delivered" class="opt-delivered">Delivered</mat-option>
           <mat-option value="cancelled" class="opt-cancelled">Cancelled</mat-option>
+          <mat-option value="return_requested" class="opt-shipped">Return Request</mat-option>
+
         </mat-select>
       </mat-form-field>
-  <mat-form-field appearance="outline">
-  <mat-label>Search By Order ID</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="e.g RX2026012480">
-</mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Search By Order ID</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="e.g RX2026012480">
+      </mat-form-field>
       <!-- <button mat-raised-button color="primary" class="refreshBtn"  (click)="onClickRefresh()"> -->
-        <mat-icon class="refresh" (click)="onClickRefresh()">refresh</mat-icon>
-        
+      <mat-icon class="refresh" (click)="onClickRefresh()">refresh</mat-icon>
+
       <!-- </button> -->
     </div>
   </div>
@@ -53,14 +55,14 @@
 
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef> Address </th>
-        <td mat-cell *matCellDef="let row"> 
-        <span class="ellipsis-text" [matTooltip]="row.address | titlecase">  {{ row.address | titlecase }} </span>
+        <td mat-cell *matCellDef="let row">
+          <span class="ellipsis-text" [matTooltip]="row.address | titlecase"> {{ row.address | titlecase }} </span>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="product">
         <th mat-header-cell *matHeaderCellDef> Product </th>
-        <td mat-cell *matCellDef="let row"> 
+        <td mat-cell *matCellDef="let row">
           <span class="ellipsis-text" [matTooltip]="row.product | titlecase"> {{ row.product | titlecase }} </span>
         </td>
       </ng-container>
@@ -76,29 +78,45 @@
       </ng-container>
 
       <ng-container matColumnDef="total_price">
-        <th mat-header-cell *matHeaderCellDef> Total  Price </th>
+        <th mat-header-cell *matHeaderCellDef> Total Price </th>
         <td mat-cell *matCellDef="let row"> ₹{{ row.order_total }} </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef> Status </th>
         <td mat-cell *matCellDef="let row">
-       <span class="status-badge" [ngClass]="getStatusClass(row.status)">
-         {{ row.status === 'out_for_delivery'? 'OUT FOR DELIVERY' : (row.status | uppercase) }}
-         </span>        
+          <span class="status-badge" [ngClass]="getStatusClass(row.status)">
+            {{ row.status === 'out_for_delivery'? 'OUT FOR DELIVERY':row.status === 'Return_requested'? 'RETURN REQUEST'
+            : (row.status | uppercase) }}
+          </span>
         </td>
       </ng-container>
-            <ng-container matColumnDef="updated_at">
+      
+      <ng-container matColumnDef="approve-reject">
+        <th mat-header-cell *matHeaderCellDef> Return </th>
+        <td mat-cell *matCellDef="let row">
+           <ng-container *ngIf="row.status === 'Return_requested'">
+          <button mat-button color="primary" (click)="approveReturn(row)">
+            Approve
+          </button>
+          <button mat-button color="warn" (click)="rejectReturn(row)">
+            Reject
+          </button>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="updated_at">
         <th mat-header-cell *matHeaderCellDef> Updated At </th>
         <td mat-cell *matCellDef="let row">
-          <span [ngClass]="row.updated_at">{{row.status === 'pending'? 'N/A' : (row.updated_at |  date:'medium')}}</span>
+          <span [ngClass]="row.updated_at">{{row.status === 'pending'? 'N/A' : (row.updated_at | date:'medium')}}</span>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="created_at">
         <th mat-header-cell *matHeaderCellDef> Created At </th>
         <td mat-cell *matCellDef="let row">
-          <span [ngClass]="row.created_at">{{ row.created_at |  date:'medium'}}</span>
+          <span [ngClass]="row.created_at">{{ row.created_at | date:'medium'}}</span>
         </td>
       </ng-container>
 
