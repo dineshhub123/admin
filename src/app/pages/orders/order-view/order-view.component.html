@@ -119,9 +119,17 @@
         </mat-cell>
       </ng-container>
 
+            <!-- Product ID-->
+      <ng-container matColumnDef="product_id">
+        <mat-header-cell *matHeaderCellDef> Product ID </mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <div class="product-name">{{ item.product_id | titlecase}}</div>
+          </mat-cell>
+      </ng-container>
+
       <!-- Product Name -->
       <ng-container matColumnDef="product_name">
-        <mat-header-cell *matHeaderCellDef> Product </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Product Name </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <div class="product-name">{{ item.product_name | titlecase}}</div>
           <!-- <div class="product-category">{{ item.category }}/{{ item.sub_category }}</div> -->

@@ -35,6 +35,7 @@ export class UploadComponent implements OnInit {
       p_price: [0],
       p_discount: [0],
       p_category: [''],
+      p_shelfcode: [''],
       p_subcategory: [''],
       hsn_code: [''],
       gst_rate: [''],
@@ -113,7 +114,8 @@ export class UploadComponent implements OnInit {
     formData.append('p_description', this.productForm.get('p_description')?.value);
     formData.append('hsn_code', this.productForm.get('hsn_code')?.value);
     formData.append('gst_rate', this.productForm.get('gst_rate')?.value);
-
+    formData.append('shelf_code', this.productForm.get('p_shelfcode')?.value);
+    
     const variantsData: any[] = [];
     this.variants.controls.forEach((variantGroup, index) => {
       const variant = variantGroup.value;
@@ -125,11 +127,9 @@ export class UploadComponent implements OnInit {
         });
       }
       variantsData.push({
-        //p_size: variant.p_size,
         p_color: variant.p_color,
         p_colorcode: variant.p_colorcode,
         p_stock: variant.p_stock,
-        //p_view: variant.p_view,
         image_key: imageKey
       });
     });

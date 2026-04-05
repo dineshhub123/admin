@@ -29,6 +29,7 @@ export class OrderViewComponent {
   isMobile = false;
   displayedColumns: string[] = [
     'image',
+    'product_id',
     'product_name',
     'variant',
     'quantity',
