@@ -27,6 +27,8 @@ export class ProductEditDialogComponent {
       product_price: ['', [Validators.required]],
       color: [''],
       stock: ['', [Validators.required]],
+      shelf_code: [''],
+
 
     });
     this.editForm.patchValue(this.data.product);
@@ -44,10 +46,12 @@ export class ProductEditDialogComponent {
     this.isLoading = true;
     const formData = new FormData();
     formData.append('product_id', selectedFiels.product_id);
-    formData.append('product_color', selectedFiels.color); // REQUIRED
+    formData.append('product_color', selectedFiels.color);
     formData.append('p_name', selectedFiels.product_name);
     formData.append('price', selectedFiels.product_price);
     formData.append('stock', selectedFiels.stock);
+    formData.append('shelf_code', selectedFiels.shelf_code);
+
     this.apiService.updateProduct(formData).subscribe({
       next: (response) => {
         this.dialogRef.close(response);

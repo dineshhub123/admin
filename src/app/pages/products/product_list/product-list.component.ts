@@ -22,6 +22,7 @@ export class ProductListComponent {
     'product_id',
     'images',
     'product_name',
+    'shelf_code',
     'category',
     'product_price',
     'stock',
@@ -72,6 +73,7 @@ export class ProductListComponent {
             product_name: product.product_name,
             category: product.category,
             product_price: product.product_price,
+            shelf_code: product.shelf_code,
             color: v.color,
             stock: v.stock,
             images: v.images,
@@ -106,5 +108,17 @@ export class ProductListComponent {
       }
     });
   }
-
+getShelfClass(code: string) {
+  if (!code) return '';
+  const rack = code.charAt(0);
+  switch (rack) {
+    case 'A': return 'rack-a';
+    case 'B': return 'rack-b';
+    case 'C': return 'rack-c';
+    case 'D': return 'rack-d';
+    case 'E': return 'rack-e';
+    case 'F': return 'rack-f';
+    default: return 'rack-default';
+  }
+}
 }
