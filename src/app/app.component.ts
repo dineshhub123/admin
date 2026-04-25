@@ -54,15 +54,15 @@ export class AppComponent {
      this.orderNotify.preview$.subscribe(list => this.pendingOrders = list);
      this.loginService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
-      const userData = localStorage.getItem('login_user'); // 👈 key name
+      const userData = localStorage.getItem('login_admin'); // 👈 key name
       if (userData) {
         const user = JSON.parse(userData);
         // First Name & Last Name For Left Panel 
-        this.userName = `${user.user_first_name} ${user.user_last_name}`;
+        this.userName = `${user.name}`;
         // First Name For Logout Pop Up
-        this.firstUserName = `${user.user_first_name}`;
+        this.firstUserName = `${user.name}`;
         // First letter of first name in CAPITAL
-        this.avatarLetter = user.user_first_name?.charAt(0)?.toUpperCase();
+        this.avatarLetter = user.name?.charAt(0)?.toUpperCase();
     this.setExpandedPanel(this.router.url);
     const adminId = user.id; // logged-in admin
     this.fcm.initFCM(adminId);

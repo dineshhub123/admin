@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'orderlist', component: OrderlistComponent, canActivate: [AuthGuard] },
   { path: 'orderlist/orderview/:order_id', component: OrderViewComponent, canActivate: [AuthGuard] },
   { path: 'productlist', component: ProductListComponent, canActivate: [AuthGuard] },
-  { path: 'customers', component: CustomersComponent, canActivate: [AuthGuard] },
+  { path: 'customer-reviews', component: CustomersComponent, canActivate: [AuthGuard] },
    { path: 'customers/edit/:id', component: EditCustomerDialogComponent, canActivate: [AuthGuard] },
   { path: 'salesreport', component: SalereportsComponent, canActivate: [AuthGuard] },
   { path: 'settings/stores', component: StoreListComponent, canActivate: [AuthGuard] },

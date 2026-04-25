@@ -1,71 +1,66 @@
-.table-header {
-     display: flex;
-     flex-wrap: wrap;
-     gap: 16px;
-     padding: 16px;
-     background: white;
-     align-items: center;
-     .search-field {
-         flex: 1;
-         min-width: 250px;
-    }
-     .filter-field {
-         min-width: 200px;
-    }
-}
- .img-tbl {
-     max-width: 80px;
-     max-height: 60px;
-     border-radius: 4px;
-     object-fit: contain;
-}
- .no-data-message {
-     text-align: center;
-     padding: 40px;
-     color: rgba(0, 0, 0, 0.54);
-     mat-icon {
-         font-size: 48px;
-         width: 48px;
-         height: 48px;
-         margin-bottom: 16px;
-    }
-     p {
-         font-size: 16px;
-         margin: 0;
-    }
-}
- .mat-paginator {
-     background: transparent;
-     margin-top: 16px;
-}
- .pincode-toggle {
-     cursor: pointer;
-}
-  .table-container {
-  max-height: calc(100vh - 150px);       /* table body height */
-  overflow-y: auto;
-  overflow-x: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-bottom: 10px;
-}
-.header-align {
-  /* display: flex; */
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding:  7px 15px 0px 15px;
+
+.full-width {
+  width: 100%;
+  /* border-radius: 12px; */
+  overflow: hidden; /* important for radius */
 }
 
-.order-heading {
-  font-size: 20px;
-  font-weight: 500;
-  white-space: nowrap;
+.verified {
+  font-size: 12px;
+  color: green;
 }
 
-/* right side container */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+/* HEADER STYLE */
+
+.mat-mdc-header-row {
+  background-color: #0a4984;   /* your brand color */
+}
+
+/* Header text */
+.mat-mdc-header-cell {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+
+/* ROUND CORNERS */
+.mat-header-row th:first-child {
+   border-top-left-radius: 12px; 
+}
+
+.mat-header-row th:last-child {
+   border-top-right-radius: 12px; 
+}
+table {
+  /* border-radius: 12px; */
+  overflow: hidden;
+  margin-top: 10px;
+
+}
+
+.mat-row {
+  background: #fff;
+}
+
+.mat-row:nth-child(even) {
+  background: #345c98;
+}
+.verified-btn {
+  background-color: #4caf50 !important; /* green */
+  color: white !important;
+}
+.rejected-btn {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+.rating-star{
+    display: flex;
+    line-height: 25px;
+    gap: 10px
+}
+.helpful{
+  background-color: #0a4984!important;
+  color: white !important;
+
 }

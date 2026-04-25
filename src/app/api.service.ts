@@ -42,6 +42,9 @@ export class ApiService {
   apiDownloadSalaryURL: string = environment.getSalarySlipApiUrl;
   apiSendOtpUrl:string = environment.sendOtpApiUrl;
   apiVerifyOtpUrl:string = environment.verifyOtpApiUrl
+  apiGetAllReviewUrl = environment.getAllReviewApiUrl;
+  apiGetApproveReviewUrl = environment.getApproveReviewApiUrl;
+  apiGetRejectReviewUrl = environment.getRejectedReviewApiUrl;
 
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -146,6 +149,15 @@ export class ApiService {
   verifyOtp(object: any): Observable<any>  {
     return this.http.post(this.apiVerifyOtpUrl, object).pipe(map((res: any) => res));
   }
+  getProductReview(): Observable<any> {
+    return this.http.get(this.apiGetAllReviewUrl).pipe(map((res: any) => res))
+  }
+  approveReview(reviewId: number): Observable<any> {
+    return this.http.post(this.apiGetApproveReviewUrl,{ review_id: reviewId }).pipe(map((res: any) => res))
+  }
 
+rejectReview(reviewId: number){
+      return this.http.post(this.apiGetRejectReviewUrl,{ review_id: reviewId }).pipe(map((res: any) => res))
 
+}
 }
