@@ -128,22 +128,6 @@
           </mat-action-list>
         </mat-expansion-panel>
 
-        <!-- Customers -->
-        <!-- <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>group</mat-icon>
-              <span class="ml-2">Customers</span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-action-list>
-            <a mat-list-item routerLink="/customers" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon matListIcon>person</mat-icon> All Customers
-            </a>
-          </mat-action-list>
-        </mat-expansion-panel> -->
-
-        <!-- Customers -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -191,6 +175,23 @@
             </a>
           </mat-action-list>
         </mat-expansion-panel>
+
+                <!-- Customers -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>group</mat-icon>
+              <span class="ml-2">Customers Reviews</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="/customer-reviews" routerLinkActive="active-link"(click)="sidenav.toggle()">
+              <mat-icon matListIcon>person</mat-icon> Reviews
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel> 
+
+
       </div>
     </mat-accordion>
 
