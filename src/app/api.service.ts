@@ -45,6 +45,7 @@ export class ApiService {
   apiGetAllReviewUrl = environment.getAllReviewApiUrl;
   apiGetApproveReviewUrl = environment.getApproveReviewApiUrl;
   apiGetRejectReviewUrl = environment.getRejectedReviewApiUrl;
+  apiGetAdminDashboardUrl = environment.getadminDashboardApiUrl;
 
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -160,4 +161,8 @@ rejectReview(reviewId: number){
       return this.http.post(this.apiGetRejectReviewUrl,{ review_id: reviewId }).pipe(map((res: any) => res))
 
 }
+  getDashboardData(query: string = ''): Observable<any> {
+    return this.http.get(`${this.apiGetAdminDashboardUrl}${query}`).pipe(map((res: any) => res))
+  }
+
 }

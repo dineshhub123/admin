@@ -1,3 +1,43 @@
+/* 🔷 HEADER CONTAINER */
+.top-date-picker-section {
+  display: flex;
+  justify-content: space-between; /* left + right */
+  align-items: center;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background:#fff;
+  padding: 0px 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #eee;
+  height: 50px;
+}
+
+/* 🧾 TITLE */
+.dashboard-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 📅 DATE PICKER WRAPPER */
+.datepicker-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+/* 🎨 MAT FORM FIELD FIX */
+.datepicker-wrapper .mat-form-field {
+  margin: 0;
+}
+
+/* 📦 GIVE SPACE BELOW HEADER */
+body {
+  padding-top: 70px; /* adjust based on header height */
+}
+
 /*card.component.css*/
  .more-button {
      position: absolute;
@@ -129,14 +169,16 @@
 }
  ::ng-deep .mat-mdc-card-header {
      padding: 2px 16px 0 !important;
-     height: 70px !important;
+     height: 60px !important;
 }
  span.value {
-     font-size: 35px;
+     font-size: 30px;
      font-weight: bold;
 }
  .dashboard-back {
      background: #80808047;
+     border-radius: 10px;
+
 }
  .example-margin {
      margin: 0 10px;
@@ -276,4 +318,14 @@
 }
  ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
      border-bottom-color: transparent !important;
+}
+.mat-mdc-card-title {
+    display: block;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 25px;
+}
+.mat-mdc-card-content:last-child {
+    padding-bottom: 5px;
 }

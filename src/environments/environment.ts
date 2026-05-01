@@ -39,6 +39,7 @@ export const environment = {
   getAllReviewApiUrl: 'https://ruralx.in/api/get-admin-review.php',
   getApproveReviewApiUrl: 'https://ruralx.in/api/approve-review.php',
   getRejectedReviewApiUrl: 'https://ruralx.in/api/reject-review.php',
+  getadminDashboardApiUrl: 'https://ruralx.in/api/admin-dashboard.php',
 
   
 

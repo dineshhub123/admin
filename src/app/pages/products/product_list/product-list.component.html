@@ -6,16 +6,28 @@
   <!-- Search Input -->
   <mat-form-field appearance="outline" class="search-field">
     <mat-icon matPrefix>search</mat-icon>
-    <input matInput placeholder="Search by product id..." (keyup)="applyProductSearch($event)" >
+    <input matInput placeholder="Search by product id..." [(ngModel)]="searchText" (keyup)="applyProductSearch($event)" >
   </mat-form-field>
 
-  <!-- Category Filter -->
-  <!-- <mat-form-field appearance="outline" class="filter-field">
-    <mat-label>Filter by Category</mat-label>
-    <mat-select>
-      <mat-option>Test</mat-option>
-    </mat-select>
-  </mat-form-field> -->
+  <!-- stock Filter -->
+<mat-form-field appearance="outline" class="filter-field">
+  <mat-label>Filter by Stock</mat-label>
+  <mat-select [(value)]="selectedStock" panelClass="custom-dropdown" (selectionChange)="applyProductStock($event.value)">
+    <mat-option value="All" class="stock-all">
+      🟢 All Products
+    </mat-option>
+    <mat-option value="low" class="stock-low">
+      🟡 Low Stock (&lt; 5)
+    </mat-option>
+    <mat-option value="out" class="stock-out">
+      🔴 Out of Stock (= 0)
+    </mat-option>
+    <mat-option value="high" class="stock-high">
+      🔵 In Stock (&gt; 5)
+    </mat-option>
+  </mat-select>
+
+</mat-form-field><button mat-button color="primary" (click)="resetFilter()"><mat-icon>refresh</mat-icon> Reset</button>
 
   <!-- Price Range Filter -->
   <!-- <mat-form-field appearance="outline" class="filter-field">
