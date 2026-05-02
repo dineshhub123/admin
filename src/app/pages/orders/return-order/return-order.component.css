@@ -1,0 +1,33 @@
+table {
+  width: 100%;
+}
+
+.pending {
+  color: orange;
+  font-weight: 600;
+}
+
+.approved {
+  color: green;
+  font-weight: 600;
+}
+
+.rejected {
+  color: red;
+  font-weight: 600;
+}
+.order-heading {
+  font-size: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.Pending { color: orange; font-weight: 600; }
+.Approved { color: green; font-weight: 600; }
+.Pickup_Scheduled { color: #2196f3; font-weight: 600; }
+.Picked_Up { color: purple; font-weight: 600; }
+.Refund_Completed { color: teal; font-weight: 600; }
+.Rejected { color: red; font-weight: 600; }
+
+.info { color: #2196f3; margin-right: 10px;}
+.success { color: green; margin-right: 10px; margin-left: 10px;}
+.rejected { color: red; margin-right: 10px;}

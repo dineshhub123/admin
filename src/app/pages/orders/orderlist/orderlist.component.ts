@@ -54,6 +54,7 @@ export class OrderlistComponent {
         const seen = new Set<string>();
 
         res?.orders?.forEach((order: any) => {
+          console.log("orderList",order)
           if (seen.has(order.order_id)) return;   // ✅ skip duplicate order_id
           seen.add(order.order_id);
           const firstItem = order?.items?.[0]; // take first product only

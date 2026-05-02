@@ -20,7 +20,7 @@ import { EmployeeDetailsComponent } from './pages/employee/employee-details/empl
 import { EmployeeAddComponent } from './pages/employee/employee/employee-add/employee-add.component';
 import { EmployeeEditComponent } from './pages/employee/employee/employee-edit/employee-edit.component';
 import { EmployeeListComponent } from './pages/employee/employee/employee-list/employee-list.component';
-
+import { ReturnOrderComponent } from './pages/orders/return-order/return-order.component'
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
@@ -29,10 +29,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'uploadproduct', component: UploadComponent, canActivate: [AuthGuard] },
   { path: 'orderlist', component: OrderlistComponent, canActivate: [AuthGuard] },
+  { path: 'returnlist', component: ReturnOrderComponent, canActivate: [AuthGuard] },
   { path: 'orderlist/orderview/:order_id', component: OrderViewComponent, canActivate: [AuthGuard] },
   { path: 'productlist', component: ProductListComponent, canActivate: [AuthGuard] },
   { path: 'customer-reviews', component: CustomersComponent, canActivate: [AuthGuard] },
-   { path: 'customers/edit/:id', component: EditCustomerDialogComponent, canActivate: [AuthGuard] },
+  { path: 'customers/edit/:id', component: EditCustomerDialogComponent, canActivate: [AuthGuard] },
   { path: 'salesreport', component: SalereportsComponent, canActivate: [AuthGuard] },
   { path: 'settings/stores', component: StoreListComponent, canActivate: [AuthGuard] },
   { path: 'settings/stores/add', component: StoreFormComponent, canActivate: [AuthGuard] },
