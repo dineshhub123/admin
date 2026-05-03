@@ -313,6 +313,28 @@ background-color: #fff !important;
   border-radius: 24px;
 
 }
+.st-request{
+  background: #fef2f2;
+  color: #b91c1c;
+  padding: 6px;
+  border-radius: 24px;
+
+}
+.st-partially{
+  background: #ecfdf5;
+  color: #047857;
+  padding: 6px;
+  border-radius: 24px;
+
+}
+.st-fully{
+  background: #ecfdf5;
+  color: #047857;
+  padding: 6px;
+  border-radius: 24px;
+
+}
+
 
 /* Default */
 .st-default{
@@ -360,4 +382,8 @@ background-color: #fff !important;
   text-overflow: ellipsis;
   cursor: pointer;
 }
-
+.status-col {
+  min-width: 200px;
+  max-width: 200px;
+  width: 200px;
+}

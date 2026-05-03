@@ -411,5 +411,18 @@ callStatusApiAfterVideo(data:any){
   goBack(): void {
     this.router.navigate(['/orderlist']);
   }
-
+getStatusLabel(status: string): string {
+  switch (status) {
+    case 'Return_Requested':
+      return 'RETURN REQUEST';
+    case 'Partially_Returned':
+      return 'PARTIALLY RETURNED';
+    case 'Fully_Returned':
+      return 'FULLY RETURNED';
+    case 'out_for_delivery':
+      return 'OUT FOR DELIVERY';
+    default:
+      return status ? status.replace(/_/g, ' ').toUpperCase() : '';
+  }
+}
 }
