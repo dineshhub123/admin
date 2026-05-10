@@ -134,6 +134,9 @@ export class OrderlistComponent {
       case 'delivered': return 'st-delivered';
       case 'cancelled': return 'st-cancelled';
       case 'return_requested': return 'st-request';
+      case 'replace_requested': return 'st-replace';
+      case 'partially_replaced': return 'st-partially-replace';
+      case 'fully_replaced': return 'st-fully-replace';
       case 'partially_returned': return 'st-partially';
       case 'fully_returned': return 'st-fully';
       default: return 'st-default';

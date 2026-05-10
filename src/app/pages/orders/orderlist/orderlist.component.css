@@ -320,6 +320,27 @@ background-color: #fff !important;
   border-radius: 24px;
 
 }
+.st-replace{
+  background: #fef2f2;
+  color: #b91c1c;
+  padding: 6px;
+  border-radius: 24px;
+}
+.st-partially-replace{
+     background: #ecd2d5;
+    color: #cf0d73;
+    /* padding: 6px; */
+    border-radius: 24px;
+
+
+}
+.st-fully-replace{
+     background: #ecd2d5;
+    color: #cf0d73;
+    /* padding: 6px; */
+    border-radius: 24px;
+
+}
 .st-partially{
   background: #ecfdf5;
   color: #047857;

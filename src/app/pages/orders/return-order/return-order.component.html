@@ -36,6 +36,17 @@
         <td mat-cell *matCellDef="let r"> {{r.reason}} </td>
     </ng-container>
 
+    <!-- Return Type -->
+    <ng-container matColumnDef="return_type">
+        <th mat-header-cell *matHeaderCellDef>Return Type</th>
+        <td mat-cell *matCellDef="let r">
+        <span class="return-badge" [ngClass]="{
+        'refund-class': r.return_type === 'REFUND',
+        'replace-class': r.return_type === 'REPLACE'}">
+        {{ r.return_type }}
+        </span>
+        </td>
+    </ng-container>
 
     <!-- Created At -->
     <ng-container matColumnDef="created_at">
@@ -91,17 +102,26 @@
 
             <!-- pickup completed -->
             <ng-container *ngIf="r.status === 'Pickup_Scheduled'">
-                <button mat-raised-button color="primary" (click)="markPicked(r.return_id)">
+                <button mat-raised-button color="primary" (click)="markPicked(r.return_id)" style="width: 140px;">
                     Mark Picked
                 </button>
             </ng-container>
 
             <!-- Refund -->
-            <ng-container class="mr-3" *ngIf="r.status === 'Picked_Up'">
-                <button class="pl-2 pr-2" mat-stroked-button color="primary" (click)="processRefund(r.return_id)">
+            <ng-container class="mr-3" *ngIf="r.refund_required && r.status === 'Picked_Up'">
+                <button class="pl-2 pr-2" mat-stroked-button color="primary" (click)="processRefund(r.return_id)"
+                    style="width: 140px;">
                     Refund
                 </button>
             </ng-container>
+                        <!-- Refund -->
+            <ng-container class="mr-3" *ngIf="!r.refund_required && r.status === 'Picked_Up'">
+                <button class="pl-2 pr-2" mat-stroked-button color="primary" (click)="processRefund(r.return_id)"
+                    style="width: 140px;">
+                    Replaced
+                </button>
+            </ng-container>
+
 
             <!-- Completed -->
             <!-- *ngIf="r.status === 'Refund_Completed'" -->
@@ -120,5 +140,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 </table>
-<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20, 30, 40, 50]" showFirstLastButtons>
+<mat-paginator [pageSize]="10" [pageSizeOptions]="[15, 20, 30, 40, 50]" showFirstLastButtons>
 </mat-paginator>

@@ -24,12 +24,20 @@
         <!-- CONTROLS -->
         <div class="status-controls">
           <button mat-raised-button color="primary" (click)="changeStatus(-1)"
-            [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'|| orderDetailData?.status === 'delivered'|| orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'">
+            [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'|| orderDetailData?.status === 'delivered'
+            || orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'
+            || orderDetailData?.status === 'Replace_Requested'|| orderDetailData?.status === 'Partially_Replaced'|| orderDetailData?.status === 'Fully_Replaced'
+
+            ">
             <mat-icon>arrow_back</mat-icon> Prev
           </button>
 
           <button mat-raised-button color="primary" (click)="changeStatus(1)"
-            [disabled]="currentStatusIndex === statuses.length - 2 || orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'out_for_delivery' || orderDetailData?.status === 'processing'|| orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'">
+            [disabled]="currentStatusIndex === statuses.length - 2 || orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'out_for_delivery' || orderDetailData?.status === 'processing'
+            || orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'
+            || orderDetailData?.status === 'Replace_Requested'|| orderDetailData?.status === 'Partially_Replaced'|| orderDetailData?.status === 'Fully_Replaced'
+
+            ">
             {{ getCurrentStatus() }}
             <mat-icon>arrow_forward</mat-icon>
           </button>
@@ -273,7 +281,11 @@
     <!-- Action Buttons -->
     <div class="action-buttons">
       <button mat-raised-button color="warn" (click)="cancelOrder(orderDetailData)"
-        [disabled]="orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'delivered'|| orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'">
+        [disabled]="orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'delivered'
+        || orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'
+        || orderDetailData?.status === 'Replace_Requested'|| orderDetailData?.status === 'Partially_Replaced'|| orderDetailData?.status === 'Fully_Replaced'
+
+        ">
         <mat-icon>cancel</mat-icon>
         Cancel Order
       </button>

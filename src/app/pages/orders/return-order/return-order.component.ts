@@ -18,6 +18,7 @@ export class ReturnOrderComponent {
     'product_id',
     'product_name',
     'reason',
+    'return_type',
     'created_at',
     'refund_amount',
     'status',
