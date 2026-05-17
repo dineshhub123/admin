@@ -50,8 +50,12 @@ export class ApiService {
   apiUpdateReturnStatusUrl = environment.getUpdateReturnStatusApiUrl;
   apiAssignReturnDeliveryUrl = environment.getAssignReturnDeliveryApiUrl;
   apiPickupCompleteUrl = environment.getPickupCompleteApiUrl;
+  apiCompleteReturnUrl = environment.getCompleteRefundApiUrl;
+  apiCompleteReplacementUrl = environment.getCompleteReplacementApiUrl;
+  apiShipReplacementUrl = environment.getShipReplacementApiUrl;
 
 
+  
   constructor(private http: HttpClient, private router: Router) { }
 
   commonHeaderFunction() {
@@ -179,6 +183,15 @@ export class ApiService {
   }
   markPickupComplete(id: number){
     return this.http.post(this.apiPickupCompleteUrl, { return_id: id}).pipe(map((res: any) => res))
-
 }
+  completeRefund(id: number){
+    return this.http.post(this.apiCompleteReturnUrl, { return_id: id}).pipe(map((res: any) => res))
+}
+  shipReplacement(id: number){
+    return this.http.post(this.apiShipReplacementUrl, { return_id: id}).pipe(map((res: any) => res))
+}
+  completeReplacement(id: number){
+    return this.http.post(this.apiCompleteReplacementUrl, { return_id: id}).pipe(map((res: any) => res))
+}
+
 }

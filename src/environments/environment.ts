@@ -44,6 +44,9 @@ export const environment = {
   getUpdateReturnStatusApiUrl: 'https://ruralx.in/api/update-return-status.php',
   getAssignReturnDeliveryApiUrl: 'https://ruralx.in/api/assign-return-delivery.php',
   getPickupCompleteApiUrl:'https://ruralx.in/api/pickup-complete.php',
+  getCompleteRefundApiUrl:'https://ruralx.in/api/complete-refund.php',
+  getShipReplacementApiUrl:'https://ruralx.in/api/shipReplacement.php',
+  getCompleteReplacementApiUrl:'https://ruralx.in/api/completeReplacement.php',
 
   
 

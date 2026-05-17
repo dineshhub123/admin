@@ -27,10 +27,12 @@ table {
 .Picked_Up { color: purple; font-weight: 600; }
 .Refund_Completed { color: teal; font-weight: 600; }
 .Rejected { color: red; font-weight: 600; }
-
 .info { color: #2196f3; margin-right: 10px;}
-.success { color: green; margin-right: 10px; margin-left: 10px;}
+.success { color: green; margin-right: 10px; margin-left: 10px;font-weight: 600;}
 .rejected { color: red; margin-right: 10px;}
+.Replacement_Shipped{color: blueviolet;  font-weight: 600;}
+.Delivered { color: green; font-weight: 600; }
+.Refunded {color: green; font-weight: 600;}
 
 .return-badge{
   padding: 6px 12px;

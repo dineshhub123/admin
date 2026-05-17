@@ -9,7 +9,6 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class ReturnOrderComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  refund_Completed: boolean = false;
   displayedColumns: string[] = [
     'index',
     'return_id',
@@ -67,10 +66,25 @@ export class ReturnOrderComponent {
   }
   processRefund(id: number) {
     // call refund api here 
-    this.refund_Completed = true;
+    this.apiService.completeRefund(id).subscribe(() => {
+      this.allReturnOrderData();
+    })
+  }
 
+  shippingReplacement(id: number){
+        this.apiService.shipReplacement(id).subscribe(() => {
+      this.allReturnOrderData();
+    })
 
   }
+
+  markReplaceDelivery(id: number) {
+    // call refund api here 
+    this.apiService.completeReplacement(id).subscribe(() => {
+      this.allReturnOrderData();
+    })
+  }
+
 }
 
 
