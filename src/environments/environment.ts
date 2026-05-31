@@ -39,6 +39,16 @@ export const environment = {
   getAllReviewApiUrl: 'https://ruralx.in/api/get-admin-review.php',
   getApproveReviewApiUrl: 'https://ruralx.in/api/approve-review.php',
   getRejectedReviewApiUrl: 'https://ruralx.in/api/reject-review.php',
+  getadminDashboardApiUrl: 'https://ruralx.in/api/admin-dashboard.php',
+  getReturnOrdersApiUrl: 'https://ruralx.in/api/get-return-order.php',
+  getUpdateReturnStatusApiUrl: 'https://ruralx.in/api/update-return-status.php',
+  getAssignReturnDeliveryApiUrl: 'https://ruralx.in/api/assign-return-delivery.php',
+  getPickupCompleteApiUrl:'https://ruralx.in/api/pickup-complete.php',
+  getCompleteRefundApiUrl:'https://ruralx.in/api/complete-refund.php',
+  getShipReplacementApiUrl:'https://ruralx.in/api/shipReplacement.php',
+  getCompleteReplacementApiUrl:'https://ruralx.in/api/completeReplacement.php',
+  getCancelOrderApiUrl:'https://ruralx.in/api/get-cancel-order.php',
+  updateCancelRefundApiUrl:'https://ruralx.in/api/update-cancel-refund-status.php',
 
   
 

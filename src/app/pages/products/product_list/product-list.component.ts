@@ -17,6 +17,8 @@ export class ProductListComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   products: any[] = [];
   isLoading: boolean = false;
+  selectedStock: string = 'All'
+  searchText: string = '';
   displayedColumns: string[] = [
     'index',
     'product_id',
@@ -35,8 +37,33 @@ export class ProductListComponent {
 
   ngOnInit(): void {
     this.getProductList();
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      const parsed = JSON.parse(filter);
+      const search = parsed.search.toLowerCase();
+      const stock = parsed.stock;
+      // Search filter
+      const matchesSearch =
+        !search ||
+        data.product_id?.toLowerCase().includes(search) ||
+        data.product_name?.toLowerCase().includes(search) ||
+        data.category?.toLowerCase().includes(search);
+
+      //Stock filter
+      let matchesStock = true;
+
+      if (stock === 'low') {
+        matchesStock = data.stock < 5;
+      } else if (stock === 'out') {
+        matchesStock = data.stock == 0;
+      } else if (stock === 'high') {
+        matchesStock = data.stock > 5;
+      }
+      return matchesSearch && matchesStock;
+    };
 
   }
+
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
@@ -89,13 +116,29 @@ export class ProductListComponent {
   }
 
   applyProductSearch(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    if (filterValue.includes('-') || filterValue.endsWith('+')) {
-      this.dataSource.filter = filterValue.trim();
-    } else {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
+    this.searchText = (event.target as HTMLInputElement).value;
+    this.applyFilters();
   }
+
+  applyProductStock(value: string) {
+    this.selectedStock = value;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    const filter = {
+      search: this.searchText || '',
+      stock: this.selectedStock || ''
+    };
+    this.dataSource.filter = JSON.stringify(filter);
+  }
+
+  resetFilter() {
+    this.searchText = '';
+    this.selectedStock = 'All';
+    this.applyFilters();
+  }
+
   editProduct(product: any): void {
     const dialogRef = this.dialog.open(ProductEditDialogComponent, {
       width: '800px',
@@ -108,17 +151,17 @@ export class ProductListComponent {
       }
     });
   }
-getShelfClass(code: string) {
-  if (!code) return '';
-  const rack = code.charAt(0);
-  switch (rack) {
-    case 'A': return 'rack-a';
-    case 'B': return 'rack-b';
-    case 'C': return 'rack-c';
-    case 'D': return 'rack-d';
-    case 'E': return 'rack-e';
-    case 'F': return 'rack-f';
-    default: return 'rack-default';
+  getShelfClass(code: string) {
+    if (!code) return '';
+    const rack = code.charAt(0);
+    switch (rack) {
+      case 'A': return 'rack-a';
+      case 'B': return 'rack-b';
+      case 'C': return 'rack-c';
+      case 'D': return 'rack-d';
+      case 'E': return 'rack-e';
+      case 'F': return 'rack-f';
+      default: return 'rack-default';
+    }
   }
-}
 }

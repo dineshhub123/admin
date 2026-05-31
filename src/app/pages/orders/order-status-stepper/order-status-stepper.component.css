@@ -100,7 +100,7 @@
 .timeline-line-fill {
   position: absolute;
   top: 20px;
-  left: 50px;
+  left: 0px;
   height: 3px;
   background: linear-gradient(90deg, #4CAF50, #2196F3);
   z-index: 2;

@@ -40,13 +40,23 @@ export class ApiService {
   apiDeleteEmployeeURL: string = environment.deleteEmployeeDetailsApiUrl;
   apiOrderListByStatusUrl: string = environment.getOrderListByStatusApiUrl;
   apiDownloadSalaryURL: string = environment.getSalarySlipApiUrl;
-  apiSendOtpUrl:string = environment.sendOtpApiUrl;
-  apiVerifyOtpUrl:string = environment.verifyOtpApiUrl
+  apiSendOtpUrl: string = environment.sendOtpApiUrl;
+  apiVerifyOtpUrl: string = environment.verifyOtpApiUrl
   apiGetAllReviewUrl = environment.getAllReviewApiUrl;
   apiGetApproveReviewUrl = environment.getApproveReviewApiUrl;
   apiGetRejectReviewUrl = environment.getRejectedReviewApiUrl;
+  apiGetAdminDashboardUrl = environment.getadminDashboardApiUrl;
+  apiGetReturnOrderUrl = environment.getReturnOrdersApiUrl;
+  apiUpdateReturnStatusUrl = environment.getUpdateReturnStatusApiUrl;
+  apiAssignReturnDeliveryUrl = environment.getAssignReturnDeliveryApiUrl;
+  apiPickupCompleteUrl = environment.getPickupCompleteApiUrl;
+  apiCompleteReturnUrl = environment.getCompleteRefundApiUrl;
+  apiCompleteReplacementUrl = environment.getCompleteReplacementApiUrl;
+  apiShipReplacementUrl = environment.getShipReplacementApiUrl;
+  apiGetCancelOrderUrl = environment.getCancelOrderApiUrl;
+  apiCancelRefundUrl = environment.updateCancelRefundApiUrl
 
-
+  
   constructor(private http: HttpClient, private router: Router) { }
 
   commonHeaderFunction() {
@@ -94,7 +104,7 @@ export class ApiService {
   getCustomerById(customerData: any): Observable<any> {
     return this.http.put(this.apiUpdateUserInfoURL, { customerData });
   }
-  updateProduct(object:any): Observable<any> {
+  updateProduct(object: any): Observable<any> {
     return this.http.post(this.apiUpdateProductInfoURL, object).pipe(map((res: any) => res));
   }
   updateOrder(id: number): Observable<any> {
@@ -142,22 +152,54 @@ export class ApiService {
       { responseType: 'blob' }
     );
   }
-  sendOtp(object: any): Observable<any>  {
+  sendOtp(object: any): Observable<any> {
     return this.http.post(this.apiSendOtpUrl, object).pipe(map((res: any) => res));
   }
 
-  verifyOtp(object: any): Observable<any>  {
+  verifyOtp(object: any): Observable<any> {
     return this.http.post(this.apiVerifyOtpUrl, object).pipe(map((res: any) => res));
   }
   getProductReview(): Observable<any> {
     return this.http.get(this.apiGetAllReviewUrl).pipe(map((res: any) => res))
   }
   approveReview(reviewId: number): Observable<any> {
-    return this.http.post(this.apiGetApproveReviewUrl,{ review_id: reviewId }).pipe(map((res: any) => res))
+    return this.http.post(this.apiGetApproveReviewUrl, { review_id: reviewId }).pipe(map((res: any) => res))
   }
 
-rejectReview(reviewId: number){
-      return this.http.post(this.apiGetRejectReviewUrl,{ review_id: reviewId }).pipe(map((res: any) => res))
+  rejectReview(reviewId: number) {
+    return this.http.post(this.apiGetRejectReviewUrl, { review_id: reviewId }).pipe(map((res: any) => res))
 
+  }
+  getDashboardData(query: string = ''): Observable<any> {
+    return this.http.get(`${this.apiGetAdminDashboardUrl}${query}`).pipe(map((res: any) => res))
+  }
+  getReturnOrderData(): Observable<any> {
+    return this.http.get(`${this.apiGetReturnOrderUrl}`).pipe(map((res: any) => res))
+  }
+  upadateReturnStatus(id: number, status: string) {
+    return this.http.post(this.apiUpdateReturnStatusUrl, { return_id: id, status: status }).pipe(map((res: any) => res))
+  }
+  assignPickup(id: number) {
+    return this.http.post(this.apiAssignReturnDeliveryUrl, { return_id: id}).pipe(map((res: any) => res))
+  }
+  markPickupComplete(id: number){
+    return this.http.post(this.apiPickupCompleteUrl, { return_id: id}).pipe(map((res: any) => res))
 }
+  completeRefund(id: number){
+    return this.http.post(this.apiCompleteReturnUrl, { return_id: id}).pipe(map((res: any) => res))
+}
+  shipReplacement(id: number){
+    return this.http.post(this.apiShipReplacementUrl, { return_id: id}).pipe(map((res: any) => res))
+}
+  completeReplacement(id: number){
+    return this.http.post(this.apiCompleteReplacementUrl, { return_id: id}).pipe(map((res: any) => res))
+}
+  getCancelOrderData(): Observable<any> {
+    return this.http.get(`${this.apiGetCancelOrderUrl}`).pipe(map((res: any) => res))
+  }
+
+  updateCancelOrderStatus(object: any){
+    return this.http.post(this.apiCancelRefundUrl,object).pipe(map((res: any) => res))
+}
+
 }

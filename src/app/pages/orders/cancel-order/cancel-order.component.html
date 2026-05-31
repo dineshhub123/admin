@@ -1,0 +1,107 @@
+<table mat-table [dataSource]="dataSource" class="cancel-table mat-elevation-z2">
+
+    <!-- Order ID -->
+    <ng-container matColumnDef="order_id">
+        <th mat-header-cell *matHeaderCellDef>Order ID</th>
+        <td mat-cell *matCellDef="let row">
+            {{row.order_id}}
+        </td>
+    </ng-container>
+
+    <!-- Customer -->
+    <ng-container matColumnDef="customer_name">
+        <th mat-header-cell *matHeaderCellDef>Customer</th>
+        <td mat-cell *matCellDef="let row">
+            {{row.customer_name}}
+        </td>
+    </ng-container>
+
+    <!-- Mobile -->
+    <ng-container matColumnDef="mobile">
+        <th mat-header-cell *matHeaderCellDef>Mobile</th>
+        <td mat-cell *matCellDef="let row">
+            {{row.mobile}}
+        </td>
+    </ng-container>
+
+    <!-- Payment -->
+    <ng-container matColumnDef="payment_method">
+        <th mat-header-cell *matHeaderCellDef>Payment</th>
+        <td mat-cell *matCellDef="let row">
+
+            <span [ngClass]="{
+          'payment-cod': row.payment_method=='COD',
+          'payment-online': row.payment_method=='ONLINE'
+      }">
+
+                {{row.payment_method}}
+
+            </span>
+
+        </td>
+    </ng-container>
+
+    <!-- Amount -->
+    <ng-container matColumnDef="total_amount">
+        <th mat-header-cell *matHeaderCellDef>Amount</th>
+        <td mat-cell *matCellDef="let row">
+            ₹{{row.total_amount}}
+        </td>
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+
+        <td mat-cell *matCellDef="let row">
+
+            <span class="status-cancelled">
+                {{row.status}}
+            </span>
+
+        </td>
+    </ng-container>
+
+    <!-- Cancel Date -->
+    <ng-container matColumnDef="cancel_date">
+        <th mat-header-cell *matHeaderCellDef>Cancel Date</th>
+
+        <td mat-cell *matCellDef="let row">
+            {{row.cancel_date | date:'dd MMM yyyy hh:mm a'}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+
+        <td mat-cell *matCellDef="let row">
+
+            <!-- COD -->
+            <div *ngIf="row.payment_method=='COD'" class="status-completed">
+                Completed
+            </div>
+
+            <!-- ONLINE - Pending -->
+            <button *ngIf="row.payment_method=='ONLINE' && row.refund_status=='pending'" class="btn-refund"(click)="updateRefundStatus(row,'processing')">
+                Start Refund
+            </button>
+
+            <!-- ONLINE - Processing -->
+            <button *ngIf="row.payment_method=='ONLINE' && row.refund_status=='processing'" class="btn-processing" (click)="updateRefundStatus(row,'completed')">
+                Complete Refund
+            </button>
+
+
+            <!-- ONLINE - Completed -->
+            <div *ngIf="row.payment_method=='ONLINE' && row.refund_status=='completed'" class="status-completed">
+                Completed
+            </div>
+
+        </td>
+
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>

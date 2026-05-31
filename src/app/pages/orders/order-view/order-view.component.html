@@ -24,12 +24,20 @@
         <!-- CONTROLS -->
         <div class="status-controls">
           <button mat-raised-button color="primary" (click)="changeStatus(-1)"
-            [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'|| orderDetailData?.status === 'delivered'|| orderDetailData?.status === 'Return_requested'">
+            [disabled]="currentStatusIndex === 0 || orderDetailData?.status === 'cancelled'|| orderDetailData?.status === 'delivered'
+            || orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'
+            || orderDetailData?.status === 'Replace_Requested'|| orderDetailData?.status === 'Partially_Replaced'|| orderDetailData?.status === 'Fully_Replaced'
+
+            ">
             <mat-icon>arrow_back</mat-icon> Prev
           </button>
 
           <button mat-raised-button color="primary" (click)="changeStatus(1)"
-            [disabled]="currentStatusIndex === statuses.length - 2 || orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'out_for_delivery' || orderDetailData?.status === 'processing'|| orderDetailData?.status === 'Return_requested'">
+            [disabled]="currentStatusIndex === statuses.length - 2 || orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'out_for_delivery' || orderDetailData?.status === 'processing'
+            || orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'
+            || orderDetailData?.status === 'Replace_Requested'|| orderDetailData?.status === 'Partially_Replaced'|| orderDetailData?.status === 'Fully_Replaced'
+
+            ">
             {{ getCurrentStatus() }}
             <mat-icon>arrow_forward</mat-icon>
           </button>
@@ -44,7 +52,8 @@
               Verify OTP
             </button>
             <mat-form-field appearance="outline" class="small-input">
-              <input matInput type="text" maxlength="6" pattern="[0-9]*" inputmode="numeric" [(ngModel)]="enteredOtp" placeholder="Enter OTP">
+              <input matInput type="text" maxlength="6" pattern="[0-9]*" inputmode="numeric" [(ngModel)]="enteredOtp"
+                placeholder="Enter OTP">
             </mat-form-field>
           </div>
         </div>
@@ -69,7 +78,7 @@
           <th>Status:</th>
           <td>
             <mat-chip [color]="getStatusColor(orderDetailData?.status)" selected>
-              {{ orderDetailData?.status | titlecase }}
+              {{ getStatusLabel(orderDetailData?.status) }}
             </mat-chip>
           </td>
         </tr>
@@ -119,12 +128,12 @@
         </mat-cell>
       </ng-container>
 
-            <!-- Product ID-->
+      <!-- Product ID-->
       <ng-container matColumnDef="product_id">
         <mat-header-cell *matHeaderCellDef> Product ID </mat-header-cell>
         <mat-cell *matCellDef="let item">
           <div class="product-name">{{ item.product_id | titlecase}}</div>
-          </mat-cell>
+        </mat-cell>
       </ng-container>
 
       <!-- Product Name -->
@@ -259,7 +268,7 @@
         <th>Status:</th>
         <td>
           <mat-chip [color]="getPaymentStatusColor(orderDetailData?.status)" selected>
-            {{ orderDetailData?.status | titlecase }}
+            {{ getStatusLabel(orderDetailData?.status) }}
           </mat-chip>
         </td>
       </tr>
@@ -272,7 +281,11 @@
     <!-- Action Buttons -->
     <div class="action-buttons">
       <button mat-raised-button color="warn" (click)="cancelOrder(orderDetailData)"
-        [disabled]="orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'delivered'|| orderDetailData?.status === 'Return_requested'">
+        [disabled]="orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'delivered'
+        || orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'
+        || orderDetailData?.status === 'Replace_Requested'|| orderDetailData?.status === 'Partially_Replaced'|| orderDetailData?.status === 'Fully_Replaced'
+
+        ">
         <mat-icon>cancel</mat-icon>
         Cancel Order
       </button>

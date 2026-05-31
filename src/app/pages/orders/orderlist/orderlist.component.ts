@@ -27,7 +27,6 @@ export class OrderlistComponent {
     'status',
     'updated_at',
     'created_at',
-    'approve-reject',
     'view'
   ];
 
@@ -54,6 +53,7 @@ export class OrderlistComponent {
         const seen = new Set<string>();
 
         res?.orders?.forEach((order: any) => {
+          console.log("orderList",order)
           if (seen.has(order.order_id)) return;   // ✅ skip duplicate order_id
           seen.add(order.order_id);
           const firstItem = order?.items?.[0]; // take first product only
@@ -133,6 +133,12 @@ export class OrderlistComponent {
       case 'out_for_delivery': return 'st-out';
       case 'delivered': return 'st-delivered';
       case 'cancelled': return 'st-cancelled';
+      case 'return_requested': return 'st-request';
+      case 'replace_requested': return 'st-replace';
+      case 'partially_replaced': return 'st-partially-replace';
+      case 'fully_replaced': return 'st-fully-replace';
+      case 'partially_returned': return 'st-partially';
+      case 'fully_returned': return 'st-fully';
       default: return 'st-default';
     }
   }
@@ -155,11 +161,5 @@ export class OrderlistComponent {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
-approveReturn(approve:any){
-
-}
-rejectReturn(reject:any){
-
-}
 }
 
