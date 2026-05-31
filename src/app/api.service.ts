@@ -53,7 +53,8 @@ export class ApiService {
   apiCompleteReturnUrl = environment.getCompleteRefundApiUrl;
   apiCompleteReplacementUrl = environment.getCompleteReplacementApiUrl;
   apiShipReplacementUrl = environment.getShipReplacementApiUrl;
-
+  apiGetCancelOrderUrl = environment.getCancelOrderApiUrl;
+  apiCancelRefundUrl = environment.updateCancelRefundApiUrl
 
   
   constructor(private http: HttpClient, private router: Router) { }
@@ -192,6 +193,13 @@ export class ApiService {
 }
   completeReplacement(id: number){
     return this.http.post(this.apiCompleteReplacementUrl, { return_id: id}).pipe(map((res: any) => res))
+}
+  getCancelOrderData(): Observable<any> {
+    return this.http.get(`${this.apiGetCancelOrderUrl}`).pipe(map((res: any) => res))
+  }
+
+  updateCancelOrderStatus(object: any){
+    return this.http.post(this.apiCancelRefundUrl,object).pipe(map((res: any) => res))
 }
 
 }

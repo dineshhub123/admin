@@ -60,6 +60,7 @@ import { AdminInterceptor } from './admin.interceptor';
 import { LoaderComponent } from './loader/loader.component';
 import { RecordVideoDialogComponent } from './record-video-dialog/record-video-dialog.component';
 import { ReturnOrderComponent } from './pages/orders/return-order/return-order.component';
+import { CancelOrderComponent } from './pages/orders/cancel-order/cancel-order.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,7 +89,8 @@ import { ReturnOrderComponent } from './pages/orders/return-order/return-order.c
     SafePipe,
     LoaderComponent,
     RecordVideoDialogComponent,
-    ReturnOrderComponent
+    ReturnOrderComponent,
+    CancelOrderComponent
   ],
   imports: [
     BrowserModule,
