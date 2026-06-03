@@ -33,6 +33,7 @@ export class AppComponent {
   public userName: string = '';
   public firstUserName: string = '';
   public avatarLetter: string = '';
+  public role: any;
   constructor(
     public router: Router,
     private http: HttpClient,
@@ -49,38 +50,40 @@ export class AppComponent {
     });
   }
   ngOnInit(): void {
-     this.getPendingOrdersPreview();
-     this.orderNotify.pendingCount$.subscribe((c:any) => this.pendingOrderCount = c);
-     this.orderNotify.preview$.subscribe(list => this.pendingOrders = list);
-     this.loginService.isLoggedIn$.subscribe(status => {
-      this.isLoggedIn = status;
-      const userData = localStorage.getItem('login_admin'); // 👈 key name
+    this.getPendingOrdersPreview();
+    this.orderNotify.pendingCount$.subscribe((c: any) => this.pendingOrderCount = c);
+    this.orderNotify.preview$.subscribe(list => this.pendingOrders = list);
+    this.loginService.loadUser();
+    this.loginService.user$.subscribe((userData: any) => {
       if (userData) {
-        const user = JSON.parse(userData);
+        const user = userData;
+        this.role = user?.role
         // First Name & Last Name For Left Panel 
         this.userName = `${user.name}`;
         // First Name For Logout Pop Up
         this.firstUserName = `${user.name}`;
         // First letter of first name in CAPITAL
         this.avatarLetter = user.name?.charAt(0)?.toUpperCase();
-    this.setExpandedPanel(this.router.url);
-    const adminId = user.id; // logged-in admin
-    this.fcm.initFCM(adminId);
-    // VERY IMPORTANT: attach foreground listener
-    this.fcm.listenMessages();
-    this.getPendingOrdersPreview();
-    // 🔔 when notification arrives
-     this.msgSub = this.fcm.message$.subscribe(() => {
-      this.getPendingOrdersPreview();
-    });
+        this.setExpandedPanel(this.router.url);
+        const adminId = user.admin_id; // logged-in admin
+        this.fcm.initFCM(adminId);
+        // VERY IMPORTANT: attach foreground listener
+        this.fcm.listenMessages();
+        this.getPendingOrdersPreview();
+
+        // 🔔 when notification arrives
+        this.msgSub = this.fcm.message$.subscribe(() => {
+          this.getPendingOrdersPreview();
+        });
 
       }
     });
+
   }
 
-    ngOnDestroy() {
-  if (this.msgSub) this.msgSub.unsubscribe();
-}
+  ngOnDestroy() {
+    if (this.msgSub) this.msgSub.unsubscribe();
+  }
 
   setExpandedPanel(url: string): void {
     if (url.includes('/orders')) {

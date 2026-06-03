@@ -6,6 +6,8 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { range } from 'rxjs';
 import { ApiService } from 'src/app/api.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,10 +16,10 @@ import { ApiService } from 'src/app/api.service';
 })
 export class DashboardComponent {
 
-  constructor(private breakpointObserver: BreakpointObserver, public apiService: ApiService) { }
+  constructor(private breakpointObserver: BreakpointObserver, public apiService: ApiService, public router: Router, public toastr: ToastrService) { }
 
-fromDate: Date | null = null;
-toDate: Date | null = null;
+  fromDate: Date | null = null;
+  toDate: Date | null = null;
   yLabels: any;
   seriesData: any;
   orderStatusDistribution: EChartsOption = {};
@@ -39,27 +41,27 @@ toDate: Date | null = null;
   ngOnInit() {
     this.getAdminDashboardDetails(`?from=${''}&to=${''}`);
   }
-  resetDateRange(){
-  this.getAdminDashboardDetails(`?from=${''}&to=${''}`);
-  this.fromDate = null;
-  this.toDate = null;
+  resetDateRange() {
+    this.getAdminDashboardDetails(`?from=${''}&to=${''}`);
+    this.fromDate = null;
+    this.toDate = null;
   }
   onDateRangeChange() {
-  if (!this.fromDate || !this.toDate) return;
-  const from = this.formatDate(this.fromDate);
-  const to = this.formatDate(this.toDate);
-  const query = `?from=${from}&to=${to}`;
-  this.getAdminDashboardDetails(query);
-}
-formatDate(date: Date): string {
-  const d = new Date(date);
-  const year = d.getFullYear();
-  const month = ('0' + (d.getMonth() + 1)).slice(-2);
-  const day = ('0' + d.getDate()).slice(-2);
-  return `${year}-${month}-${day}`;
-}
+    if (!this.fromDate || !this.toDate) return;
+    const from = this.formatDate(this.fromDate);
+    const to = this.formatDate(this.toDate);
+    const query = `?from=${from}&to=${to}`;
+    this.getAdminDashboardDetails(query);
+  }
+  formatDate(date: Date): string {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  }
 
-  getAdminDashboardDetails(query:any) {
+  getAdminDashboardDetails(query: any) {
     this.apiService.getDashboardData(query).subscribe((res: any) => {
       const row1 = res?.dashboard?.cards?.row1;
       const row2 = res?.dashboard?.cards?.row2;
@@ -279,6 +281,16 @@ formatDate(date: Date): string {
       };
 
     }, err => {
+      if (err.status === 403) {
+        this.toastr.error(
+          'You are not authorized to access Dashboard',
+          'Access Denied',
+          {
+            timeOut: 3000
+          }
+        );
+        this.router.navigate(['/productlist']);
+      }
       console.error("Dashboard API error", err);
     });
   }

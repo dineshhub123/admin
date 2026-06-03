@@ -81,7 +81,7 @@
 
       <!-- Dashboard -->
       <div class="sidebar">
-        <mat-expansion-panel>
+        <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>dashboard</mat-icon>
@@ -90,7 +90,7 @@
           </mat-expansion-panel-header>
           <mat-action-list>
             <a mat-list-item routerLink="dashboard" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon matListIcon>dashboard</mat-icon> Overview
+              <mat-icon matListIcon>dashboard</mat-icon> Home
             </a>
           </mat-action-list>
         </mat-expansion-panel>

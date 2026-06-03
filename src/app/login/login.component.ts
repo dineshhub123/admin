@@ -13,7 +13,6 @@ import { AuthService } from '../auth.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
   isModalOpen = false;
@@ -61,15 +60,19 @@ export class LoginComponent implements OnInit {
       next: (res: any) => {
         const user = res.admin;
         const token = res.token;
-     /* Save token using auth service */
-      this.authService.saveToken(token);
-      /* Save admin data */
-        localStorage.setItem('login_admin', JSON.stringify(user));
-        /* Update auth state */
-        this.loginService.login();
+        /* Save token using auth service */
+        this.authService.saveToken(token);
+        /* Save admin data */
+        this.loginService.setUser(user)
         this.loginForm.reset();
-        this.router.navigate(['dashboard']);
-        this.toastr.success(
+        const adminData = JSON.parse(
+          localStorage.getItem('login_admin') || '{}'
+        );
+        if (adminData.role === 'SUPER_ADMIN') {
+          this.router.navigate(['dashboard']);
+        } else {
+          this.router.navigate(['productlist']);
+        } this.toastr.success(
           'You are login successfully!',
           `Welcome, ${user.name}`
         );

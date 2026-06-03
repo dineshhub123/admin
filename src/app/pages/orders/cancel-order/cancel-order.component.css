@@ -17,7 +17,7 @@
     background:#E8F5E9;
     color:#2E7D32;
     border:1px solid #81C784;
-    padding:4px 8px;
+    padding:4px 15px;
     border-radius:6px;
     font-size:12px;
     font-weight:600;
@@ -61,6 +61,7 @@ td,th{
   font-size: 14px;
   font-weight: 500;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .btn-refund:hover {
@@ -80,6 +81,7 @@ td,th{
   cursor: default;
   font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .btn-processing:hover {

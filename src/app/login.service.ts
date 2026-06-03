@@ -5,18 +5,26 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LoginService {
-   private TOKEN_KEY = 'admin_token';
-   private loggedInSubject = new BehaviorSubject<boolean>(
+  private TOKEN_KEY = 'admin_token';
+  private loggedInSubject = new BehaviorSubject<boolean>(
     localStorage.getItem('isLoggedIn') === 'true'
   );
 
   isLoggedIn$ = this.loggedInSubject.asObservable();
 
-  constructor(public router:Router) {}
+  private userSubject = new BehaviorSubject<any>(null);
+  user$ = this.userSubject.asObservable();
 
-  login() {
+  constructor(public router: Router) {
+    console.log('LoginService Instance Created');
+  }
+
+  setUser(user: any) {
+    localStorage.setItem('login_admin', JSON.stringify(user));
     localStorage.setItem('isLoggedIn', 'true');
     this.loggedInSubject.next(true);
+    this.userSubject.next(user);
+
   }
 
   logout() {
@@ -29,5 +37,15 @@ export class LoginService {
   isLoggedIn(): boolean {
     return localStorage.getItem('isLoggedIn') === 'true';
   }
+  
+  loadUser() {
+    const user = JSON.parse(
+      localStorage.getItem('login_admin') || 'null'
+    );
 
+    if (user) {
+      this.loggedInSubject.next(true);
+      this.userSubject.next(user);
+    }
+  }
 }
