@@ -28,10 +28,13 @@
  .login-container {
      position: relative;
 }
- app-privacy-popup {
-     position: fixed;
-     bottom: 20px;
-     right: 20px;
-     z-index: 1000;
+.login-submit button{
+     width: 100%;
+     border-radius: 8px;
+     height: 40px;
+     font-size: 18px;
+     font-weight: 600;
 }
-
+.login-submit{
+     text-align: center;
+}

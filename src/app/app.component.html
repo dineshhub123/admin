@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z8"*ngIf="router.url !== '/login' && router.url !== '/invoice' && router.url !== '/address-label'">
+<mat-toolbar class="mat-elevation-z8"*ngIf="router.url !== '/login' && router.url !== '/2fa-qr' && router.url !== '/2fa' && router.url !== '/invoice' && router.url !== '/address-label'">
   <div class="menu">
     <button class="btn-menu" mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
       <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>

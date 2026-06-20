@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   isModalOpen = false;
   modalTitle = '';
   showPrivacyPopup = false;
+  hidePassword = true;
   loginForm: FormGroup = new FormGroup({
     mobile: new FormControl('', [Validators.required, Validators.pattern(/^([0-9]{10}|[^\s@]+@[^\s@]+\.[^\s@]+)$/)]),
     password: new FormControl('', [Validators.required])
@@ -61,22 +62,30 @@ export class LoginComponent implements OnInit {
         const user = res.admin;
         const token = res.token;
         /* Save token using auth service */
-        this.authService.saveToken(token);
+        //this.authService.saveToken(token);
         /* Save admin data */
-        this.loginService.setUser(user)
+        //this.loginService.setUser(user)
         this.loginForm.reset();
-        const adminData = JSON.parse(
-          localStorage.getItem('login_admin') || '{}'
-        );
-        if (adminData.role === 'SUPER_ADMIN') {
-          this.router.navigate(['dashboard']);
+        // const adminData = JSON.parse(
+        //   localStorage.getItem('login_admin') || '{}'
+        // );
+        // if (adminData.role === 'SUPER_ADMIN') {
+        //   this.router.navigate(['dashboard']);
+        // } else {
+        //   this.router.navigate(['productlist']);
+        // } 
+        // this.toastr.success(
+        //   'You are login successfully!',
+        //   `Welcome, ${user.name}`
+        // );
+        // this.getPendingOrdersPreview();
+        sessionStorage.setItem('pending_token', token);
+        sessionStorage.setItem('pending_user', JSON.stringify(user));
+        if (user.is_2fa_enabled == 0) {
+          this.router.navigate(['/2fa-qr']);
         } else {
-          this.router.navigate(['productlist']);
-        } this.toastr.success(
-          'You are login successfully!',
-          `Welcome, ${user.name}`
-        );
-        this.getPendingOrdersPreview();
+          this.router.navigate(['/2fa']);
+        }
       },
       error: err => {
         console.error(err);
@@ -89,11 +98,11 @@ export class LoginComponent implements OnInit {
 
   }
 
-  getPendingOrdersPreview() {
-    this.apiService.getPendingOrder().subscribe(res => {
-      this.orderNotify.setPendingOrders(res);
-    })
-  }
+  // getPendingOrdersPreview() {
+  //   this.apiService.getPendingOrder().subscribe(res => {
+  //     this.orderNotify.setPendingOrders(res);
+  //   })
+  // }
 
 
   canLogin(): boolean {
@@ -105,5 +114,11 @@ export class LoginComponent implements OnInit {
       this.router.navigate([currentUrl]);
     });
   }
+  twoAuthenticator() {
+    this.router.navigate(["/2fa"])
+  }
+  secretQr() {
+    this.router.navigate(["/2fa-qr"])
 
+  }
 }

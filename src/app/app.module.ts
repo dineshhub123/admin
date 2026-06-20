@@ -61,6 +61,8 @@ import { LoaderComponent } from './loader/loader.component';
 import { RecordVideoDialogComponent } from './record-video-dialog/record-video-dialog.component';
 import { ReturnOrderComponent } from './pages/orders/return-order/return-order.component';
 import { CancelOrderComponent } from './pages/orders/cancel-order/cancel-order.component';
+import { TwoFactorAuthenticatorComponent } from './two-factor-authenticator/two-factor-authenticator.component';
+import { GoogleAuthenticatorSetupComponent } from './google-authenticator-setup/google-authenticator-setup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,7 +92,9 @@ import { CancelOrderComponent } from './pages/orders/cancel-order/cancel-order.c
     LoaderComponent,
     RecordVideoDialogComponent,
     ReturnOrderComponent,
-    CancelOrderComponent
+    CancelOrderComponent,
+    TwoFactorAuthenticatorComponent,
+    GoogleAuthenticatorSetupComponent
   ],
   imports: [
     BrowserModule,
