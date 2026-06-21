@@ -22,12 +22,16 @@ import { EmployeeEditComponent } from './pages/employee/employee/employee-edit/e
 import { EmployeeListComponent } from './pages/employee/employee/employee-list/employee-list.component';
 import { ReturnOrderComponent } from './pages/orders/return-order/return-order.component'
 import { CancelOrderComponent } from './pages/orders/cancel-order/cancel-order.component';
+import { TwoFactorAuthenticatorComponent } from './two-factor-authenticator/two-factor-authenticator.component';
+import { GoogleAuthenticatorSetupComponent } from './google-authenticator-setup/google-authenticator-setup.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   { path: '404', component: PageNotFoundComponent,},
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
+  { path: '2fa-otp', component: TwoFactorAuthenticatorComponent },
+  { path: '2fa-setup', component: GoogleAuthenticatorSetupComponent },
   { path: 'uploadproduct', component: UploadComponent, canActivate: [AuthGuard] },
   { path: 'orderlist', component: OrderlistComponent, canActivate: [AuthGuard] },
   { path: 'returnlist', component: ReturnOrderComponent, canActivate: [AuthGuard] },

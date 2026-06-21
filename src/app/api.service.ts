@@ -55,6 +55,8 @@ export class ApiService {
   apiShipReplacementUrl = environment.getShipReplacementApiUrl;
   apiGetCancelOrderUrl = environment.getCancelOrderApiUrl;
   apiCancelRefundUrl = environment.updateCancelRefundApiUrl
+  apiTwoFectorQrUrl = environment.twoFectorQrApiUrl
+  apiverify2faUrl = environment.verify2faApiUrl
 
   
   constructor(private http: HttpClient, private router: Router) { }
@@ -200,6 +202,12 @@ export class ApiService {
 
   updateCancelOrderStatus(object: any){
     return this.http.post(this.apiCancelRefundUrl,object).pipe(map((res: any) => res))
+}
+  generateTwoFectorQr(object: any){
+    return this.http.post(this.apiTwoFectorQrUrl,object).pipe(map((res: any) => res))
+}
+  verify2faOtp(object: any){
+    return this.http.post(this.apiverify2faUrl,object).pipe(map((res: any) => res))
 }
 
 }

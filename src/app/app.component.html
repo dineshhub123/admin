@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z8"*ngIf="router.url !== '/login' && router.url !== '/invoice' && router.url !== '/address-label'">
+<mat-toolbar class="mat-elevation-z8"*ngIf="router.url !== '/login' && router.url !== '/2fa-setup' && router.url !== '/2fa-otp' && router.url !== '/invoice' && router.url !== '/address-label'">
   <div class="menu">
     <button class="btn-menu" mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
       <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
@@ -8,7 +8,7 @@
   <div class="img_position">
     <img class="imgSet" src="assets/img/ruralxLogo.png">
   </div>
-  <span class="xxxx-menu-spacer"></span>
+  <span class="xxxx-menu-spacer page-title">&nbsp;{{ role === 'SUPER_ADMIN' ? 'Super Admin Management': role === 'ADMIN' ? 'Admin User Management': role === 'SELLER' ? 'Seller Management': role === 'DELIVERY_BOY' ? 'DELIVERY Management' : '' }}</span>
   <div>
   </div>
   <span class="toolbar-item-spacer"></span>
@@ -50,14 +50,14 @@
     <mat-icon class="top-nav">account_circle</mat-icon>
   </button>
   <mat-menu #userAccountMenu [overlapTrigger]="false" yPosition="below">
-    <button mat-menu-item routerLink="#">
-      <mat-icon>person</mat-icon><span>
+    <button mat-menu-item>
+      <mat-icon>person</mat-icon><span class="userlogout-pop">
         Hello, {{(firstUserName?firstUserName:'Sign in')|titlecase }} </span>
     </button>
-    <button mat-menu-item routerLink="#">
+    <button mat-menu-item >
       <mat-icon>settings</mat-icon><span>Settings</span>
     </button>
-    <button mat-menu-item routerLink="#">
+    <button mat-menu-item >
       <mat-icon>help</mat-icon><span>Help</span>
     </button>
     <mat-divider></mat-divider>
@@ -81,7 +81,7 @@
 
       <!-- Dashboard -->
       <div class="sidebar">
-        <mat-expansion-panel>
+        <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>dashboard</mat-icon>
@@ -90,7 +90,7 @@
           </mat-expansion-panel-header>
           <mat-action-list>
             <a mat-list-item routerLink="dashboard" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon matListIcon>dashboard</mat-icon> Overview
+              <mat-icon matListIcon>dashboard</mat-icon> Home
             </a>
           </mat-action-list>
         </mat-expansion-panel>
@@ -200,6 +200,21 @@
             </a>
           </mat-action-list>
         </mat-expansion-panel> 
+
+          <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>group</mat-icon>
+              <span class="ml-2">Users Management</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="/signup" routerLinkActive="active-link"(click)="sidenav.toggle()">
+              <mat-icon matListIcon>person</mat-icon> Signup
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel> 
+
 
 
       </div>

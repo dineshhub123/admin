@@ -49,6 +49,9 @@ export const environment = {
   getCompleteReplacementApiUrl:'https://ruralx.in/api/completeReplacement.php',
   getCancelOrderApiUrl:'https://ruralx.in/api/get-cancel-order.php',
   updateCancelRefundApiUrl:'https://ruralx.in/api/update-cancel-refund-status.php',
+  twoFectorQrApiUrl:'https://ruralx.in/api/generate_secret.php',
+  verify2faApiUrl:'https://ruralx.in/api/verify-2fa.php',
+
 
   
 
