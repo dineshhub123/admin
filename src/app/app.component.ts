@@ -48,6 +48,7 @@ export class AppComponent {
         this.setExpandedPanel(event.urlAfterRedirects);
       }
     });
+    
   }
   ngOnInit(): void {
     this.getPendingOrdersPreview();

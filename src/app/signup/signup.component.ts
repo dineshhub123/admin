@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SignupComponent {
   adminSignupForm!: FormGroup;
+  hidePassword = true;
 
   constructor(public router:Router,private apiService:ApiService,private fb: FormBuilder,public toastr: ToastrService
 ) { }
@@ -24,6 +25,7 @@ export class SignupComponent {
       email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['', [Validators.required]],
   })
 }
 
@@ -38,7 +40,7 @@ adminSignup() {
     email: this.adminSignupForm?.value?.email,
     phone: this.adminSignupForm?.value?.phone,
     password: this.adminSignupForm?.value?.password,
-    role: 'ADMIN'
+    role: this.adminSignupForm?.value?.role
   };
   this.apiService.insertAdminDetails(insertAdminDetailsPayload)
     .subscribe({

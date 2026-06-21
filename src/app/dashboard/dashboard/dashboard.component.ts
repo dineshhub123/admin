@@ -15,8 +15,11 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-
-  constructor(private breakpointObserver: BreakpointObserver, public apiService: ApiService, public router: Router, public toastr: ToastrService) { }
+  public role: string;
+  constructor(private breakpointObserver: BreakpointObserver, public apiService: ApiService, public router: Router, public toastr: ToastrService) {
+    const admin = JSON.parse(localStorage.getItem('login_admin') || '{}');
+    this.role = admin.role;
+  }
 
   fromDate: Date | null = null;
   toDate: Date | null = null;

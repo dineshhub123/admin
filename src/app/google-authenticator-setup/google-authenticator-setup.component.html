@@ -1,77 +1,79 @@
 <div class="setup-container">
+    <mat-card class="mat-elevation-z4 card-container mb-2">
 
-    <div class="setup-card">
+        <div class="setup-card">
 
-        <div class="icon-circle">
-            <mat-icon>security</mat-icon>
-        </div>
-
-        <h2>Setup Google Authenticator</h2>
-
-        <p class="subtitle">
-            Secure your Ruralx Admin account with Two-Factor Authentication (2FA).
-        </p>
-
-        <div class="steps">
-
-            <div class="step">
-                <span>1</span>
-                <p>Install Google Authenticator on your phone.</p>
+            <div class="icon-circle">
+                <mat-icon>security</mat-icon>
             </div>
 
-            <div class="step">
-                <span>2</span>
-                <p>Scan the QR code below.</p>
+            <h3>Setup Google Authenticator</h3>
+
+            <p class="subtitle">
+                Secure your Ruralx Admin account with Two-Factor Authentication (2FA).
+            </p>
+
+            <div class="steps">
+
+                <div class="step">
+                    <span>1</span>
+                    <p>Install Google Authenticator on your phone.</p>
+                </div>
+
+                <div class="step">
+                    <span>2</span>
+                    <p>Scan the QR code below.</p>
+                </div>
+
+                <div class="step">
+                    <span>3</span>
+                    <p>After scanning, click Continue.</p>
+                </div>
+
+                <div class="step">
+                    <span>4</span>
+                    <p>Enter the 6-digit code from the app.</p>
+                </div>
+
             </div>
 
-            <div class="step">
-                <span>3</span>
-                <p>After scanning, click Continue.</p>
+            <div class="divider"></div>
+
+            <h4>Scan this QR code in Google Authenticator</h4>
+
+            <div class="qr-wrapper">
+                <img [src]="qrCodeUrl" alt="QR Code">
             </div>
 
-            <div class="step">
-                <span>4</span>
-                <p>Enter the 6-digit code from the app.</p>
+            <div class="or-text">OR</div>
+
+            <p class="manual-text">
+                Can't scan? Enter this secret key manually in the app.
+            </p>
+
+            <div class="secret-key-box">
+
+                <span>{{ secretKey }}</span>
+
+                <button mat-icon-button (click)="copySecretKey()">
+                    <mat-icon>content_copy</mat-icon>
+                </button>
+
             </div>
 
-        </div>
-
-        <div class="divider"></div>
-
-        <h3>Scan this QR code in Google Authenticator</h3>
-
-        <div class="qr-wrapper">
-            <img [src]="qrCodeUrl" alt="QR Code">
-        </div>
-
-        <div class="or-text">OR</div>
-
-        <p class="manual-text">
-            Can't scan? Enter this secret key manually in the app.
-        </p>
-
-        <div class="secret-key-box">
-
-            <span>{{ secretKey }}</span>
-
-            <button mat-icon-button (click)="copySecretKey()">
-                <mat-icon>content_copy</mat-icon>
+            <p class="warning">
+                Save this key in a secure place. It can be used to recover access if you lose your phone.
+            </p>
+            <div class="confirm-scan">
+                <mat-checkbox #scanned>
+                    I have scanned the QR code in Google Authenticator
+                </mat-checkbox>
+            </div> 
+            <button mat-raised-button color="primary" class="continue-btn" (click)="continueSetup()"
+                [disabled]="!scanned.checked">
+                Continue →
             </button>
 
         </div>
-
-        <p class="warning">
-            Save this key in a secure place. It can be used to recover access if you lose your phone.
-        </p>
-
-        <button
-            mat-raised-button
-            color="primary"
-            class="continue-btn"
-            (click)="continueSetup()">
-            Continue
-        </button>
-
-    </div>
-
+    </mat-card>
 </div>

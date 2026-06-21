@@ -21,3 +21,7 @@
 	padding: 32px;
 	margin: auto;
 }
+.full-width-btn {
+    width: 100%;
+    display: block;
+}

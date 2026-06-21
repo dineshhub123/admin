@@ -1,6 +1,6 @@
-   <div class="row" style="margin-bottom: 40px;">
+   <div class="row" style="margin-bottom: 50px;">
       <div class="top-date-picker-section">
-         <div class="dashboard-title">Super Admin Dashboard</div>
+         <div class="dashboard-title">{{ role === 'SUPER_ADMIN' ? 'Super Admin Dashboard' : 'Admin Dashboard' }}</div>
          <div class="datepicker-wrapper">
             <mat-form-field appearance="fill" style="width: 230px;font-size: 12px;font-weight: 600;" class="pt-4">
                <mat-date-range-input [rangePicker]="picker">
@@ -15,7 +15,7 @@
       </div>
    </div>
 
-<div class="container-fluid dashboard-back pt-4">
+<div class="container-fluid dashboard-back pt-3">
    <div class="row">
       <div class="col-md-2 mb-4" *ngFor="let reven of revenue">
          <mat-card appearance="outlined" class="metric-card" [ngClass]="reven.borderColorClass">

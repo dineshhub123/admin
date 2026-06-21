@@ -41,9 +41,9 @@ export class LoginComponent implements OnInit {
     }
     this.showPrivacyPopup = !this.privacyService.hasUserResponded();
   }
-  signup() {
-    this.router.navigate(['signup'])
-  }
+  // signup() {
+  //   this.router.navigate(['signup'])
+  // }
 
   openDialog(title: string): void {
     this.dialog.open(PrivacyPopupComponent, {
@@ -61,30 +61,13 @@ export class LoginComponent implements OnInit {
       next: (res: any) => {
         const user = res.admin;
         const token = res.token;
-        /* Save token using auth service */
-        //this.authService.saveToken(token);
-        /* Save admin data */
-        //this.loginService.setUser(user)
         this.loginForm.reset();
-        // const adminData = JSON.parse(
-        //   localStorage.getItem('login_admin') || '{}'
-        // );
-        // if (adminData.role === 'SUPER_ADMIN') {
-        //   this.router.navigate(['dashboard']);
-        // } else {
-        //   this.router.navigate(['productlist']);
-        // } 
-        // this.toastr.success(
-        //   'You are login successfully!',
-        //   `Welcome, ${user.name}`
-        // );
-        // this.getPendingOrdersPreview();
         sessionStorage.setItem('pending_token', token);
         sessionStorage.setItem('pending_user', JSON.stringify(user));
         if (user.is_2fa_enabled == 0) {
-          this.router.navigate(['/2fa-qr']);
+          this.router.navigate(['/2fa-setup']);
         } else {
-          this.router.navigate(['/2fa']);
+          this.router.navigate(['/2fa-otp']);
         }
       },
       error: err => {
@@ -95,15 +78,7 @@ export class LoginComponent implements OnInit {
         );
       }
     });
-
   }
-
-  // getPendingOrdersPreview() {
-  //   this.apiService.getPendingOrder().subscribe(res => {
-  //     this.orderNotify.setPendingOrders(res);
-  //   })
-  // }
-
 
   canLogin(): boolean {
     return this.privacyService.hasUserResponded();
@@ -115,10 +90,10 @@ export class LoginComponent implements OnInit {
     });
   }
   twoAuthenticator() {
-    this.router.navigate(["/2fa"])
+    this.router.navigate(["/2fa-otp"])
   }
   secretQr() {
-    this.router.navigate(["/2fa-qr"])
+    this.router.navigate(["/2fa-setup"])
 
   }
 }
