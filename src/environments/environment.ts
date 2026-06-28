@@ -51,6 +51,12 @@ export const environment = {
   updateCancelRefundApiUrl:'https://ruralx.in/api/update-cancel-refund-status.php',
   twoFectorQrApiUrl:'https://ruralx.in/api/generate_secret.php',
   verify2faApiUrl:'https://ruralx.in/api/verify-2fa.php',
+  changePasswordApiUrl:'https://ruralx.in/api/change-password.php',
+  addPincodeApiUrl:'https://ruralx.in/api/add-pincode.php',
+  getPincodeApiUrl:'https://ruralx.in/api/get-pincode.php',
+  updatePincodeApiUrl:'https://ruralx.in/api/update-pincode.php',
+  deletePincodeApiUrl:'https://ruralx.in/api/delete-pincode.php',
+
 
 
   

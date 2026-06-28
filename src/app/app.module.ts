@@ -63,6 +63,9 @@ import { ReturnOrderComponent } from './pages/orders/return-order/return-order.c
 import { CancelOrderComponent } from './pages/orders/cancel-order/cancel-order.component';
 import { TwoFactorAuthenticatorComponent } from './two-factor-authenticator/two-factor-authenticator.component';
 import { GoogleAuthenticatorSetupComponent } from './google-authenticator-setup/google-authenticator-setup.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PincodeManagementComponent } from './pincode-management/pincode-management.component';
+import { AddPincodeDailogComponent } from './add-pincode-dailog/add-pincode-dailog.component'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -94,7 +97,10 @@ import { GoogleAuthenticatorSetupComponent } from './google-authenticator-setup/
     ReturnOrderComponent,
     CancelOrderComponent,
     TwoFactorAuthenticatorComponent,
-    GoogleAuthenticatorSetupComponent
+    GoogleAuthenticatorSetupComponent,
+    ChangePasswordComponent,
+    PincodeManagementComponent,
+    AddPincodeDailogComponent
   ],
   imports: [
     BrowserModule,

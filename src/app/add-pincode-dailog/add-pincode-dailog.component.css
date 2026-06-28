@@ -1,0 +1,91 @@
+.dialog-title{
+
+display:flex;
+align-items:center;
+gap:18px;
+margin-bottom:15px;
+
+}
+
+.dialog-title h3{
+
+margin:0;
+font-size:28px;
+font-weight:700;
+
+}
+
+.dialog-title p{
+
+margin:4px 0 0;
+color:#666;
+font-size: 18px;
+
+}
+
+.title-icon{
+
+width:60px;
+height:60px;
+border-radius:50%;
+background:#eef1ff;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+}
+
+.title-icon mat-icon{
+
+font-size:40px;
+width:40px;
+height:40px;
+color:#4054d8;
+
+}
+
+.full-width{
+
+width:100%;
+margin-top:20px;
+
+}
+
+.status-title{
+
+font-weight:600;
+display:block;
+margin:12px 0;
+
+}
+
+.badge{
+
+padding:8px 18px;
+border-radius:20px;
+font-weight:600;
+margin-top: 7px;
+font-size: 12px;
+}
+
+.active{
+
+background:#dff6e7;
+color:#0d8b3f;
+
+}
+
+.inactive{
+
+background:#fde4e4;
+color:#d93025;
+
+}
+
+mat-dialog-actions{
+
+padding:20px 24px;
+border-top:1px solid #eee;
+
+}

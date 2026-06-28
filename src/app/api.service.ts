@@ -57,14 +57,20 @@ export class ApiService {
   apiCancelRefundUrl = environment.updateCancelRefundApiUrl
   apiTwoFectorQrUrl = environment.twoFectorQrApiUrl
   apiverify2faUrl = environment.verify2faApiUrl
+  apiChangePasswordUrl = environment.changePasswordApiUrl
+  apiAddPincodeUrl = environment.addPincodeApiUrl
+  apiGetPincodeUrl = environment.getPincodeApiUrl
+  apiUpdatePincodeUrl = environment.updatePincodeApiUrl
+  apiDeletePincodeUrl = environment.deletePincodeApiUrl
 
-  
+
   constructor(private http: HttpClient, private router: Router) { }
 
   commonHeaderFunction() {
     this.auth = '';
-    if (localStorage.getItem("jwt_token") !== null) {
-      this.auth = 'Bearer ' + localStorage.getItem("jwt_token");
+    console.log(sessionStorage.getItem('pending_token'));
+    if (sessionStorage.getItem("pending_token") !== null) {
+      this.auth = 'Bearer ' + sessionStorage.getItem("pending_token");
       this.headers = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -182,32 +188,48 @@ export class ApiService {
     return this.http.post(this.apiUpdateReturnStatusUrl, { return_id: id, status: status }).pipe(map((res: any) => res))
   }
   assignPickup(id: number) {
-    return this.http.post(this.apiAssignReturnDeliveryUrl, { return_id: id}).pipe(map((res: any) => res))
+    return this.http.post(this.apiAssignReturnDeliveryUrl, { return_id: id }).pipe(map((res: any) => res))
   }
-  markPickupComplete(id: number){
-    return this.http.post(this.apiPickupCompleteUrl, { return_id: id}).pipe(map((res: any) => res))
-}
-  completeRefund(id: number){
-    return this.http.post(this.apiCompleteReturnUrl, { return_id: id}).pipe(map((res: any) => res))
-}
-  shipReplacement(id: number){
-    return this.http.post(this.apiShipReplacementUrl, { return_id: id}).pipe(map((res: any) => res))
-}
-  completeReplacement(id: number){
-    return this.http.post(this.apiCompleteReplacementUrl, { return_id: id}).pipe(map((res: any) => res))
-}
+  markPickupComplete(id: number) {
+    return this.http.post(this.apiPickupCompleteUrl, { return_id: id }).pipe(map((res: any) => res))
+  }
+  completeRefund(id: number) {
+    return this.http.post(this.apiCompleteReturnUrl, { return_id: id }).pipe(map((res: any) => res))
+  }
+  shipReplacement(id: number) {
+    return this.http.post(this.apiShipReplacementUrl, { return_id: id }).pipe(map((res: any) => res))
+  }
+  completeReplacement(id: number) {
+    return this.http.post(this.apiCompleteReplacementUrl, { return_id: id }).pipe(map((res: any) => res))
+  }
   getCancelOrderData(): Observable<any> {
     return this.http.get(`${this.apiGetCancelOrderUrl}`).pipe(map((res: any) => res))
   }
 
-  updateCancelOrderStatus(object: any){
-    return this.http.post(this.apiCancelRefundUrl,object).pipe(map((res: any) => res))
-}
-  generateTwoFectorQr(object: any){
-    return this.http.post(this.apiTwoFectorQrUrl,object).pipe(map((res: any) => res))
-}
-  verify2faOtp(object: any){
-    return this.http.post(this.apiverify2faUrl,object).pipe(map((res: any) => res))
-}
+  updateCancelOrderStatus(object: any) {
+    return this.http.post(this.apiCancelRefundUrl, object).pipe(map((res: any) => res))
+  }
+  generateTwoFectorQr(object: any) {
+    return this.http.post(this.apiTwoFectorQrUrl, object).pipe(map((res: any) => res))
+  }
+  verify2faOtp(object: any) {
+    return this.http.post(this.apiverify2faUrl, object).pipe(map((res: any) => res))
+  }
+  changePassword(object: any) {
+    this.commonHeaderFunction();
+    return this.http.post(this.apiChangePasswordUrl, object, this.headers).pipe(map((res: any) => res))
+  }
+  addPincodeManage(object: any) {
+    return this.http.post(this.apiAddPincodeUrl, object).pipe(map((res: any) => res))
+  }
+  getPincodeManage(): Observable<any> {
+    return this.http.get(this.apiGetPincodeUrl).pipe(map((res: any) => res))
+  }
+  updatePincode(object: any) {
+    return this.http.post(this.apiUpdatePincodeUrl, object).pipe(map((res: any) => res))
+  }
+  deletePincode(object: any) {
+    return this.http.post(this.apiDeletePincodeUrl, object).pipe(map((res: any) => res))
 
+  }
 }

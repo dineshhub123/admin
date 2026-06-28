@@ -24,14 +24,18 @@ import { ReturnOrderComponent } from './pages/orders/return-order/return-order.c
 import { CancelOrderComponent } from './pages/orders/cancel-order/cancel-order.component';
 import { TwoFactorAuthenticatorComponent } from './two-factor-authenticator/two-factor-authenticator.component';
 import { GoogleAuthenticatorSetupComponent } from './google-authenticator-setup/google-authenticator-setup.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PincodeManagementComponent } from './pincode-management/pincode-management.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   { path: '404', component: PageNotFoundComponent,},
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'change-password', component: ChangePasswordComponent },
   { path: '2fa-otp', component: TwoFactorAuthenticatorComponent },
   { path: '2fa-setup', component: GoogleAuthenticatorSetupComponent },
+  { path: 'pincode-manage', component: PincodeManagementComponent, canActivate: [AuthGuard] },
   { path: 'uploadproduct', component: UploadComponent, canActivate: [AuthGuard] },
   { path: 'orderlist', component: OrderlistComponent, canActivate: [AuthGuard] },
   { path: 'returnlist', component: ReturnOrderComponent, canActivate: [AuthGuard] },

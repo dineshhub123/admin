@@ -64,11 +64,13 @@ export class LoginComponent implements OnInit {
         this.loginForm.reset();
         sessionStorage.setItem('pending_token', token);
         sessionStorage.setItem('pending_user', JSON.stringify(user));
-        if (user.is_2fa_enabled == 0) {
-          this.router.navigate(['/2fa-setup']);
-        } else {
-          this.router.navigate(['/2fa-otp']);
+        if (user.is_first_login == 1) {
+          this.router.navigate(['/change-password']);
+          return;
         }
+        this.router.navigate([
+          user.is_2fa_enabled == 0 ? '/2fa-setup' : '/2fa-otp'
+        ]);
       },
       error: err => {
         console.error(err);
@@ -89,11 +91,8 @@ export class LoginComponent implements OnInit {
       this.router.navigate([currentUrl]);
     });
   }
-  twoAuthenticator() {
-    this.router.navigate(["/2fa-otp"])
-  }
-  secretQr() {
-    this.router.navigate(["/2fa-setup"])
+  changepass() {
+    this.router.navigate(["/change-password"])
 
   }
 }

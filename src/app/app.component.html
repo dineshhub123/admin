@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z8"*ngIf="router.url !== '/login' && router.url !== '/2fa-setup' && router.url !== '/2fa-otp' && router.url !== '/invoice' && router.url !== '/address-label'">
+<mat-toolbar class="mat-elevation-z8"*ngIf="router.url !== '/login' && router.url !== '/2fa-setup' && router.url !== '/change-password' && router.url !== '/2fa-otp' && router.url !== '/invoice' && router.url !== '/address-label'">
   <div class="menu">
     <button class="btn-menu" mat-icon-button *ngIf="sidenav.mode === 'over'" (click)="sidenav.toggle()">
       <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
@@ -211,6 +211,20 @@
           <mat-action-list>
             <a mat-list-item routerLink="/signup" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>person</mat-icon> Signup
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel> 
+
+          <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>location_on</mat-icon>
+              <span class="ml-2">Pincode Management</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="/pincode-manage" routerLinkActive="active-link"(click)="sidenav.toggle()">
+              <mat-icon matListIcon>location_on</mat-icon> Pincode Management
             </a>
           </mat-action-list>
         </mat-expansion-panel> 
