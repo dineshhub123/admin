@@ -1,4 +1,7 @@
 <app-loader [isLoading]="isLoading"></app-loader>
+<div style="border: 1px solid #d1d1d1;padding: 8px;border-radius: 8px;">
+<div class="order-heading mb-3"> Upload Product</div>
+<hr>
 <div *ngIf="!isLoading">
   <section class="d-flex align-items-center justify-content-center pt-4">
     <form [formGroup]="productForm" (ngSubmit)="uploadFormData()" enctype="multipart/form-data">
@@ -137,4 +140,5 @@
       </div>
     </form>
   </section>
+</div>
 </div>

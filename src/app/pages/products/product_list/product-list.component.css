@@ -20,6 +20,25 @@ img.img-responsive.img-tbl {
   }
 }
 
+.mat-mdc-header-row {
+  background-color: #0a4984;   /* your brand color */
+}
+
+/* Header text */
+.mat-mdc-header-cell {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+.mat-mdc-header-cell:first-child {
+  border-top-left-radius: 12px;
+}
+.mat-mdc-header-cell:last-child {
+  border-top-right-radius: 12px;
+}
+
+
+
 .img-tbl {
   max-width: 80px;
   max-height: 60px;
@@ -69,7 +88,6 @@ font-size: 12px;
   font-size: 16px;
 }
  .table-container {
-  max-height: calc(100vh - 150px);       /* table body height */
   overflow-y: auto;
   overflow-x: auto;
   padding-left: 15px;

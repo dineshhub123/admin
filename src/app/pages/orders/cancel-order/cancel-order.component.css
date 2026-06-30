@@ -87,3 +87,25 @@ td,th{
 .btn-processing:hover {
   background-color: #e96b09;
 }
+.mat-mdc-header-row {
+  background-color: #0a4984;   /* your brand color */
+}
+
+/* Header text */
+.mat-mdc-header-cell {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+.mat-mdc-header-cell:first-child {
+  border-top-left-radius: 12px;
+}
+.mat-mdc-header-cell:last-child {
+  border-top-right-radius: 12px;
+}
+.order-heading {
+  font-size: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+

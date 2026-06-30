@@ -51,19 +51,19 @@
 
   <!-- Index -->
   <ng-container matColumnDef="index">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">#</th>
+    <th mat-header-cell *matHeaderCellDef>#</th>
     <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
   </ng-container>
 
   <!-- Product Id -->
   <ng-container matColumnDef="product_id">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Product Id</th>
+    <th mat-header-cell *matHeaderCellDef>Product Id</th>
     <td mat-cell *matCellDef="let element">{{ element.product_id | titlecase}}</td>
   </ng-container>
 
   <!-- Images -->
   <ng-container matColumnDef="images">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Images</th>
+    <th mat-header-cell *matHeaderCellDef>Images</th>
     <td mat-cell *matCellDef="let element">
        <img class="img-responsive img-tbl"  [src]="imageBaseUrl + element.images[0]">
     </td>
@@ -71,13 +71,13 @@
 
   <!-- Product Name -->
   <ng-container matColumnDef="product_name">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Product Name</th>
+    <th mat-header-cell *matHeaderCellDef>Product Name</th>
     <td mat-cell *matCellDef="let element">{{ element.product_name | titlecase }}</td>
   </ng-container>
 
     <!-- Shelf Code -->
   <ng-container matColumnDef="shelf_code">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Shelf Code </th>
+    <th mat-header-cell *matHeaderCellDef>Shelf Code </th>
     <td mat-cell *matCellDef="let element">
       <span class="shelf-badge" [ngClass]="getShelfClass(element.shelf_code | uppercase)">
     {{ element.shelf_code ? (element.shelf_code | uppercase) : 'N/A' }}
@@ -87,7 +87,7 @@
 
   <!-- Category -->
   <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Category</th>
+    <th mat-header-cell *matHeaderCellDef>Category</th>
     <td mat-cell *matCellDef="let element">{{ element.category | titlecase}}</td>
   </ng-container>
 
@@ -119,29 +119,29 @@
 
   <!-- Final Price -->
   <ng-container matColumnDef="product_price">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Final Price</th>
+    <th mat-header-cell *matHeaderCellDef>Final Price</th>
     <td mat-cell *matCellDef="let element">₹{{ element.product_price }}</td>
   </ng-container>
 
   <!-- Stock -->
   <ng-container matColumnDef="stock">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Stock</th>
+    <th mat-header-cell *matHeaderCellDef>Stock</th>
     <td mat-cell *matCellDef="let element">{{ element.stock }}</td>
   </ng-container>
 
   <!-- Color -->
   <ng-container matColumnDef="color">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Color</th>
+    <th mat-header-cell *matHeaderCellDef>Color</th>
     <td mat-cell *matCellDef="let element">{{ element.color | titlecase}}</td>
   </ng-container>
   <!-- Color Code -->
   <ng-container matColumnDef="colorCode">
-    <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Color Code</th>
+    <th mat-header-cell *matHeaderCellDef>Color Code</th>
     <td mat-cell *matCellDef="let element">{{ element.colorCode }}</td>
   </ng-container>
 
 <ng-container matColumnDef="action">
-  <th mat-header-cell *matHeaderCellDef style="background-color: #062d51; color: white;">Actions</th>
+  <th mat-header-cell *matHeaderCellDef>Actions</th>
   <td mat-cell *matCellDef="let element">
  <button mat-icon-button color="primary" (click)="editProduct(element)">
       <mat-icon>edit</mat-icon>

@@ -11,12 +11,14 @@ import { InvoiceComponent } from '../invoice/invoice.component';
 import { RecordVideoDialogComponent } from 'src/app/record-video-dialog/record-video-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { number } from 'echarts';
+import { LoginService } from 'src/app/login.service';
 @Component({
   selector: 'app-order-view',
   templateUrl: './order-view.component.html',
   styleUrls: ['./order-view.component.css'],
 })
 export class OrderViewComponent {
+  role:any;
   imageBaseUrl = environment.imageBaseUrl
   public orderDetailData: any;
   public orderId!: number;
@@ -36,7 +38,7 @@ export class OrderViewComponent {
     'price',
   ];
 
-  constructor(public toastr: ToastrService, private breakpointObserver: BreakpointObserver, private apiService: ApiService, private dialog: MatDialog,
+  constructor( private loginService:LoginService,public toastr: ToastrService, private breakpointObserver: BreakpointObserver, private apiService: ApiService, private dialog: MatDialog,
     public activatedRoute: ActivatedRoute, public router: Router, private orderNotify: OrderNotificationService,
   ) {
 
@@ -127,7 +129,12 @@ callStatusApiAfterVideo(data:any){
       .subscribe(result => {
         this.isMobile = result.matches;
       });
-
+    this.loginService.user$.subscribe((userData: any) => {
+      if (userData) {
+        const user = userData;
+        this.role = user?.role
+      }
+      })
   }
 
 

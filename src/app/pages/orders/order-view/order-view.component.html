@@ -96,7 +96,7 @@
     </div>
 
     <!-- User Information -->
-    <h3>User Information</h3>
+    <h5>User Information</h5>
     <table class="meta-table">
       <tr>
         <th>Name:</th>
@@ -117,7 +117,7 @@
     </table>
 
     <!-- Order Items -->
-    <h3>Order Items ({{ orderDetailData?.items.length }})</h3>
+    <h5>Order Items ({{ orderDetailData?.items.length }})</h5>
     <mat-table [dataSource]="orderDetailData?.items" class="mat-elevation-z2 items-table" *ngIf="!isMobile">
 
       <!-- Image -->
@@ -260,7 +260,7 @@
     <!-- Original table for desktop -->
 
     <!-- Payment Information -->
-    <h3>Payment Information</h3>
+    <h5>Payment Information</h5>
     <table class="meta-table">
       <tr>
         <th>Method:</th>
@@ -280,7 +280,7 @@
 
     <!-- Action Buttons -->
     <div class="action-buttons">
-      <button mat-raised-button color="warn" (click)="cancelOrder(orderDetailData)"
+      <button mat-raised-button color="warn" *ngIf="role === 'SUPER_ADMIN'" (click)="cancelOrder(orderDetailData)"
         [disabled]="orderDetailData?.status === 'cancelled' || orderDetailData?.status === 'delivered'
         || orderDetailData?.status === 'Return_Requested'|| orderDetailData?.status === 'Partially_Returned'|| orderDetailData?.status === 'Fully_Returned'
         || orderDetailData?.status === 'Replace_Requested'|| orderDetailData?.status === 'Partially_Replaced'|| orderDetailData?.status === 'Fully_Replaced'

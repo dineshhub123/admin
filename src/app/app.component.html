@@ -100,12 +100,12 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>inventory_2</mat-icon>
-              <span class="ml-2">Products</span>
+              <span class="ml-2">Inventory</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-action-list>
             <a mat-list-item routerLink="/productlist" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon matListIcon>inventory</mat-icon> All Stored Products
+              <mat-icon matListIcon>inventory</mat-icon>  Inventory Store
             </a>
             <a mat-list-item routerLink="/uploadproduct" routerLinkActive="active-link"(click)="sidenav.toggle()">
               <mat-icon matListIcon>add_box</mat-icon> Add Product
@@ -123,7 +123,7 @@
           </mat-expansion-panel-header>
           <mat-action-list>
             <a mat-list-item routerLink="/orderlist" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon matListIcon>assignment</mat-icon> All Recieved Orders
+              <mat-icon matListIcon>assignment</mat-icon> Recieved Orders
             </a>
           </mat-action-list>
           <mat-action-list>
@@ -138,7 +138,7 @@
           </mat-action-list>
         </mat-expansion-panel>
 
-        <mat-expansion-panel>
+        <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>bar_chart</mat-icon>
@@ -152,22 +152,7 @@
           </mat-action-list>
         </mat-expansion-panel>
 
-        <!-- store -->
-        <!-- <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>store</mat-icon>
-              <span class="ml-2">Store</span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-action-list>
-            <a mat-list-item routerLink="/settings/stores" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon matListIcon>store</mat-icon> Store List
-            </a>
-          </mat-action-list>
-        </mat-expansion-panel> -->
-
-   <mat-expansion-panel>
+   <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
           <mat-expansion-panel-header>
             <mat-panel-title>
                 <mat-icon>group</mat-icon>
