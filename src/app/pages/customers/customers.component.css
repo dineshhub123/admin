@@ -1,10 +1,7 @@
 
 .full-width {
   width: 100%;
-  /* border-radius: 12px; */
-  overflow: hidden; /* important for radius */
 }
-
 .verified {
   font-size: 12px;
   color: green;
@@ -44,12 +41,10 @@
    border-top-right-radius: 12px; 
 }
 table {
-  /* border-radius: 12px; */
-  overflow: hidden;
-  margin-top: 10px;
-
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
-
 .mat-row {
   background: #fff;
 }
@@ -74,4 +69,21 @@ table {
   background-color: #0a4984!important;
   color: white !important;
 
+}
+.table-container {
+    max-height: 75vh;   /* Adjust as needed */
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-mdc-header-row,
+.mat-header-row {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #0d4f8b;
 }

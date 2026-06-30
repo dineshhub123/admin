@@ -8,11 +8,10 @@
           <mat-option value="all" class="opt-all">All</mat-option>
           <mat-option value="pending" class="opt-pending">Pending</mat-option>
           <mat-option value="confirmed" class="opt-confirmed">Confirmed</mat-option>
+          <mat-option value="processing" class="opt-cancelled">Processing</mat-option>
           <mat-option value="shipped" class="opt-shipped">Shipped</mat-option>
           <mat-option value="out_for_delivery" class="opt-out">Out For Delivery</mat-option>
           <mat-option value="delivered" class="opt-delivered">Delivered</mat-option>
-          <mat-option value="cancelled" class="opt-cancelled">Cancelled</mat-option>
-          <mat-option value="return_requested" class="opt-shipped">Return Request</mat-option>
 
         </mat-select>
       </mat-form-field>
@@ -114,7 +113,7 @@
           </button>
         </td>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>

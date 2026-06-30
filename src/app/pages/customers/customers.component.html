@@ -1,4 +1,9 @@
 <div class="order-heading mb-3"> Customer Review </div>
+ <div class="table-container">
+    <!-- <div class="loader-overlay">
+      <mat-progress-bar mode="indeterminate" diameter="50">
+      </mat-progress-bar>
+    </div> -->
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 full-width">
    <!-- User -->
    <ng-container matColumnDef="user">
@@ -96,9 +101,10 @@
    </ng-container>
 
    <!-- HEADER & ROW -->
-   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+   <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+</div>
 <!-- ✅ PAGINATOR -->
 <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 30, 40, 50]" showFirstLastButtons>
 </mat-paginator>

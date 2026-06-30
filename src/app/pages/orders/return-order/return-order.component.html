@@ -1,4 +1,10 @@
 <div class="order-heading mb-3"> Return Order List</div>
+ <div class="table-container">
+    <!-- <div class="loader-overlay">
+      <mat-progress-bar mode="indeterminate" diameter="50">
+      </mat-progress-bar>
+    </div> -->
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100 order-table">
 
     <ng-container matColumnDef="index">
@@ -147,9 +153,10 @@
         </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 </table>
+</div>
 <mat-paginator [pageSize]="10" [pageSizeOptions]="[15, 20, 30, 40, 50]" showFirstLastButtons>
 </mat-paginator>

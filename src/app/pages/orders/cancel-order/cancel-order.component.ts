@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+
 @Component({
   selector: 'app-cancel-order',
   templateUrl: './cancel-order.component.html',
@@ -7,7 +10,10 @@ import { ApiService } from 'src/app/api.service';
 })
 export class CancelOrderComponent {
 constructor(private apiService:ApiService){}
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
 displayedColumns: string[] = [
+  'index',
   'order_id',
   'customer_name',
   'mobile',
@@ -18,10 +24,13 @@ displayedColumns: string[] = [
   'action'
 ];
 
-dataSource:any[]=[];
+  dataSource = new MatTableDataSource<any>([]);
 
 ngOnInit(){
   this.fetchCancelOrders();
+  this.dataSource.paginator = this.paginator;
+  this.paginator.pageSize = 5;
+
 }
 updateRefundStatus(row: any, refundStatus: string): void {
 
@@ -46,7 +55,9 @@ updateRefundStatus(row: any, refundStatus: string): void {
 fetchCancelOrders(){
  this.apiService.getCancelOrderData().subscribe((res:any)=>{
    if(res.status){
-        this.dataSource = res.data;
+        this.dataSource.data = res.data;
+        this.dataSource.paginator = this.paginator;
+      
       }
   console.log("res cancel",res)
  })

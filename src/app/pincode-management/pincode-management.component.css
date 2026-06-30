@@ -1,6 +1,5 @@
 .page {
     background: #f6f8fc;
-    min-height: 100vh;
 }
 .mat-mdc-header-row {
   background-color: #0a4984;   /* your brand color */
@@ -11,7 +10,7 @@
     background: white;
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0,0,0,.06);
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 6px;
 }
 
@@ -32,6 +31,12 @@
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #d1d1d1;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+    margin-bottom: 5px;
 }
 
 .header-content {
@@ -40,6 +45,7 @@
 
 .header-card button {
     margin-left: auto;
+    margin-top: 50px;
 }
 
 
@@ -47,11 +53,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
 }
 
 .search-box {
     width: 280px;
+    height: 75px;
 }
 
 .stats {
@@ -110,12 +116,31 @@ th {
     font-size: 13px;
     font-weight: 600;
 }
-.footer {
-    padding-top: 15px;
-    color: #777;
-    font-size: 14px;
-}
 
 button[mat-icon-button] {
     margin: 0 3px;
+}
+.mat-mdc-header-cell:first-child {
+  border-top-left-radius: 12px;
+}
+.mat-mdc-header-cell:last-child {
+  border-top-right-radius: 12px;
+}
+
+.table-container {
+    max-height: 52vh;   /* Adjust as needed */
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-mdc-header-row,
+.mat-header-row {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #0d4f8b;
 }

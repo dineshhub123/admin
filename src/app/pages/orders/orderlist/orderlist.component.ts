@@ -53,7 +53,15 @@ export class OrderlistComponent {
         const seen = new Set<string>();
 
         res?.orders?.forEach((order: any) => {
-          console.log("orderList",order)
+          if (order.status === 'cancelled' ||
+             order.status ===  'Return_Requested' || 
+             order.status === 'Fully_Returned'||
+             order.status === 'Fully_Replaced'||
+             order.status === 'Partially_Returned'||
+             order.status === 'Partially_Replaced'
+            ) {
+            return; 
+          }
           if (seen.has(order.order_id)) return;   // ✅ skip duplicate order_id
           seen.add(order.order_id);
           const firstItem = order?.items?.[0]; // take first product only

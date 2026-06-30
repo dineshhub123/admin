@@ -135,7 +135,7 @@ table {
   font-size: 14px;
 }
 .table-container {
-  max-height: calc(100vh - 150px);       /* table body height */
+  /* max-height: calc(100vh - 150px);      */
   overflow-y: auto;
   overflow-x: auto;
   padding-left: 15px;
@@ -404,7 +404,27 @@ background-color: #fff !important;
   cursor: pointer;
 }
 .status-col {
-  min-width: 200px;
-  max-width: 200px;
-  width: 200px;
+  min-width: 185px;
+  max-width: 185px;
+  width: 185px;
+}
+.mdc-data-table__cell, .mdc-data-table__header-cell {
+    padding: 0 10px 0 16px;
+}
+.table-container {
+    max-height: 63vh;   /* Adjust as needed */
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-mdc-header-row,
+.mat-header-row {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #0d4f8b;
 }

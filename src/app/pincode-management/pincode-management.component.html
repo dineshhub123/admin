@@ -1,13 +1,12 @@
 <div class="page">
     <!-- Header -->
-    <div class="card header-card">
+    <div class="header-card">
         <div class="header-content">
             <h3>Pincode Management</h3>
-            <p>
-                Add, remove and manage serviceable pincodes for your delivery service.
-            </p>
+            <p>Add, remove and manage serviceable pincodes for your delivery service.</p>
         </div>
-        <button mat-raised-button color="primary" (click)="addPincode()">
+
+        <button mat-raised-button color="primary" class="add-btn" (click)="addPincode()">
             <mat-icon>add</mat-icon>
             Add New Pincode
         </button>
@@ -29,92 +28,90 @@
                     <mat-icon color="primary">pin_drop</mat-icon>
                     <div>
                         <small>Total Pincodes</small>
-                        <h5>{{ dataSource.data.length }}</h5>
+                        <h6>({{ dataSource.data.length }})</h6>
                     </div>
                 </div>
                 <div class="stat-card success">
                     <mat-icon>check_circle</mat-icon>
                     <div>
                         <small>Serviceable Area</small>
-                        <h5> Active ({{activePincodeCount}})</h5>
+                        <h6> Active ({{activePincodeCount}})</h6>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="table-container">
 
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1 full-width">
-            <!-- ID -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>#</th>
-                <td mat-cell *matCellDef="let row; let i = index">
-                    {{ i + 1 }}
-                </td>
-            </ng-container>
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1 full-width">
+                <!-- ID -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>#</th>
+                    <td mat-cell *matCellDef="let row; let i = index">
+                        {{ i + 1 }}
+                    </td>
+                </ng-container>
 
-            <!-- Pincode -->
-            <ng-container matColumnDef="pincode">
-                <th mat-header-cell *matHeaderCellDef>Pincode</th>
-                <td mat-cell *matCellDef="let row">{{ row.pincode }}</td>
-            </ng-container>
+                <!-- Pincode -->
+                <ng-container matColumnDef="pincode">
+                    <th mat-header-cell *matHeaderCellDef>Pincode</th>
+                    <td mat-cell *matCellDef="let row">{{ row.pincode }}</td>
+                </ng-container>
 
-            <!-- Area -->
-            <ng-container matColumnDef="area">
-                <th mat-header-cell *matHeaderCellDef>Area / City</th>
-                <td mat-cell *matCellDef="let row">{{ row.area | titlecase }}</td>
-            </ng-container>
+                <!-- Area -->
+                <ng-container matColumnDef="area">
+                    <th mat-header-cell *matHeaderCellDef>Area / City</th>
+                    <td mat-cell *matCellDef="let row">{{ row.area | titlecase }}</td>
+                </ng-container>
 
-            <!-- Status -->
-            <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <!-- Status -->
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
 
-                <td mat-cell *matCellDef="let row">
-                    <span class="status-active active" *ngIf="row.status; else inactive">
-                        Active
-                    </span>
-                    <ng-template #inactive>
-                        <span class="status-inactive inactive">
-                            Inactive
+                    <td mat-cell *matCellDef="let row">
+                        <span class="status-active active" *ngIf="row.status; else inactive">
+                            Active
                         </span>
-                    </ng-template>
-                </td>
-            </ng-container>
+                        <ng-template #inactive>
+                            <span class="status-inactive inactive">
+                                Inactive
+                            </span>
+                        </ng-template>
+                    </td>
+                </ng-container>
 
-            <!-- Date -->
-            <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef>Added On</th>
-                <td mat-cell *matCellDef="let row">{{ row.date }}</td>
-            </ng-container>
+                <!-- Date -->
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef>Added On</th>
+                    <td mat-cell *matCellDef="let row">{{ row.date }}</td>
+                </ng-container>
 
-            <!-- Actions -->
-            <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef class="text-center">
-                    Actions
-                </th>
-                <td mat-cell *matCellDef="let row" class="text-center">
-                    <button mat-icon-button color="primary" (click)="edit(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button color="warn" (click)="delete(row)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <!-- No Records -->
-            <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell text-center" colspan="6">
-                    <mat-icon>location_off</mat-icon>
-                    <h3>No Pincodes Found</h3>
-                    <p>No serviceable pincodes are available.</p>
-                </td>
-            </tr>
-        </table>
+                <!-- Actions -->
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">
+                        Actions
+                    </th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <button mat-icon-button color="primary" (click)="edit(row)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="delete(row)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <!-- No Records -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell text-center" colspan="6">
+                        <mat-icon>location_off</mat-icon>
+                        <h3>No Pincodes Found</h3>
+                        <p>No serviceable pincodes are available.</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons>
         </mat-paginator>
-        <div class="footer">
-            Total Records: <strong>{{ dataSource.filteredData.length }}</strong> /
-            {{ dataSource.data.length }}
-        </div>
     </div>
 </div>
