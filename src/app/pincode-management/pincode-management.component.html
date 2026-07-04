@@ -83,11 +83,11 @@
 
                     <td mat-cell *matCellDef="let row">
                         <span class="status-active active" *ngIf="row.status; else inactive">
-                            Active
+                           <strong> Active </strong>
                         </span>
                         <ng-template #inactive>
                             <span class="status-inactive inactive">
-                                Inactive
+                              <strong>  Inactive </strong>
                             </span>
                         </ng-template>
                     </td>
@@ -96,7 +96,7 @@
                 <!-- Date -->
                 <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef>Added On</th>
-                    <td mat-cell *matCellDef="let row">{{ row.date }}</td>
+                    <td mat-cell *matCellDef="let row"><strong>{{ row.date }}</strong></td>
                 </ng-container>
 
                 <!-- Actions -->
