@@ -12,6 +12,7 @@ export interface PincodeData {
   area: string;
   status: boolean;
   date: string;
+  villages:number
 }
 
 @Component({
@@ -28,6 +29,7 @@ export class PincodeManagementComponent {
     'id',
     'pincode',
     'area',
+    'village',
     'status',
     'date',
     'action'
@@ -142,5 +144,16 @@ export class PincodeManagementComponent {
       }
     });
   }
-
-}
+  
+viewVillages(row: PincodeData) {
+  this.dialog.open(ConfirmDialogComponent, {
+    width: '600px',
+    disableClose: false,
+    data: {
+      type: 'villages',
+      title: `Villages - ${row.pincode} (${row.area})`,
+      villages: row.villages || [],
+      closeText: 'Close'
+    }
+  });
+}}

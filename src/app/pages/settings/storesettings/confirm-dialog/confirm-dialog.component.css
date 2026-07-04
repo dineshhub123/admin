@@ -43,3 +43,25 @@
     width: 100%;
   }
 }
+
+
+.w-100{
+    width:100%;
+}
+
+.village-list{
+    max-height:350px;
+    overflow-y:auto;
+    border:1px solid #ddd;
+    border-radius:6px;
+    padding:10px;
+}
+
+.village-list div{
+    padding:6px 0;
+    border-bottom:1px solid #eee;
+}
+
+.village-list div:last-child{
+    border-bottom:none;
+}
