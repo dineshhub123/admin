@@ -138,7 +138,7 @@
           </mat-action-list>
         </mat-expansion-panel>
 
-        <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
+        <!-- <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>bar_chart</mat-icon>
@@ -150,26 +150,7 @@
               <mat-icon matListIcon>analytics</mat-icon> Sales Reports
             </a>
           </mat-action-list>
-        </mat-expansion-panel>
-
-   <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-                <mat-icon>group</mat-icon>
-              <span class="ml-2">Employee List</span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-action-list>
-            <a mat-list-item routerLink="employees" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon>group</mat-icon> Employee List
-            </a>
-          </mat-action-list>
-            <mat-action-list>
-            <a mat-list-item routerLink="employee-details" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon>group</mat-icon> Employee Details
-            </a>
-          </mat-action-list>
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
 
                 <!-- Customers -->
         <mat-expansion-panel>
@@ -195,7 +176,7 @@
           </mat-expansion-panel-header>
           <mat-action-list>
             <a mat-list-item routerLink="/signup" routerLinkActive="active-link"(click)="sidenav.toggle()">
-              <mat-icon matListIcon>person</mat-icon> Signup
+              <mat-icon matListIcon>person</mat-icon> Register User
             </a>
           </mat-action-list>
         </mat-expansion-panel> 
@@ -214,7 +195,24 @@
           </mat-action-list>
         </mat-expansion-panel> 
 
-
+   <mat-expansion-panel *ngIf="role === 'SUPER_ADMIN'">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon>group</mat-icon>
+              <span class="ml-2">Employee List</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-action-list>
+            <a mat-list-item routerLink="employees" routerLinkActive="active-link"(click)="sidenav.toggle()">
+              <mat-icon>group</mat-icon> Employee List
+            </a>
+          </mat-action-list>
+            <mat-action-list>
+            <a mat-list-item routerLink="employee-details" routerLinkActive="active-link"(click)="sidenav.toggle()">
+              <mat-icon>group</mat-icon> Employee Details
+            </a>
+          </mat-action-list>
+        </mat-expansion-panel>
 
       </div>
     </mat-accordion>

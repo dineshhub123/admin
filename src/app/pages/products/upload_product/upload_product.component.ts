@@ -6,6 +6,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ADMIN_CATEGORY_MASTER } from 'src/app/constants/category-master';
 import { ApiService } from 'src/app/api.service';
 import { ToastrService } from 'ngx-toastr';
+import imageCompression from 'browser-image-compression';
 
 @Component({
   selector: 'app-upload',
@@ -16,7 +17,7 @@ export class UploadComponent implements OnInit {
   categories = ADMIN_CATEGORY_MASTER;
   selectedCategory: any = null;
   selectedSubCategory: string | null = null;
-  isLoading:boolean = false;
+  isLoading: boolean = false;
   onCategoryChange(categoryKey: string) {
     this.selectedCategory = this.categories.find(c => c.category === categoryKey);
     this.selectedSubCategory = null; // reset subcategory
@@ -91,16 +92,35 @@ export class UploadComponent implements OnInit {
   };
 
 
-  onSelectFile(event: any, index: number): void {
-    const files: FileList = event.target.files;
-    if (files && files.length > 0) {
-      // convert to array of files
-      const fileArray = Array.from(files);
-      // set into the form control (store multiple files)
-      this.variants.at(index).get('image_url')?.setValue(fileArray);
-    }
-  }
+  // onSelectFile(event: any, index: number): void {
+  //   const files: FileList = event.target.files;
+  //   if (files && files.length > 0) {
+  //     const fileArray = Array.from(files);
+  //     this.variants.at(index).get('image_url')?.setValue(fileArray);
+  //   }
+  // }
 
+  async onSelectFile(event: any, index: number): Promise<void> {
+    const files: FileList = event.target.files;
+    if (!files || files.length === 0) return;
+    const compressedFiles: File[] = [];
+    const options = {
+      maxWidthOrHeight: 1600,
+      initialQuality: 0.85,
+      useWebWorker: true,
+      fileType: 'image/webp'
+    };
+    for (const file of Array.from(files)) {
+      try {
+        const compressedFile = await imageCompression(file, options);
+        compressedFiles.push(compressedFile as File);
+      } catch (error) {
+        console.error(error);
+        compressedFiles.push(file);
+      }
+    }
+    this.variants.at(index).get('image_url')?.setValue(compressedFiles);
+  }
   uploadFormData(): void {
     this.isLoading = true;
     const formData = new FormData();
@@ -115,7 +135,7 @@ export class UploadComponent implements OnInit {
     formData.append('hsn_code', this.productForm.get('hsn_code')?.value);
     formData.append('gst_rate', this.productForm.get('gst_rate')?.value);
     formData.append('shelf_code', this.productForm.get('p_shelfcode')?.value);
-    
+
     const variantsData: any[] = [];
     this.variants.controls.forEach((variantGroup, index) => {
       const variant = variantGroup.value;
