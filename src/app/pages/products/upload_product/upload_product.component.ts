@@ -17,10 +17,62 @@ export class UploadComponent implements OnInit {
   categories = ADMIN_CATEGORY_MASTER;
   selectedCategory: any = null;
   selectedSubCategory: string | null = null;
+  subCategorySearchText: string = '';
+  ageGroups = [
+    { value: '0-6_months', label: '0–6 Months' },
+    { value: '6-12_months', label: '6–12 Months' },
+    { value: '12-18_months', label: '12–18 Months' },
+    { value: '18-24_months', label: '18–24 Months' },
+    { value: '2-4_years', label: '2–4 Years' },
+    { value: '4-6_years', label: '4–6 Years' },
+    { value: '6-8_years', label: '6–8 Years' },
+    { value: '8-10_years', label: '8–10 Years' },
+    { value: '10-12_years', label: '10–12 Years' },
+    { value: '12-14_years', label: '12–14 Years' },
+    { value: '14-16_years', label: '14–16 Years' },
+    { value: 'adult', label: 'Adult' }
+  ];
+
   isLoading: boolean = false;
   onCategoryChange(categoryKey: string) {
     this.selectedCategory = this.categories.find(c => c.category === categoryKey);
     this.selectedSubCategory = null; // reset subcategory
+    this.subCategorySearchText = '';
+    this.productForm.get('age_group')?.reset('');
+  }
+
+  get categoryAgeGroups(): any[] {
+    const category = this.selectedCategory?.category;
+
+    if (category === 'kids') {
+      return this.ageGroups.filter(age =>
+        ['0-6_months', '6-12_months', '12-18_months', '18-24_months'].includes(age.value)
+      );
+    }
+
+    if (category === 'boys' || category === 'girls') {
+      return this.ageGroups.filter(age =>
+        ['2-4_years', '4-6_years', '6-8_years', '8-10_years', '10-12_years', '12-14_years', '14-16_years'].includes(age.value)
+      );
+    }
+
+    if (category === 'womens' || category === 'mens') {
+      return this.ageGroups.filter(age => age.value === 'adult');
+    }
+
+    return [];
+  }
+
+  get filteredSubCategories(): any[] {
+    const search = this.subCategorySearchText.trim().toLowerCase();
+    const subCategories = this.selectedCategory?.subCategories ?? [];
+
+    return !search
+      ? subCategories
+      : subCategories.filter((sub: any) =>
+        sub.label?.toLowerCase().includes(search) ||
+        sub.key?.toLowerCase().includes(search)
+      );
   }
 
   productForm: FormGroup;
@@ -38,6 +90,7 @@ export class UploadComponent implements OnInit {
       p_category: [''],
       p_shelfcode: [''],
       p_subcategory: [''],
+      age_group: [''],
       hsn_code: [''],
       gst_rate: [''],
       variants: this.fb.array([this.createVariant()])
@@ -131,6 +184,7 @@ export class UploadComponent implements OnInit {
     formData.append('p_discount', this.productForm.get('p_discount')?.value);
     formData.append('p_category', this.productForm.get('p_category')?.value);
     formData.append('p_subcategory', this.productForm.get('p_subcategory')?.value);
+    formData.append('age_group', this.productForm.get('age_group')?.value);
     formData.append('p_description', this.productForm.get('p_description')?.value);
     formData.append('hsn_code', this.productForm.get('hsn_code')?.value);
     formData.append('gst_rate', this.productForm.get('gst_rate')?.value);

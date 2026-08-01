@@ -60,11 +60,24 @@
               </mat-select>
             </mat-form-field>
           </div>
+
           <!-- Shelf code -->
           <div class="col-md-6">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Shelf Code</mat-label>
               <input matInput formControlName="p_shelfcode" placeholder="Ex: A-03-D1">
+            </mat-form-field>
+          </div>
+          <!-- Age Group (depends on category) -->
+          <div class="col-md-6" *ngIf="selectedCategory && categoryAgeGroups.length">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Age Group</mat-label>
+              <mat-select formControlName="age_group">
+                <mat-option value="">Select Age Group</mat-option>
+                <mat-option *ngFor="let age of categoryAgeGroups" [value]="age.value">
+                  {{ age.label }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
 
@@ -73,8 +86,16 @@
             <mat-form-field appearance="outline" class="w-100" *ngIf="selectedCategory">
               <mat-label>SubCategory</mat-label>
               <mat-select [(value)]="selectedSubCategory" formControlName="p_subcategory" required>
-                <mat-option *ngFor="let sub of selectedCategory.subCategories" [value]="sub.key">
+                <div class="sub-category-search" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                  <mat-icon>search</mat-icon>
+                  <input matInput placeholder="Search subcategories" [(ngModel)]="subCategorySearchText"
+                    [ngModelOptions]="{ standalone: true }">
+                </div>
+                <mat-option *ngFor="let sub of filteredSubCategories" [value]="sub.key">
                   {{ sub.label }}
+                </mat-option>
+                <mat-option *ngIf="filteredSubCategories.length === 0" disabled>
+                  No subcategories found
                 </mat-option>
               </mat-select>
             </mat-form-field>

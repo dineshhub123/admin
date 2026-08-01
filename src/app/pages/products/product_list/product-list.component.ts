@@ -19,6 +19,7 @@ export class ProductListComponent {
   isLoading: boolean = false;
   selectedStock: string = 'All'
   searchText: string = '';
+  subCategorySearchText: string = '';
   displayedColumns: string[] = [
     'index',
     'product_id',
@@ -26,6 +27,7 @@ export class ProductListComponent {
     'product_name',
     'shelf_code',
     'category',
+    'sub_category',
     'product_price',
     'stock',
     'color',
@@ -40,13 +42,19 @@ export class ProductListComponent {
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       const parsed = JSON.parse(filter);
       const search = parsed.search.toLowerCase();
+      const subCategorySearch = parsed.subCategorySearch.toLowerCase();
       const stock = parsed.stock;
       // Search filter
       const matchesSearch =
         !search ||
         data.product_id?.toLowerCase().includes(search) ||
         data.product_name?.toLowerCase().includes(search) ||
-        data.category?.toLowerCase().includes(search);
+        data.category?.toLowerCase().includes(search) ||
+        data.sub_category?.toLowerCase().includes(search);
+
+      const matchesSubCategory =
+        !subCategorySearch ||
+        data.sub_category?.toLowerCase().includes(subCategorySearch);
 
       //Stock filter
       let matchesStock = true;
@@ -58,7 +66,7 @@ export class ProductListComponent {
       } else if (stock === 'high') {
         matchesStock = data.stock > 5;
       }
-      return matchesSearch && matchesStock;
+      return matchesSearch && matchesSubCategory && matchesStock;
     };
 
   }
@@ -99,6 +107,7 @@ export class ProductListComponent {
             product_id: product.product_id,
             product_name: product.product_name,
             category: product.category,
+            sub_category: product.sub_category ?? product.subcategory ?? product.p_subcategory,
             product_price: product.product_price,
             shelf_code: product.shelf_code,
             color: v.color,
@@ -125,9 +134,15 @@ export class ProductListComponent {
     this.applyFilters();
   }
 
+  applySubCategorySearch(event: Event) {
+    this.subCategorySearchText = (event.target as HTMLInputElement).value;
+    this.applyFilters();
+  }
+
   applyFilters() {
     const filter = {
       search: this.searchText || '',
+      subCategorySearch: this.subCategorySearchText || '',
       stock: this.selectedStock || ''
     };
     this.dataSource.filter = JSON.stringify(filter);
@@ -135,6 +150,7 @@ export class ProductListComponent {
 
   resetFilter() {
     this.searchText = '';
+    this.subCategorySearchText = '';
     this.selectedStock = 'All';
     this.applyFilters();
   }
