@@ -1,6 +1,29 @@
 <app-loader [isLoading]="isLoading"></app-loader>
 <div style="border: 1px solid #d1d1d1;padding: 8px;border-radius: 8px;">
 <div class="order-heading mb-3"> Upload Product</div>
+<section class="bulk-upload-panel">
+  <div class="bulk-upload-intro">
+    <span class="bulk-upload-icon"><mat-icon>cloud_upload</mat-icon></span>
+    <div>
+      <div class="bulk-upload-title">Bulk Product Upload <span class="new-badge">New</span></div>
+      <div class="bulk-upload-subtitle">Upload multiple products at once using an Excel/CSV file</div>
+    </div>
+  </div>
+
+  <div class="bulk-upload-controls">
+    <input type="file" accept=".csv,text/csv" (change)="onBulkProductFileSelected($event)">
+    <div class="bulk-upload-help">
+      <span>Supported format: .csv</span>
+      <a href="#" (click)="downloadSampleCsv($event)"><mat-icon>visibility</mat-icon> View Sample</a>
+    </div>
+  </div>
+
+  <button mat-raised-button type="button" color="primary" class="bulk-upload-button" [disabled]="!bulkProductFile || isBulkUploading"
+    (click)="uploadBulkProducts()">
+    <mat-icon>file_upload</mat-icon>
+    {{ isBulkUploading ? 'Uploading Products...' : 'Upload Bulk Products' }}
+  </button>
+</section>
 <hr>
 <div *ngIf="!isLoading">
   <section class="d-flex align-items-center justify-content-center">
@@ -53,10 +76,31 @@
           </div>
           <div class="col-md-6">
             <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Main Category</mat-label>
+              <mat-select formControlName="main_category" (selectionChange)="onMainCategoryChange($event.value)" required>
+                <mat-option *ngFor="let mainCategory of mainCategories" [value]="mainCategory.key">
+                  {{ mainCategory.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+            <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
               <mat-label>Category</mat-label>
-              <mat-select formControlName="p_category" (selectionChange)="onCategoryChange($event.value)" required>
-                <mat-option *ngFor="let cat of categories" [value]="cat.category">{{ cat.category | titlecase
-                  }}</mat-option>
+              <mat-select formControlName="p_category" (selectionChange)="onCategoryChange($event.value)" [disabled]="!selectedMainCategory" required>
+                <mat-option *ngFor="let cat of filteredCategories" [value]="cat">{{ cat }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            </div>
+            <!-- Age Group (depends on main category) -->
+          <div class="col-md-6" *ngIf="selectedMainCategory && categoryAgeGroups.length">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Age Group</mat-label>
+              <mat-select formControlName="age_group">
+                <mat-option value="">Select Age Group</mat-option>
+                <mat-option *ngFor="let age of categoryAgeGroups" [value]="age.value">
+                  {{ age.label }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -66,18 +110,6 @@
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Shelf Code</mat-label>
               <input matInput formControlName="p_shelfcode" placeholder="Ex: A-03-D1">
-            </mat-form-field>
-          </div>
-          <!-- Age Group (depends on category) -->
-          <div class="col-md-6" *ngIf="selectedCategory && categoryAgeGroups.length">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Age Group</mat-label>
-              <mat-select formControlName="age_group">
-                <mat-option value="">Select Age Group</mat-option>
-                <mat-option *ngFor="let age of categoryAgeGroups" [value]="age.value">
-                  {{ age.label }}
-                </mat-option>
-              </mat-select>
             </mat-form-field>
           </div>
 
@@ -100,6 +132,7 @@
               </mat-select>
             </mat-form-field>
           </div>
+
 
           <!-- Variants -->
           <div formArrayName="variants" class="">

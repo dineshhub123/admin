@@ -7,6 +7,7 @@ import { ADMIN_CATEGORY_MASTER } from 'src/app/constants/category-master';
 import { ApiService } from 'src/app/api.service';
 import { ToastrService } from 'ngx-toastr';
 import imageCompression from 'browser-image-compression';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-upload',
@@ -14,10 +15,30 @@ import imageCompression from 'browser-image-compression';
   styleUrls: ['./upload_product.component.css']
 })
 export class UploadComponent implements OnInit {
-  categories = ADMIN_CATEGORY_MASTER;
+  categoryMaster = ADMIN_CATEGORY_MASTER;
+  private categoryKeywordsCache: Record<string, string[]> | null = null;
+  private readonly watchSubCategories = [
+    { key: 'analog', label: 'Analog' },
+    { key: 'digital', label: 'Digital' },
+    { key: 'smart_watch', label: 'Smart Watch' }
+  ];
+  mainCategories = [
+    { key: 'mens', label: 'Men', categories: ['Clothing', 'Footwear', 'Watches', 'Wallets & Belts', 'Accessories'], subCategories: ['Clothing', 'Footwear', 'Watches', 'Wallets & Belts', 'Bags', 'Accessories', 'Sportswear', 'Ethnic Wear', 'Innerwear', 'Winter Wear'] },
+    { key: 'womens', label: 'Women', categories: ['Clothing', 'Footwear', 'Handbags', 'Jewellery & Watches', 'Beauty Accessories'], subCategories: ['Clothing', 'Footwear', 'Handbags', 'Jewellery', 'Watches', 'Beauty Accessories', 'Lingerie', 'Ethnic Wear', 'Saree', 'Salwar Suit', 'Winter Wear', 'Accessories'] },
+    { key: 'boys', label: 'Boys', categories: ['Clothing', 'Footwear', 'Watches', 'School Accessories', 'Accessories'], subCategories: ['Clothing', 'Footwear', 'School Bags', 'Watches', 'Belts', 'Caps', 'Sportswear', 'Ethnic Wear', 'Innerwear', 'Accessories'] },
+    { key: 'girls', label: 'Girls', categories: ['Clothing', 'Footwear', 'Jewellery & Watches', 'School Accessories', 'Accessories'], subCategories: ['Clothing', 'Footwear', 'Jewellery', 'School Bags', 'Hair Accessories', 'Watches', 'Ethnic Wear', 'Salwar Suit', 'Sportswear', 'Winter Wear', 'Accessories'] },
+    { key: 'kids', label: 'Kids', categories: ['Baby Clothing', 'Baby Footwear', 'Toys', 'Baby Care', 'School Essentials'], subCategories: ['Baby Clothing', 'Baby Footwear', 'Toys', 'Baby Care', 'School Essentials', 'Feeding Essentials', 'Diapers', 'Travel Gear', 'Accessories', 'Nursery'] },
+    { key: 'electronics', label: 'Electronics', categories: ['Mobile Accessories', 'Audio Devices', 'Computer Accessories', 'Smart Gadgets', 'Home Electronics'], subCategories: ['Mobile Accessories', 'Audio', 'Smart Watches', 'Computer Accessories', 'Storage Devices', 'Gaming', 'Smart Gadgets', 'Home Electronics', 'Cameras', 'Networking'] },
+    { key: 'electricals', label: 'Electricals', categories: ['Lighting', 'Switches & Sockets', 'Wires & Cables', 'Extension Boards', 'Electrical Tools'], subCategories: ['Lighting', 'Fans', 'Switches & Sockets', 'Wires & Cables', 'Extension Boards', 'Emergency Lights', 'Electrical Tools', 'MCB & Safety', 'Holders', 'Accessories'] },
+    { key: 'home_kitchen', label: 'Home & Kitchen', categories: ['Kitchen Essentials', 'Cookware', 'Storage & Organization', 'Home Decor', 'Cleaning Supplies'], subCategories: ['Cookware', 'Kitchen Tools', 'Kitchen Storage', 'Dining', 'Water Bottles', 'Cleaning Essentials', 'Home Decor', 'Bedding', 'Curtains', 'Plastic Items'] },
+    { key: 'beauty_personal_care', label: 'Beauty & Personal Care', categories: ['Skin Care', 'Hair Care', 'Makeup', 'Fragrances', 'Personal Hygiene'], subCategories: ['Skin Care', 'Hair Care', 'Makeup', 'Fragrances', 'Personal Hygiene', 'Oral Care', "Men's Grooming", "Women's Hygiene", 'Bath & Body', 'Beauty Tools'] }
+  ];
+  selectedMainCategory: string | null = null;
   selectedCategory: any = null;
   selectedSubCategory: string | null = null;
   subCategorySearchText: string = '';
+  bulkProductFile: File | null = null;
+  isBulkUploading: boolean = false;
   ageGroups = [
     { value: '0-6_months', label: '0–6 Months' },
     { value: '6-12_months', label: '6–12 Months' },
@@ -34,15 +55,30 @@ export class UploadComponent implements OnInit {
   ];
 
   isLoading: boolean = false;
+  get filteredCategories(): string[] {
+    const mainCategory = this.mainCategories.find(item => item.key === this.selectedMainCategory);
+
+    return mainCategory?.categories ?? [];
+  }
+
+  onMainCategoryChange(mainCategoryKey: string) {
+    this.selectedMainCategory = mainCategoryKey;
+    this.selectedCategory = null;
+    this.selectedSubCategory = null;
+    this.subCategorySearchText = '';
+    this.productForm.patchValue({ p_category: '', p_subcategory: '', age_group: '' });
+  }
+
   onCategoryChange(categoryKey: string) {
-    this.selectedCategory = this.categories.find(c => c.category === categoryKey);
+    this.selectedCategory = categoryKey;
     this.selectedSubCategory = null; // reset subcategory
     this.subCategorySearchText = '';
+    this.productForm.get('p_subcategory')?.reset('');
     this.productForm.get('age_group')?.reset('');
   }
 
   get categoryAgeGroups(): any[] {
-    const category = this.selectedCategory?.category;
+    const category = this.selectedMainCategory;
 
     if (category === 'kids') {
       return this.ageGroups.filter(age =>
@@ -65,14 +101,288 @@ export class UploadComponent implements OnInit {
 
   get filteredSubCategories(): any[] {
     const search = this.subCategorySearchText.trim().toLowerCase();
-    const subCategories = this.selectedCategory?.subCategories ?? [];
+    const mainCategory = this.categoryMaster.find(item => item.category === this.selectedMainCategory);
+    const category = this.productForm.get('p_category')?.value;
+    const subCategories = (mainCategory?.subCategories ?? []).filter((sub: any) =>
+      this.getCategoryKeywords(category).some(keyword =>
+        `${sub.key} ${sub.label}`.toLowerCase().includes(keyword)
+      )
+    );
+    const watchSubCategories = ['Watches', 'Jewellery & Watches'].includes(category)
+      ? this.watchSubCategories
+      : [];
+    const availableSubCategories = [...subCategories, ...watchSubCategories];
 
     return !search
-      ? subCategories
-      : subCategories.filter((sub: any) =>
-        sub.label?.toLowerCase().includes(search) ||
-        sub.key?.toLowerCase().includes(search)
+      ? availableSubCategories
+      : availableSubCategories.filter((sub: any) =>
+        sub.label.toLowerCase().includes(search) || sub.key.toLowerCase().includes(search)
       );
+  }
+
+  private getCategoryKeywords(category: string): string[] {
+    const keywords = this.categoryKeywordsCache ?? {
+      'Clothing': ['shirt', 'top', 'jean', 'trouser', 'chino', 'trackpant', 'short', 'cargo', 'dress', 'gown', 'skirt', 'legging', 'palazzo', 'tunic', 'frock', 'onesie', 'romper', 'bodysuit', 'saree', 'salwar suit'],
+      'Footwear': ['shoe', 'sandal', 'slipper', 'loafer', 'boot', 'heel', 'flat', 'sock'],
+      'Watches': ['watch'],
+      'Wallets & Belts': ['wallet', 'belt'],
+      'Accessories': ['sunglass', 'cap', 'tie', 'cufflink', 'bracelet', 'chain', 'scarf', 'hair_accessor', 'mitten'],
+      'Handbags': ['handbag', 'clutch', 'tote', 'sling_bag'],
+      'Jewellery & Watches': ['jewellery', 'watch'],
+      'Beauty Accessories': ['lip', 'foundation', 'powder', 'kajal', 'mascara', 'nail', 'makeup'],
+      'School Accessories': ['school_bag', 'lunch_bag', 'backpack'],
+      'Baby Clothing': ['onesie', 'romper', 'jumpsuit', 'bodysuit', 'co_ords', 'tshirt', 'shirt', 'frock', 'dress', 'top', 'pant', 'legging', 'short'],
+      'Baby Footwear': ['shoe', 'sandal', 'slipper', 'bootie', 'sock'],
+      'Baby Care': ['baby_', 'skincare', 'haircare', 'towel'],
+      'Mobile Accessories': ['charger', 'cable', 'power_bank', 'wireless_charger', 'mobile_case', 'screen_protector'],
+      'Audio Devices': ['headphone', 'earbud', 'speaker', 'soundbar'],
+      'Computer Accessories': ['keyboard', 'mice', 'monitor', 'webcam', 'printer', 'hubs', 'laptop_bag'],
+      'Smart Gadgets': ['smartwatch', 'fitness', 'vr_', 'smart_home'],
+      'Home Electronics': ['television', 'projector', 'tv_'],
+      'Lighting': ['bulb', 'tube_light', 'ceiling_light', 'chandelier'],
+      'Switches & Sockets': ['switch', 'socket'],
+      'Wires & Cables': ['wire', 'cable'],
+      'Extension Boards': ['extension_board'],
+      'Electrical Tools': ['drill', 'screwdriver', 'tester'],
+      'Kitchen Essentials': ['cookware', 'pressure', 'fry_pan', 'kitchen_tool', 'knife'],
+      'Cookware': ['cookware', 'pressure', 'fry_pan'],
+      'Storage & Organization': ['storage', 'container'],
+      'Home Decor': ['decor', 'frame', 'plant', 'candle'],
+      'Cleaning Supplies': ['cleaning', 'broom', 'mop', 'dustbin'],
+      'Skin Care': ['face_', 'moisturizer', 'serum', 'sunscreen', 'mask'],
+      'Hair Care': ['shampoo', 'conditioner', 'hair_'],
+      'Makeup': ['foundation', 'powder', 'lipstick', 'kajal', 'mascara', 'nail'],
+      'Fragrances': ['perfume', 'deodorant'],
+      'Personal Hygiene': ['sanitary', 'wet_wipe', 'cotton_bud']
+    };
+
+    this.categoryKeywordsCache = keywords;
+
+    return keywords[category] ?? [];
+  }
+
+  onBulkProductFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.bulkProductFile = input.files?.[0] ?? null;
+  }
+
+  async uploadBulkProducts(): Promise<void> {
+    if (!this.bulkProductFile) {
+      return;
+    }
+
+    if (!this.bulkProductFile.name.toLowerCase().endsWith('.csv')) {
+      this.toastr.error('Please select a CSV file.');
+      return;
+    }
+
+    this.isBulkUploading = true;
+
+    try {
+      const rows = this.parseBulkCsv(await this.bulkProductFile.text());
+      const products = this.groupBulkProducts(rows);
+      let uploadedCount = 0;
+      const failedProducts: string[] = [];
+
+      for (const product of products) {
+        try {
+          const response: any = await firstValueFrom(this.apiService.uploadData(this.createBulkProductFormData(product)));
+
+          if (response?.success) {
+            uploadedCount++;
+          } else {
+            failedProducts.push(product.product_name);
+          }
+        } catch {
+          failedProducts.push(product.product_name);
+        }
+      }
+
+      if (uploadedCount) {
+        this.toastr.success(`${uploadedCount} product${uploadedCount === 1 ? '' : 's'} uploaded successfully.`);
+      }
+      if (failedProducts.length) {
+        this.toastr.error(`${failedProducts.length} product${failedProducts.length === 1 ? '' : 's'} could not be uploaded.`);
+      }
+    } catch (error: any) {
+      this.toastr.error(error?.message || 'The CSV file could not be read.');
+    } finally {
+      this.isBulkUploading = false;
+    }
+  }
+
+  private parseBulkCsv(csv: string): Array<Record<string, string>> {
+    const records: string[][] = [];
+    let row: string[] = [];
+    let value = '';
+    let isQuoted = false;
+    const content = csv.replace(/^\uFEFF/, '');
+
+    for (let index = 0; index < content.length; index++) {
+      const character = content[index];
+
+      if (character === '"') {
+        if (isQuoted && content[index + 1] === '"') {
+          value += '"';
+          index++;
+        } else {
+          isQuoted = !isQuoted;
+        }
+      } else if (character === ',' && !isQuoted) {
+        row.push(value.trim());
+        value = '';
+      } else if ((character === '\n' || character === '\r') && !isQuoted) {
+        if (character === '\r' && content[index + 1] === '\n') {
+          index++;
+        }
+        row.push(value.trim());
+        if (row.some(cell => cell)) {
+          records.push(row);
+        }
+        row = [];
+        value = '';
+      } else {
+        value += character;
+      }
+    }
+
+    row.push(value.trim());
+    if (row.some(cell => cell)) {
+      records.push(row);
+    }
+
+    if (isQuoted || records.length < 2) {
+      throw new Error('Please use the downloaded sample CSV and include at least one product row.');
+    }
+
+    const headers = records[0].map(header => header.toLowerCase().trim());
+    const requiredHeaders = [
+      'product_name', 'product_mrp_price', 'product_price', 'product_discount',
+      'hsn_code', 'gst_rate', 'category', 'subcategory', 'color', 'color_code', 'stock'
+    ];
+    const missingHeaders = requiredHeaders.filter(header => !headers.includes(header));
+
+    if (missingHeaders.length) {
+      throw new Error(`Missing CSV columns: ${missingHeaders.join(', ')}`);
+    }
+
+    return records.slice(1).map((record, rowIndex) => {
+      const item = headers.reduce((result, header, columnIndex) => {
+        result[header] = record[columnIndex] ?? '';
+        return result;
+      }, {} as Record<string, string>);
+      const missingValues = requiredHeaders.filter(header => !item[header]);
+
+      if (missingValues.length) {
+        throw new Error(`Row ${rowIndex + 2} is missing: ${missingValues.join(', ')}`);
+      }
+
+      return item;
+    });
+  }
+
+  private groupBulkProducts(rows: Array<Record<string, string>>): any[] {
+    const groups = new Map<string, any>();
+    const productFields = [
+      'product_name', 'product_mrp_price', 'product_price', 'product_discount',
+      'hsn_code', 'gst_rate', 'category', 'shelf_code', 'age_group', 'subcategory', 'product_description'
+    ];
+
+    rows.forEach(row => {
+      const key = productFields.map(field => row[field] || '').join('|');
+      let product = groups.get(key);
+
+      if (!product) {
+        product = { ...row, variants: [] };
+        groups.set(key, product);
+      }
+
+      product.variants.push({
+        color: row['color'],
+        colorCode: row['color_code'],
+        stock: row['stock']
+      });
+    });
+
+    return Array.from(groups.values());
+  }
+
+  private createBulkProductFormData(product: any): FormData {
+    const formData = new FormData();
+
+    formData.append('p_name', product.product_name);
+    formData.append('p_price', product.product_price);
+    formData.append('p_mrp', product.product_mrp_price);
+    formData.append('p_discount', product.product_discount);
+    formData.append('main_category', product.main_category || '');
+    const bulkCategoryValue = product.category || '';
+    formData.append('p_category', typeof bulkCategoryValue === 'string' ? bulkCategoryValue.toLowerCase() : bulkCategoryValue);
+    formData.append('p_subcategory', product.subcategory);
+    formData.append('age_group', product.age_group || '');
+    formData.append('p_description', product.product_description || '');
+    formData.append('hsn_code', product.hsn_code);
+    formData.append('gst_rate', product.gst_rate);
+    formData.append('shelf_code', product.shelf_code || '');
+    formData.append('variant', JSON.stringify(product.variants.map((variant: any, index: number) => ({
+      p_color: variant.color,
+      p_colorcode: variant.colorCode,
+      p_stock: variant.stock,
+      image_key: `variant_${index}`
+    }))));
+
+    return formData;
+  }
+
+  downloadSampleCsv(event: Event): void {
+    event.preventDefault();
+
+    const headers = [
+      'product_name',
+      'product_mrp_price',
+      'product_price',
+      'product_discount',
+      'hsn_code',
+      'gst_rate',
+      'category',
+      'shelf_code',
+      'age_group',
+      'subcategory',
+      'color',
+      'color_code',
+      'stock',
+      'product_description'
+    ];
+
+    const sampleRows = [
+      [
+        'Girls Floral Dress',
+        '1999',
+        '1499',
+        '500',
+        '62044300',
+        '5',
+        'girls',
+        'A-03-D1',
+        '8-10_years',
+        'frocks',
+        'Pink',
+        '#FFB6C1',
+        '20',
+        'Soft floral dress for girls.'
+      ]
+    ];
+
+    const escapeCsvValue = (value: string) => `"${value.replace(/"/g, '""')}"`;
+    const csv = [headers, ...sampleRows]
+      .map(row => row.map(escapeCsvValue).join(','))
+      .join('\r\n');
+    const fileUrl = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }));
+    const link = document.createElement('a');
+
+    link.href = fileUrl;
+    link.download = 'bulk-product-upload-sample.csv';
+    link.click();
+    URL.revokeObjectURL(fileUrl);
   }
 
   productForm: FormGroup;
@@ -87,6 +397,7 @@ export class UploadComponent implements OnInit {
       p_description: [''],
       p_price: [0],
       p_discount: [0],
+      main_category: [''],
       p_category: [''],
       p_shelfcode: [''],
       p_subcategory: [''],
@@ -182,7 +493,9 @@ export class UploadComponent implements OnInit {
     formData.append('p_price', this.productForm.get('p_price')?.value);
     formData.append('p_mrp', this.productForm.get('p_mrp')?.value);
     formData.append('p_discount', this.productForm.get('p_discount')?.value);
-    formData.append('p_category', this.productForm.get('p_category')?.value);
+    formData.append('main_category', this.productForm.get('main_category')?.value);
+    const pCategoryValue = this.productForm.get('p_category')?.value || '';
+    formData.append('p_category', typeof pCategoryValue === 'string' ? pCategoryValue.toLowerCase() : pCategoryValue);
     formData.append('p_subcategory', this.productForm.get('p_subcategory')?.value);
     formData.append('age_group', this.productForm.get('age_group')?.value);
     formData.append('p_description', this.productForm.get('p_description')?.value);
@@ -215,6 +528,10 @@ export class UploadComponent implements OnInit {
           this.isLoading = false;
           this.toastr.success('Product Uploaded Successfully');
           this.productForm.reset();
+          this.selectedMainCategory = null;
+          this.selectedCategory = null;
+          this.selectedSubCategory = null;
+          this.subCategorySearchText = '';
           this.variants.clear();
           this.variants.push(this.createVariant());
         } else {

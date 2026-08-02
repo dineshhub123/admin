@@ -285,6 +285,7 @@ export const ADMIN_CATEGORY_MASTER = [
       { key: "kurta_sets", label: "Kurta Sets" },
       { key: "kurtis", label: "Kurtis" },
       { key: "lehenga_choli", label: "Lehenga Cholis" },
+      { key: "salwar_suits", label: "Salwar Suits" },
       { key: "ethnic_gowns", label: "Ethnic Gowns" },
       { key: "dupattas", label: "Dupattas" },
 
