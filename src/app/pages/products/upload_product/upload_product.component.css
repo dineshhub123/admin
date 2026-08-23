@@ -22,10 +22,12 @@
   background-color: #fff;
 }
 .align-variant{
-    display: flex;
-    justify-content: end;
+  justify-content: flex-start;
     align-items: center;
 }
+.variants-wrapper { padding-left: 15px; padding-right: 15px; }
+.variant-card { padding-left: 15px; padding-right: 15px; }
+.variant-fields { margin-left: 0 !important; margin-right: 0 !important; }
 .variant-title{
   font-size: 13px;
   font-weight: 600;
@@ -157,3 +159,18 @@
   outline: 0;
   width: 100%;
 }
+
+.size-selection,
+.size-stock-section {
+  border-top: 1px solid #d1d5db;
+  padding: 12px 0;
+}
+.size-selection-title { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+.size-options { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+.size-stock-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.size-stock-item label { display: block; font-weight: 600; margin-bottom: 5px; text-align: center; }
+.size-stock-item input { border: 1px solid #d1d5db; border-radius: 4px; box-sizing: border-box; padding: 9px; text-align: center; width: 100%; }
+.total-stock { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; color: #166534; font-weight: 600; margin-top: 12px; padding: 10px; }
+.color-code-control { align-items: center; display: flex; gap: 10px; }
+.color-swatch { border: 1px solid #9ca3af; border-radius: 4px; cursor: pointer; height: 42px; padding: 3px; width: 52px; }
+.color-code-field { flex: 1; }

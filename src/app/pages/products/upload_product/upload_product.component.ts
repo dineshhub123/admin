@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { ADMIN_CATEGORY_MASTER } from 'src/app/constants/category-master';
 import { ApiService } from 'src/app/api.service';
@@ -386,6 +386,19 @@ export class UploadComponent implements OnInit {
   }
 
   productForm: FormGroup;
+  private readonly sizeOptionsByType: Record<string, string[]> = {
+    'No Size': ['No Size'],
+    Clothing: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
+    'Kids Age': ['0-6 Months', '6-12 Months', '12-18 Months', '18-24 Months', '2-4 Years', '4-6 Years', '6-8 Years', '8-10 Years', '10-12 Years', '12-14 Years', '14-16 Years'],
+    'Footwear - Men': ['6', '7', '8', '9', '10', '11', '12'],
+    'Footwear - Women': ['4', '5', '6', '7', '8', '9', '10'],
+    'Footwear - Kids': ['10', '11', '12', '13', '1', '2', '3', '4', '5'],
+    'Belt Size': ['28', '30', '32', '34', '36', '38', '40', '42', '44'],
+    Custom: ['Custom']
+  };
+  get sizeOptions(): string[] {
+    return this.sizeOptionsByType[this.productForm?.get('size_type')?.value] ?? [];
+  }
   selectSizeOption = [true, false]
   selectedSize: boolean = true;
   deleteVariant: boolean = false;
@@ -402,6 +415,7 @@ export class UploadComponent implements OnInit {
       p_shelfcode: [''],
       p_subcategory: [''],
       age_group: [''],
+      size_type: ['No Size', Validators.required],
       hsn_code: [''],
       gst_rate: [''],
       variants: this.fb.array([this.createVariant()])
@@ -414,6 +428,7 @@ export class UploadComponent implements OnInit {
 
   ngOnInit() {
     this.productForm.patchValue({ p_size_boolean: true })
+    this.onSizeTypeChange(this.productForm.get('size_type')?.value);
   }
   htmlContent: string = '';
   editorConfig = {
@@ -498,6 +513,8 @@ export class UploadComponent implements OnInit {
     formData.append('p_category', typeof pCategoryValue === 'string' ? pCategoryValue.toLowerCase() : pCategoryValue);
     formData.append('p_subcategory', this.productForm.get('p_subcategory')?.value);
     formData.append('age_group', this.productForm.get('age_group')?.value);
+    const sizeType = this.productForm.get('size_type')?.value;
+    formData.append('size_type', sizeType);
     formData.append('p_description', this.productForm.get('p_description')?.value);
     formData.append('hsn_code', this.productForm.get('hsn_code')?.value);
     formData.append('gst_rate', this.productForm.get('gst_rate')?.value);
@@ -513,15 +530,24 @@ export class UploadComponent implements OnInit {
           formData.append(imageKey + '[]', file); // ✅ append as array
         });
       }
-      variantsData.push({
+      const variantPayload: any = {
         p_color: variant.p_color,
         p_colorcode: variant.p_colorcode,
-        p_stock: variant.p_stock,
+        sizes: sizeType === 'No Size' ? [] : this.getSizePayload(variantGroup),
         image_key: imageKey
-      });
+      };
+      if (sizeType === 'No Size') {
+        variantPayload.p_stock = Number(variant.p_stock) || 0;
+      }
+      variantsData.push(variantPayload);
     });
     // append variant metadata
     formData.append('variant', JSON.stringify(variantsData));
+    formData.append('product_payload', JSON.stringify({
+      product_name: this.productForm.get('p_name')?.value,
+      size_type: sizeType,
+      variants: variantsData
+    }));
     this.apiService.uploadData(formData).subscribe({
       next: (res: any) => {
         if (res?.success) {
@@ -533,7 +559,9 @@ export class UploadComponent implements OnInit {
           this.selectedSubCategory = null;
           this.subCategorySearchText = '';
           this.variants.clear();
-          this.variants.push(this.createVariant());
+          const variant = this.createVariant();
+          this.variants.push(variant);
+          this.configureVariantSizeControls(variant, this.productForm.get('size_type')?.value || 'No Size');
         } else {
           this.toastr.error(res?.message || 'Product Upload failed');
         }
@@ -549,8 +577,11 @@ export class UploadComponent implements OnInit {
   createVariant(): FormGroup {
     return this.fb.group({
       p_color: [null, Validators.required],
-      p_stock: [null, Validators.required],
-      p_colorcode: [null, Validators.required],
+      p_colorcode: ['#000000', Validators.required],
+      p_stock: [null],
+      sizes: [[], Validators.required],
+      custom_size: [''],
+      size_stock: this.fb.control({}),
       image_url: this.fb.control([]),
     });
   }
@@ -558,13 +589,123 @@ export class UploadComponent implements OnInit {
     if (this.variants.controls.length >= 1) {
       //this.deleteVariant = true;
     }
-    this.variants.push(this.createVariant());
+    const variant = this.createVariant();
+    this.variants.push(variant);
+    this.configureVariantSizeControls(variant, this.productForm.get('size_type')?.value);
   }
 
   removeVariant(index: number) {
     if (this.variants.controls.length > 1) {
       this.variants.removeAt(index);
     }
+  }
+  getSelectedSizes(variant: AbstractControl): string[] {
+    if (this.productForm.get('size_type')?.value === 'Custom') {
+      const customSize = variant.get('custom_size')?.value || '';
+      return customSize.split(',')
+        .map((size: string) => size.trim())
+        .filter((size: string, index: number, sizes: string[]) => size && sizes.indexOf(size) === index);
+    }
+    const selectedSizes = variant.get('sizes')?.value;
+    return Array.isArray(selectedSizes)
+      ? selectedSizes.filter((size: string) => this.sizeOptions.includes(size))
+      : [];
+  }
+  private getSizePayload(variant: AbstractControl): Array<{ size: string; stock: number }> {
+    const stocks = variant.get('size_stock')?.value || {};
+    return this.getSelectedSizes(variant).map(size => ({
+      size,
+      stock: Number(stocks[size]) || 0
+    }));
+  }
+  onSizeTypeChange(sizeType: string): void {
+    this.variants.controls.forEach(variant => {
+      const sizesControl = variant.get('sizes');
+      const customSizeControl = variant.get('custom_size');
+      sizesControl?.setValue([]);
+      customSizeControl?.reset('');
+      this.configureVariantSizeControls(variant, sizeType);
+    });
+  }
+  onCustomSizeInput(variant: AbstractControl): void {
+    this.updateSizeStockValues(variant);
+  }
+  private configureVariantSizeControls(variant: AbstractControl, sizeType: string): void {
+    const sizesControl = variant.get('sizes');
+    const customSizeControl = variant.get('custom_size');
+
+    if (sizeType === 'Custom') {
+      variant.get('p_stock')?.clearValidators();
+      variant.get('p_stock')?.disable({ emitEvent: false });
+      sizesControl?.clearValidators();
+      sizesControl?.disable({ emitEvent: false });
+      customSizeControl?.setValidators(Validators.required);
+      customSizeControl?.enable({ emitEvent: false });
+    } else if (sizeType === 'No Size') {
+      variant.get('p_stock')?.setValidators(Validators.required);
+      variant.get('p_stock')?.enable({ emitEvent: false });
+      sizesControl?.clearValidators();
+      sizesControl?.disable({ emitEvent: false });
+      customSizeControl?.clearValidators();
+      customSizeControl?.disable({ emitEvent: false });
+    } else {
+      variant.get('p_stock')?.clearValidators();
+      variant.get('p_stock')?.disable({ emitEvent: false });
+      sizesControl?.setValidators(Validators.required);
+      sizesControl?.enable({ emitEvent: false });
+      customSizeControl?.clearValidators();
+      customSizeControl?.disable({ emitEvent: false });
+    }
+    sizesControl?.updateValueAndValidity({ emitEvent: false });
+    customSizeControl?.updateValueAndValidity({ emitEvent: false });
+    variant.get('p_stock')?.updateValueAndValidity({ emitEvent: false });
+  }
+  areAllSizesSelected(variant: AbstractControl): boolean {
+    return this.getSelectedSizes(variant).length === this.sizeOptions.length && this.sizeOptions.length > 0;
+  }
+  isSizeSelected(variant: AbstractControl, size: string): boolean {
+    return this.getSelectedSizes(variant).includes(size);
+  }
+  updateColorCode(event: Event, variant: AbstractControl): void {
+    const colorInput = event.target as HTMLInputElement;
+    variant.get('p_colorcode')?.setValue(colorInput.value.toUpperCase());
+  }
+  toggleAllSizes(checked: boolean, variant: AbstractControl): void {
+    variant.get('sizes')?.setValue(checked ? [...this.sizeOptions] : []);
+    this.updateSizeStockValues(variant);
+  }
+  toggleSize(checked: boolean, variant: AbstractControl, size: string): void {
+    const selectedSizes = this.getSelectedSizes(variant).filter(selectedSize => selectedSize !== size);
+    if (checked) {
+      selectedSizes.push(size);
+    }
+    variant.get('sizes')?.setValue(selectedSizes);
+    this.updateSizeStockValues(variant);
+  }
+  getSizeStock(variant: AbstractControl, size: string): number | string {
+    return variant.get('size_stock')?.value?.[size] ?? '';
+  }
+  updateSizeStock(event: Event, variant: AbstractControl, size: string): void {
+    const input = event.target as HTMLInputElement;
+    const stocks = { ...(variant.get('size_stock')?.value || {}) };
+    stocks[size] = input.value;
+    variant.get('size_stock')?.setValue(stocks);
+  }
+  private updateSizeStockValues(variant: AbstractControl): void {
+    const selectedSizes = this.getSelectedSizes(variant);
+    const currentStocks = variant.get('size_stock')?.value || {};
+    const stocks = selectedSizes.reduce((result, size) => {
+      result[size] = currentStocks[size] ?? '';
+      return result;
+    }, {} as Record<string, number | string>);
+    variant.get('size_stock')?.setValue(stocks);
+  }
+  getTotalStock(variant: AbstractControl): number {
+    if (this.productForm.get('size_type')?.value === 'No Size') {
+      return Number(variant.get('p_stock')?.value) || 0;
+    }
+    const stocks = variant.get('size_stock')?.value || {};
+    return this.getSelectedSizes(variant).reduce((total, size) => total + (Number(stocks[size]) || 0), 0);
   }
   allowOnlyNumbers(event: KeyboardEvent) {
     const charCode = event.charCode;
