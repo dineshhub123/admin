@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Record Video</h2>
+
+<div mat-dialog-content style="text-align:center">
+
+  <video #videoPreview autoplay muted width="465" height="350" style="border:1px solid #ccc;"></video>
+
+  <br><br>
+
+  <button mat-raised-button color="primary" (click)="startRecording()" [disabled]="isRecording" class="mr-2">
+    <mat-icon>fiber_manual_record</mat-icon>
+    Start
+  </button>
+
+  <button mat-raised-button color="warn" (click)="stopRecording()" [disabled]="!isRecording">
+    <mat-icon>stop</mat-icon>
+    Stop & Save
+  </button>
+
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</div>

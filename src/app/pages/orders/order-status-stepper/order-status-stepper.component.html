@@ -11,7 +11,7 @@
     </div>
     <div class="status-indicator">
       <span class="status-badge" [class]="'status-' + currentStatus">
-        {{ currentStatus | titlecase }}
+       {{ (currentStatus === 'out_for_delivery' ? 'out for delivery' : currentStatus) | titlecase }}
       </span>
     </div>
   </div>

@@ -1,0 +1,85 @@
+<mat-card class="employee-card">
+  <mat-card-title>Edit Employee</mat-card-title>
+  <mat-divider></mat-divider>
+
+<form [formGroup]="personalForm" class="view-form">
+
+  <div class="grid">
+  <mat-form-field appearance="outline">
+    <mat-label>Employee ID</mat-label>
+    <input matInput formControlName="employeeId" [disabled]="true">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Full Name</mat-label>
+    <input matInput formControlName="fullName" [disabled]="!isEditMode">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Mobile</mat-label>
+    <input matInput formControlName="mobile" [disabled]="!isEditMode">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" [disabled]="!isEditMode">
+  </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Date of Birth</mat-label>
+        <input matInput [matDatepicker]="dp" formControlName="dob">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp></mat-datepicker>
+      </mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label>Gender</mat-label>
+  <mat-select formControlName="gender">
+    <mat-option value="Male">Male</mat-option>
+    <mat-option value="Female">Female</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label>Blood Group</mat-label>
+
+  <mat-select
+    formControlName="bloodGroup"
+    [disabled]="!isEditMode">
+
+    <mat-option value="A+">A+</mat-option>
+    <mat-option value="A-">A-</mat-option>
+    <mat-option value="B+">B+</mat-option>
+    <mat-option value="B-">B-</mat-option>
+    <mat-option value="AB+">AB+</mat-option>
+    <mat-option value="AB-">AB-</mat-option>
+    <mat-option value="O+">O+</mat-option>
+    <mat-option value="O-">O-</mat-option>
+
+  </mat-select>
+</mat-form-field>
+
+<div class="photo-section" style="margin-top:20px;">
+  <img
+    *ngIf="photoPreview"
+    [src]="photoPreview"
+    class="photo-preview"
+    style="width:150px; height:150px; object-fit:cover; border-radius:8px; margin-bottom:10px;"
+  >
+
+  <div *ngIf="isEditMode">
+    <input type="file" hidden (change)="onPhotoSelect($event)" #fileInput>
+    <button mat-stroked-button color="primary" (click)="fileInput.click()">
+      <mat-icon>photo_camera</mat-icon> Upload Photo
+    </button>
+  </div>
+</div>
+
+  <div class="form-buttons" style="margin-top:20px;">
+    <button mat-raised-button color="primary" *ngIf="!isEditMode" (click)="enableEdit()">Edit</button>
+    <button mat-raised-button color="accent" *ngIf="isEditMode" (click)="updateEmployee()">Save</button>
+    <button mat-raised-button color="warn" *ngIf="isEditMode" (click)="cancelEdit()">Cancel</button>
+  </div>
+</div>
+</form>
+</mat-card>

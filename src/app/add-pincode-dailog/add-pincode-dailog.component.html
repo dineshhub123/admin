@@ -1,0 +1,50 @@
+<h2 mat-dialog-title class="dialog-title">
+    <div class="title-icon">
+        <mat-icon>pin_drop</mat-icon>
+    </div>
+    <div class="pt-2">
+        <h3>{{ isEdit ? 'Edit Pincode' : 'Add New Pincode' }}</h3>
+        <p>{{ isEdit ? 'Update the serviceable pincode details.' : 'Add a new serviceable pincode for delivery.' }}</p>
+    </div>
+</h2>
+<mat-dialog-content>
+    <form [formGroup]="addPincodeForm">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Pincode</mat-label>
+            <input matInput maxlength="6" type="type" formControlName="pincode">
+            <mat-icon matSuffix>pin</mat-icon>
+            <mat-error *ngIf="addPincodeForm.get('pincode')?.invalid">
+                Enter valid 6 digit pincode
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Area / City</mat-label>
+            <input matInput formControlName="area">
+            <mat-icon matSuffix>location_city</mat-icon>
+            <mat-error *ngIf="addPincodeForm.get('area')?.invalid">
+                Enter Area / City name
+            </mat-error>
+        </mat-form-field>
+        <label class="status-title">
+            Status
+        </label>
+        <mat-radio-group formControlName="status">
+            <mat-radio-button [value]="true">
+                <span class="badge active">Active</span>
+            </mat-radio-button>
+            <br>
+            <mat-radio-button [value]="false">
+                <span class="badge inactive">Inactive</span>
+            </mat-radio-button>
+        </mat-radio-group>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-stroked-button mat-dialog-close>
+        Cancel
+    </button>
+    <button mat-raised-button color="primary" [disabled]="addPincodeForm.invalid" (click)="submit()">
+        <mat-icon>{{ isEdit ? 'edit' : 'save' }}</mat-icon>
+        {{ isEdit ? 'Update Pincode' : 'Add Pincode' }}
+    </button>
+</mat-dialog-actions>

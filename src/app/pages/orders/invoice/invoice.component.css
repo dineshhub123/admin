@@ -1,0 +1,152 @@
+.invoice-wrapper {
+  max-width: 1100px;
+  margin: auto;
+  padding: 15px;
+  background: #fffaf3;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  border: 1px solid #e2caa2;
+}
+
+/* .invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} */
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #c79a3b;
+}
+
+.logo span {
+  color: #8b5e00;
+}
+
+.bill-meta {
+  text-align: right;
+}
+
+.title {
+  margin: 20px 0;
+  border-bottom: 2px solid #d6b57c;
+  padding-bottom: 10px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.section-title {
+  margin-bottom: 10px;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-table th {
+  background: #d6a64f;
+  color: #fff;
+  padding: 10px;
+}
+
+.order-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.product {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+}
+
+.product img {
+  width: 35px;
+  border-radius: 6px;
+}
+
+.discount {
+  color: #d32f2f;
+}
+
+.total {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.summary {
+  width: 300px;
+  margin-left: auto;
+  margin-top: 20px;
+}
+
+.summary div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summary .grand {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.thanks {
+  text-align: center;
+  margin: 30px 0;
+  font-style: italic;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 30px;
+  border-top: 1px solid #e0cfa7;
+  padding-top: 15px;
+}
+
+.print-btn {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* PRINT */
+@media print {
+  .print-btn {
+    display: none;
+  }
+  body {
+    background: white;
+  }
+}
+.imgSet{
+    width: 130px;
+    height: 110px;
+    position: absolute;
+    top: 0px;
+  }
+
+.amount-words {
+  margin-top: 20px;
+  padding: 12px 16px;
+  border-top: 1px dashed #ccc;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.amount-words strong {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: #222;
+}

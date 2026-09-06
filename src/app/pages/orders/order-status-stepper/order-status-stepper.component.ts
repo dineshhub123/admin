@@ -24,7 +24,7 @@ export class OrderStatusStepperComponent implements OnChanges {
   
   statusSteps: OrderStatusStep[] = [
     {
-      label: 'Order Placed',
+      label: 'Pending',
       status: 'pending',
       description: 'Your order has been received',
       completed: false,
@@ -71,14 +71,14 @@ export class OrderStatusStepperComponent implements OnChanges {
       active: false,
       icon: 'assignment_turned_in'
     },
-    {
-      label: 'Cancelled',
-      status: 'cancelled',
-      description: 'Order has been cancelled',
-      completed: false,
-      active: false,
-      icon: 'cancel'
-    }
+    // {
+    //   label: 'Cancelled',
+    //   status: 'cancelled',
+    //   description: 'Order has been cancelled',
+    //   completed: false,
+    //   active: false,
+    //   icon: 'cancel'
+    // }
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,7 +88,7 @@ export class OrderStatusStepperComponent implements OnChanges {
   }
 
   private updateStepperStatus(): void {
-    const statusHierarchy = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered'];
+    const statusHierarchy = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered', 'cancelled'];
     const currentIndex = statusHierarchy.indexOf(this.currentStatus.toLowerCase());
     
     // For cancelled status, show all steps as incomplete except cancelled
@@ -121,6 +121,8 @@ export class OrderStatusStepperComponent implements OnChanges {
     });
   }
 
+
+
   public formatDate(dateString: string): string {
     try {
       const date = new Date(dateString);
@@ -148,10 +150,9 @@ export class OrderStatusStepperComponent implements OnChanges {
 
   getProgressPercentage(): number {
     if (this.currentStatus === 'cancelled') return 0;
-    
     const statusHierarchy = ['pending', 'confirmed', 'processing', 'shipped', 'out_for_delivery', 'delivered'];
     const currentIndex = statusHierarchy.indexOf(this.currentStatus.toLowerCase());
-    return ((currentIndex + 1) / statusHierarchy.length) * 100;
+   return Math.round((currentIndex / (statusHierarchy.length - 1)) * 100);
   }
 
   getCurrentStepLabel(): string {

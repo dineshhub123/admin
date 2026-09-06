@@ -1,7 +1,3 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
   production: false,
   firebase: {
@@ -12,41 +8,82 @@ export const environment = {
     appId: "xxxx"
   },
 
-
-  getUserDetailsApiURL: 'https://ruralx.in/api/getUserLoginDetails.php',
+  getAdminLoginDetailsApiURL: 'https://ruralx.in/api/getAdminLoginDetails.php',
   searchApiUrl: 'https://ruralx.in/api/search_product.php',
   uploadDataApiUrl: 'https://ruralx.in/api/uploadAdminData.php',
-  insertUserDetailsApiUrl: 'https://ruralx.in/api/insertUserDetailsData.php',
-  getProductListDetailsApiUrl: 'https://ruralx.in/api/getProductDetails.php',
-  productBuyerApiUrl: 'https://ruralx.in/api/productbuyer.php',
+  insertAdminLoginDetailsApiUrl: 'https://ruralx.in/api/insertAdminLoginDetails.php',
+  getProductListDetailsApiUrl: 'https://ruralx.in/api/getAdminProductList.php',
   getProductNotifyApiUrl: 'https://ruralx.in/api/getProductNotification.php',
-  getBuyerDataApiUrl: 'https://ruralx.in/api/getProductBuyerData.php',
   deleteProductListDetailsApiUrl: 'https://ruralx.in/api/delete_product.php',
   deleteCustomerListDetailsApiUrl: 'https://ruralx.in/api/delete_customer.php',
   deleteOrderListDetailsApiUrl: 'https://ruralx.in/api/delete_order.php',
-  updateUserDetailsApiUrl: 'https://ruralx.in/api/updateUserDetails.php',
-  updateProductDetailsApiUrl: 'https://ruralx.in/api/updateProductDetails.php',
-  updateCategoryDetailsApiUrl: 'https://ruralx.in/api/updateCategoryDetails.php',
-  editOrderDetailsApiUrl: 'https://ruralx.in/api/editOrderDetails.php',
-  insertStoreDetailsApiUrl: 'https://ruralx.in/api/insertstoreList.php',
-  getStoreDetailsApiUrl: 'https://ruralx.in/api/getStoreList.php',
-  deleteStoreDetailsApiUrl: 'https://ruralx.in/api/deleteStore.php',
-  // getUserDetailsApiURL: 'http://192.168.74.250/getUserLoginDetails.php',
-  // searchApiUrl: 'http://192.168.74.250/search_product.php',
-  // uploadDataApiUrl: 'http://192.168.74.250/uploadAdminData.php',
-  // insertUserDetailsApiUrl: 'http://192.168.74.250/insertUserDetailsData.php',
-  // getProductListDetailsApiUrl: 'http://192.168.74.250/getProductDetails.php',
-  // productBuyerApiUrl: 'http://192.168.74.250/productbuyer.php',
-  // getProductNotifyApiUrl: 'http://192.168.74.250/getProductNotification.php',
-  // getBuyerDataApiUrl: 'http://192.168.74.250/getProductBuyerData.php',
+  updateUserDetailsApiUrl:'https://ruralx.in/api/updateUserDetails.php',
+  updateProductDetailsApiUrl:'https://ruralx.in/api/updateProductDetails.php',
+  updateCategoryDetailsApiUrl:'https://ruralx.in/api/updateCategoryDetails.php',
+  editOrderDetailsApiUrl:'https://ruralx.in/api/editOrderDetails.php',
+  insertStoreDetailsApiUrl:'https://ruralx.in/api/insertstoreList.php',
+  getStoreDetailsApiUrl:'https://ruralx.in/api/getStoreList.php',
+  deleteStoreDetailsApiUrl:'https://ruralx.in/api/deleteStore.php',
+  getOrderListApiUrl: 'https://ruralx.in/api/getOrders.php',
+  getPendingOrderApiUrl: 'https://ruralx.in/api/pending_order.php',
+  getOrderByIdApiUrl: 'https://ruralx.in/api/get_order_by_id.php',
+  upadateStatusApiUrl: 'https://ruralx.in/api/update_order_status.php',
+  getOrderListByStatusApiUrl: 'https://ruralx.in/api/getOrderListByStatus.php',
+  getEmployeeDetailsApiUrl: 'https://ruralx.in/api/employee-get.php',
+  saveEmployeeDetailsApiUrl: 'https://ruralx.in/api/employee-save.php',
+  updateEmployeeDetailsApiUrl: 'https://ruralx.in/api/employee-update.php',
+  deleteEmployeeDetailsApiUrl: 'https://ruralx.in/api/employee-delete.php',
+  getSalarySlipApiUrl: 'https://ruralx.in/api/get_salary_months.php',
+  sendOtpApiUrl:'https://ruralx.in/api/send-otp.php',
+  verifyOtpApiUrl:'https://ruralx.in/api/verify-otp.php',
+  getAllReviewApiUrl: 'https://ruralx.in/api/get-admin-review.php',
+  getApproveReviewApiUrl: 'https://ruralx.in/api/approve-review.php',
+  getRejectedReviewApiUrl: 'https://ruralx.in/api/reject-review.php',
+  getadminDashboardApiUrl: 'https://ruralx.in/api/admin-dashboard.php',
+  getReturnOrdersApiUrl: 'https://ruralx.in/api/get-return-order.php',
+  getUpdateReturnStatusApiUrl: 'https://ruralx.in/api/update-return-status.php',
+  getAssignReturnDeliveryApiUrl: 'https://ruralx.in/api/assign-return-delivery.php',
+  getPickupCompleteApiUrl:'https://ruralx.in/api/pickup-complete.php',
+  getCompleteRefundApiUrl:'https://ruralx.in/api/complete-refund.php',
+  getShipReplacementApiUrl:'https://ruralx.in/api/shipReplacement.php',
+  getCompleteReplacementApiUrl:'https://ruralx.in/api/completeReplacement.php',
+  getCancelOrderApiUrl:'https://ruralx.in/api/get-cancel-order.php',
+  updateCancelRefundApiUrl:'https://ruralx.in/api/update-cancel-refund-status.php',
+  twoFectorQrApiUrl:'https://ruralx.in/api/generate_secret.php',
+  verify2faApiUrl:'https://ruralx.in/api/verify-2fa.php',
+  changePasswordApiUrl:'https://ruralx.in/api/change-password.php',
+  addPincodeApiUrl:'https://ruralx.in/api/add-pincode.php',
+  getPincodeApiUrl:'https://ruralx.in/api/get-pincode.php',
+  updatePincodeApiUrl:'https://ruralx.in/api/update-pincode.php',
+  deletePincodeApiUrl:'https://ruralx.in/api/delete-pincode.php',
+
+
+
+  
+
+
+  // getUserDetailsApiURL: 'https://ruralx.in/getUserLoginDetails.php',
+  // searchApiUrl: 'https://ruralx.in/search_product.php',
+   //uploadDataApiUrl: 'https://ruralx.in/uploadAdminData.php',
+  // insertUserDetailsApiUrl: 'https://ruralx.in/insertUserDetailsData.php',
+  // getProductListDetailsApiUrl: 'https://ruralx.in/getProductDetails.php',
+  // productBuyerApiUrl: 'https://ruralx.in/productbuyer.php',
+  // getProductNotifyApiUrl: 'https://ruralx.in/getProductNotification.php',
+  // getBuyerDataApiUrl: 'https://ruralx.in/getProductBuyerData.php',
+  // deleteProductListDetailsApiUrl: 'https://ruralx.in/delete_product.php',
+  // deleteCustomerListDetailsApiUrl: 'https://ruralx.in/delete_customer.php',
+  // deleteOrderListDetailsApiUrl: 'https://ruralx.in/delete_order.php',
+  // updateUserDetailsApiUrl: 'https://ruralx.in/updateUserDetails.php',
+  // updateProductDetailsApiUrl: 'https://ruralx.in/updateProductDetails.php',
+  // updateCategoryDetailsApiUrl: 'https://ruralx.in/updateCategoryDetails.php',
+  // editOrderDetailsApiUrl: 'https://ruralx.in/editOrderDetails.php',
+  // insertStoreDetailsApiUrl: 'https://ruralx.in/insertstoreList.php',
+  // getStoreDetailsApiUrl: 'https://ruralx.in/getStoreList.php',
+  // deleteStoreDetailsApiUrl: 'https://ruralx.in/deleteStore.php',
+  // getOrderListApiUrl: 'https://ruralx.in/api/getOrders.php',
+  // getPendingOrderApiUrl: 'https://ruralx.in/pending_order.php',
+  // getOrderByIdApiUrl: 'https://ruralx.in/get_order_by_id.php',
+  // upadateStatusApiUrl: 'https://ruralx.in/update_order_status.php',
 
 };
 
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

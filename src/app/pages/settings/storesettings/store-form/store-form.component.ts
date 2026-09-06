@@ -25,8 +25,8 @@ export class StoreFormComponent implements OnInit {
       id: [null],
       name: ['', Validators.required],
       address: ['', Validators.required],
-      phone: [''],
-      email: ['', Validators.email]
+      phone:['', Validators.required],
+      email: ['', Validators.required],
     });
   }
 

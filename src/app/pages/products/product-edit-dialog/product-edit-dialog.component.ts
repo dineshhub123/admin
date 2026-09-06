@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiService } from 'src/app/api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-edit-dialog',
@@ -10,81 +10,102 @@ import { ApiService } from 'src/app/api.service';
   styleUrls: ['./product-edit-dialog.component.css']
 })
 export class ProductEditDialogComponent {
- editForm: FormGroup;
+  editForm: FormGroup;
   isLoading = false;
   categories: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
-    private snackBar: MatSnackBar,
+    public ToastrService:ToastrService,
     public dialogRef: MatDialogRef<ProductEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { product: any }
   ) {
     this.editForm = this.fb.group({
-      id: [''],
       product_name: ['', Validators.required],
-      category: ['', Validators.required],
-      product_description: ['', Validators.required],
-      product_mrp_price: ['', [Validators.required, Validators.min(0)]],
-      product_discount: ['', [Validators.min(0)]],
-      product_price: ['', [Validators.required, Validators.min(0)]],
-      delivery_date: [''],
-      img_front: ['']
+      product_id: [''],
+      product_price: ['', [Validators.required]],
+      color: [''],
+      stock: ['', [Validators.required]],
+      shelf_code: [''],
+      sizes: this.fb.array([]),
+
+    });
+    this.editForm.patchValue(this.data.product);
+    this.setSizeStocks(this.data.product.variants);
+  }
+
+  get sizeStocks(): FormArray {
+    return this.editForm.get('sizes') as FormArray;
+  }
+
+  private setSizeStocks(variants: any[] = []): void {
+    const stocks = new Map<string, number>();
+
+    variants.forEach(variant => {
+      (variant.sizes ?? []).forEach((sizeStock: any) => {
+        const size = String(sizeStock.size ?? '').trim();
+        if (size) {
+          stocks.set(size, (stocks.get(size) ?? 0) + (Number(sizeStock.stock) || 0));
+        }
+      });
+    });
+
+    stocks.forEach((stock, size) => {
+      this.sizeStocks.push(this.fb.group({
+        size: [size],
+        stock: [stock, [Validators.required, Validators.min(0)]]
+      }));
     });
   }
 
   ngOnInit(): void {
-    this.loadCategories();
-    this.editForm.patchValue(this.data.product);
-    this.calculateFinalPrice();
-    
-    // Watch for price/discount changes
-    this.editForm.get('product_mrp_price')?.valueChanges.subscribe(() => this.calculateFinalPrice());
-    this.editForm.get('product_discount')?.valueChanges.subscribe(() => this.calculateFinalPrice());
   }
 
-  loadCategories(): void {
-    this.apiService.getCategories(1).subscribe(categories => {
-      this.categories = categories;
-    });
-  }
-
-  calculateFinalPrice(): void {
-    const mrp = parseFloat(this.editForm.get('product_mrp_price')?.value) || 0;
-    const discount = parseFloat(this.editForm.get('product_discount')?.value) || 0;
-    const finalPrice = mrp - discount;
-    this.editForm.get('product_price')?.setValue(finalPrice.toFixed(2), { emitEvent: false });
-  }
-
-  onSubmit(): void {
+  onUpadate(selectedFiels: any): void {
+    console.log("selectedFiels", selectedFiels)
     if (this.editForm.invalid) {
       this.editForm.markAllAsTouched();
       return;
     }
-
     this.isLoading = true;
-    const formData = this.editForm.value;
+    const formData = new FormData();
+    formData.append('product_id', selectedFiels.product_id);
+    formData.append('product_color', selectedFiels.editColor || selectedFiels.color || '');
+    formData.append('p_name', selectedFiels.product_name);
+    formData.append('price', selectedFiels.product_price);
+    const sizes = this.sizeStocks.getRawValue();
+    const totalStock = sizes.length
+      ? sizes.reduce((total: number, sizeStock: any) => total + (Number(sizeStock.stock) || 0), 0)
+      : selectedFiels.stock;
+    formData.append('stock', String(totalStock));
+    if (sizes.length) {
+      const sizePayload = sizes.map((sizeStock: any) => ({
+        size: sizeStock.size,
+        stock: Number(sizeStock.stock) || 0
+      }));
+      formData.append('sizes', JSON.stringify(sizePayload));
+      formData.append('variant', JSON.stringify([{
+        p_color: selectedFiels.color,
+        sizes: sizePayload,
+        p_stock: totalStock
+      }]));
+      console.log('Product size stock update:', {
+        productId: selectedFiels.product_id,
+        changedSizeValues: sizePayload
+      });
+    }
+    formData.append('shelf_code', selectedFiels.shelf_code);
 
     this.apiService.updateProduct(formData).subscribe({
       next: (response) => {
-        this.snackBar.open('Product updated successfully!', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
         this.dialogRef.close(response);
+        this.ToastrService.success(response.message)
       },
       error: (error) => {
         this.isLoading = false;
         console.error('Update error:', error);
-        this.snackBar.open(
-          error.error?.message || 'Failed to update product',
-          'Close',
-          {
-            duration: 5000,
-            panelClass: ['error-snackbar']
-          }
-        );
+
       }
     });
   }

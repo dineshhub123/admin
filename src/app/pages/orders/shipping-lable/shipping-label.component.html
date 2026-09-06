@@ -1,0 +1,38 @@
+ <div class="label-wrapper" id="shipping-label">
+  <div class="label-header">
+    <div class="logo">
+    <img class="imgSet" src="assets/img/ruralxLogo.png">
+    </div>
+    <div class="title">SHIPPING LABEL</div>
+  </div>
+  <div class="label-body">
+    <div class="address">
+      <h4 class="name">Delivery Address:</h4>
+      <p>{{data?.delivery_address?.name }}</p>
+      <p>{{ data?.delivery_address?.address }}</p>
+      <p>📞 {{ data?.delivery_address?.mobile }}</p>
+      <p>📧 {{ data?.delivery_address?.email }}</p>
+    </div>
+    <div class="code-box">
+      <!-- <img [src]="label.qrCode" alt="QR Code"> -->
+      <p><strong>Order ID:</strong> {{ data?.order_id }}</p>
+    </div>
+  </div>
+  <div class="label-footer">
+    <p>www.ruralx.in</p>
+    <div class="icons">
+      <span>☂ KEEP DRY</span>
+      <span>↑ HANDLE WITH CARE</span>
+    </div>
+  </div>
+  <div class="print-btn">
+    <mat-dialog-actions align="center">
+    <button mat-raised-button mat-dialog-close color="warn">Cancel</button>
+    <button mat-raised-button color="primary" (click)="printLabel()">
+      Print Label
+    </button>
+    </mat-dialog-actions>
+  </div>
+</div> 
+
+

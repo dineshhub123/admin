@@ -1,0 +1,90 @@
+table {
+  width: 100%;
+}
+
+.pending {
+  color: orange;
+  font-weight: 600;
+}
+
+.approved {
+  color: green;
+  font-weight: 600;
+}
+
+.rejected {
+  color: red;
+  font-weight: 600;
+}
+.order-heading {
+  font-size: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.Pending { color: orange; font-weight: 600; }
+.Approved { color: green; font-weight: 600; }
+.Pickup_Scheduled { color: #2196f3; font-weight: 600; }
+.Picked_Up { color: purple; font-weight: 600; }
+.Refund_Completed { color: teal; font-weight: 600; }
+.Rejected { color: red; font-weight: 600; }
+.info { color: #2196f3; margin-right: 10px;}
+.success { color: green; margin-right: 10px; margin-left: 10px;font-weight: 600;}
+.rejected { color: red; margin-right: 10px;}
+.Replacement_Shipped{color: blueviolet;  font-weight: 600;}
+.Delivered { color: green; font-weight: 600; }
+.Refunded {color: green; font-weight: 600;}
+
+.return-badge{
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+/* REFUND */
+.refund-class{
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+/* REPLACE */
+.replace-class{
+  background: #e3f2fd;
+  color: #1976d2;
+}
+.mat-mdc-header-row {
+  background-color: #0a4984;   /* your brand color */
+}
+
+/* Header text */
+.mat-mdc-header-cell {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+.mat-mdc-header-cell:first-child {
+  border-top-left-radius: 12px;
+}
+.mat-mdc-header-cell:last-child {
+  border-top-right-radius: 12px;
+}
+
+.table-container {
+    max-height: 75vh;   /* Adjust as needed */
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-mdc-header-row,
+.mat-header-row {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #0d4f8b;
+}
