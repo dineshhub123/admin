@@ -60,11 +60,11 @@ export class ProductListComponent {
       let matchesStock = true;
 
       if (stock === 'low') {
-        matchesStock = data.stock < 5;
+        matchesStock = data.stockTotal < 5;
       } else if (stock === 'out') {
-        matchesStock = data.stock == 0;
+        matchesStock = data.stockTotal === 0;
       } else if (stock === 'high') {
-        matchesStock = data.stock > 5;
+        matchesStock = data.stockTotal > 5;
       }
       return matchesSearch && matchesSubCategory && matchesStock;
     };
@@ -102,21 +102,52 @@ export class ProductListComponent {
     this.apiService.getProductListDetailsData().subscribe({
       next: (data: any[]) => {
         this.isLoading = false;
-        const flattened = data.flatMap(product =>
-          product.variants.map((v: any) => ({
+        const productsById = new Map<string, any>();
+        data.forEach(product => {
+          const existingProduct = productsById.get(product.product_id);
+          productsById.set(product.product_id, existingProduct
+            ? { ...existingProduct, variants: [...existingProduct.variants, ...(product.variants ?? [])] }
+            : { ...product, variants: product.variants ?? [] });
+        });
+
+        const groupedProducts = Array.from(productsById.values()).map(product => {
+          const variants = product.variants;
+          const sizeStocks = new Map<string, number>();
+
+          variants.forEach((variant: any) => {
+            (variant.sizes ?? []).forEach((sizeStock: any) => {
+              const size = String(sizeStock.size ?? '').trim();
+              if (size) {
+                sizeStocks.set(size, (sizeStocks.get(size) ?? 0) + (Number(sizeStock.stock) || 0));
+              }
+            });
+          });
+
+          const hasSizes = sizeStocks.size > 0;
+          const stockEntries = Array.from(sizeStocks.entries()).map(([size, quantity]) => ({ size, quantity }));
+          const stock = hasSizes
+            ? stockEntries.map(entry => `${entry.size}-${entry.quantity}`).join(',')
+            : variants.reduce((total: number, variant: any) => total + (Number(variant.stock ?? variant.p_stock) || 0), 0);
+
+          return {
             product_id: product.product_id,
             product_name: product.product_name,
             category: product.category,
             sub_category: product.sub_category ?? product.subcategory ?? product.p_subcategory,
             product_price: product.product_price,
             shelf_code: product.shelf_code,
-            color: v.color,
-            stock: v.stock,
-            images: v.images,
-            colorCode: v.colorCode
-          }))
-        );
-        this.dataSource.data = flattened;
+            color: variants.map((variant: any) => variant.color).filter(Boolean).join(', '),
+            stock,
+            stockEntries,
+            stockTotal: hasSizes
+              ? Array.from(sizeStocks.values()).reduce((total, quantity) => total + quantity, 0)
+              : variants.reduce((total: number, variant: any) => total + (Number(variant.stock ?? variant.p_stock) || 0), 0),
+            images: variants.flatMap((variant: any) => variant.images ?? []).filter(Boolean),
+            colorCode: variants.map((variant: any) => variant.colorCode).filter(Boolean).join(', ')
+          };
+        });
+
+        this.dataSource.data = groupedProducts;
       },
       error: () => {
         this.isLoading = false;

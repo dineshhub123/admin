@@ -124,6 +124,16 @@ font-size: 12px;
     letter-spacing: 1px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+  .shelf-code-cell {
+    width: 120px;
+    min-width: 120px;
+    white-space: nowrap;
+  }
+  .final-price-cell {
+    width: 120px;
+    min-width: 120px;
+    white-space: nowrap;
+  }
 .rack-a { background: #4caf50; color: white; }
 .rack-b { background: #2196f3; color: white; }
 .rack-c { background: #ff9800; color: white; }
@@ -154,6 +164,72 @@ font-size: 12px;
 .stock-high {
   color: #1976d2; /* blue */
   font-weight: 500;
+}
+
+.stock-cell {
+  width: 120px;
+  min-width: 180px;
+  max-width: 120px;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.size-stock-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+  align-items: center;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.size-stock-list::-webkit-scrollbar {
+  display: none;
+}
+
+.size-stock-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 3px 5px 3px 7px;
+  border: 1px solid #d9e2ec;
+  border-radius: 6px;
+  background: #f7fafd;
+  color: #334e68;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.size-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stock-quantity {
+  min-width: 22px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: #2f855a;
+  color: #ffffff;
+  font-weight: 700;
+  text-align: center;
+}
+
+.total-stock {
+  display: inline-block;
+  min-width: 28px;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: #edf7f0;
+  color: #276749;
+  font-weight: 700;
+  text-align: center;
 }
 ::ng-deep .custom-dropdown {
   min-width: 250px !important;
