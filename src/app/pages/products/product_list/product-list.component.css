@@ -114,6 +114,10 @@ font-size: 12px;
   align-items: center;
   gap: 10px;
 }
+.header-actions .search-field {
+  width: 600px;
+  max-width: 100%;
+}
 .shelf-badge {
     display: inline-block;
     padding: 1px 8px;
@@ -133,6 +137,19 @@ font-size: 12px;
     width: 120px;
     min-width: 120px;
     white-space: nowrap;
+  }
+  .color-cell {
+    width: 150px;
+    min-width: 150px;
+  }
+  .color-swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    border: 1px solid #cbd5e0;
+    border-radius: 50%;
+    vertical-align: -2px;
   }
   .action-cell {
     width: 120px;

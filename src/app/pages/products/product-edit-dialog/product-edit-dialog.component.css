@@ -65,6 +65,23 @@ font-size: 18px;
      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 } 
 
+.product-color-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -4px 15px 18px;
+  color: #34495e;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.product-color-swatch {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #cbd5e0;
+  border-radius: 50%;
+}
+
 .edit-color{
   color: #4caf50;
 

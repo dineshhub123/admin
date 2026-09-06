@@ -82,8 +82,11 @@ export class ApiService {
   getProductListDetailsData(): Observable<any> {
     return this.http.get(this.apiProductListURL).pipe(map((res: any) => res))
   }
-  deleteProduct(productId: string): Observable<any> {
-    return this.http.post(this.apiDeleteProductURL, { product_id: productId });
+  deleteProduct(productId: string, productColor: string): Observable<any> {
+    return this.http.post(this.apiDeleteProductURL, {
+      product_id: productId,
+      product_color: productColor
+    });
 
   } deleteCustomer(id: number): Observable<any> {
     return this.http.post(this.apiDeleteCustomerURL, { id });

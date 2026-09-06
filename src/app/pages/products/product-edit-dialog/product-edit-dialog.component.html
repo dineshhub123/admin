@@ -1,5 +1,9 @@
 <div mat-dialog-title class="edit-color">Edit Product</div>
 <div class="productid-title mb-4">Product ID →  {{editForm.value.product_id | titlecase}}</div>
+<div class="product-color-title">
+  <span class="product-color-swatch" [style.background-color]="data.product.colorCode"></span>
+  <span>Color: {{ editForm.value.color | titlecase }}</span>
+</div>
 
 <mat-dialog-content>
   <form [formGroup]="editForm">

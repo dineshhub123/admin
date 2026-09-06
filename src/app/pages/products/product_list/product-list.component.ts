@@ -31,7 +31,6 @@ export class ProductListComponent {
     'product_price',
     'stock',
     'color',
-    'colorCode',
     'action'
   ];
 
@@ -43,7 +42,11 @@ export class ProductListComponent {
       const parsed = JSON.parse(filter);
       const search = parsed.search.toLowerCase();
       const subCategorySearch = parsed.subCategorySearch.toLowerCase();
-      const stock = parsed.stock;
+      const stock = String(parsed.stock || '').toLowerCase();
+      const stockTotal = Number(data.stockTotal) || 0;
+      const sizeStocks = (data.stockEntries ?? [])
+        .map((entry: any) => Number(entry.quantity) || 0);
+      const hasSizeStocks = sizeStocks.length > 0;
       // Search filter
       const matchesSearch =
         !search ||
@@ -60,11 +63,17 @@ export class ProductListComponent {
       let matchesStock = true;
 
       if (stock === 'low') {
-        matchesStock = data.stockTotal < 5;
+        matchesStock = hasSizeStocks
+          ? sizeStocks.some((quantity: number) => quantity < 5)
+          : stockTotal < 5;
       } else if (stock === 'out') {
-        matchesStock = data.stockTotal === 0;
+        matchesStock = hasSizeStocks
+          ? sizeStocks.some((quantity: number) => quantity <= 0)
+          : stockTotal <= 0;
       } else if (stock === 'high') {
-        matchesStock = data.stockTotal > 5;
+        matchesStock = hasSizeStocks
+          ? sizeStocks.some((quantity: number) => quantity > 5)
+          : stockTotal > 5;
       }
       return matchesSearch && matchesSubCategory && matchesStock;
     };
@@ -81,10 +90,12 @@ export class ProductListComponent {
     return html.replace(/font-size\s*:\s*[^;"]+;?/gi, '');
   }
 
-  deleteProduct(productId: any): void {
-    const confirmDelete = confirm(`Are you sure you want to delete "${productId.product_id}"?`);
+  deleteProduct(product: any): void {
+    const confirmDelete = confirm(
+      `Are you sure you want to delete "${product.product_id}" color "${product.color}"?`
+    );
     if (confirmDelete) {
-      this.apiService.deleteProduct(productId.product_id).subscribe({
+      this.apiService.deleteProduct(product.product_id, product.color).subscribe({
         next: (res) => {
           alert('Product deleted successfully.');
           this.getProductList()
@@ -104,52 +115,56 @@ export class ProductListComponent {
         this.isLoading = false;
         const productsById = new Map<string, any>();
         data.forEach(product => {
+          const productVariants = Array.isArray(product.variants)
+            ? product.variants
+            : (product.color || product.p_color) ? [product] : [];
           const existingProduct = productsById.get(product.product_id);
           productsById.set(product.product_id, existingProduct
-            ? { ...existingProduct, variants: [...existingProduct.variants, ...(product.variants ?? [])] }
-            : { ...product, variants: product.variants ?? [] });
+            ? { ...existingProduct, variants: [...existingProduct.variants, ...productVariants] }
+            : { ...product, variants: productVariants });
         });
 
-        const groupedProducts = Array.from(productsById.values()).map(product => {
-          const variants = product.variants;
-          const sizeStocks = new Map<string, number>();
+        // A product can have several colour variants.  Keep the product details
+        // on each row, but show the stock and images for only that colour.
+        const groupedProducts = Array.from(productsById.values()).flatMap(product => {
+          const variants = product.variants.length ? product.variants : [{}];
 
-          variants.forEach((variant: any) => {
-            (variant.sizes ?? []).forEach((sizeStock: any) => {
-              const size = String(sizeStock.size ?? '').trim();
-              if (size) {
-                sizeStocks.set(size, (sizeStocks.get(size) ?? 0) + (Number(sizeStock.stock) || 0));
-              }
-            });
+          return variants.map((variant: any) => {
+            const stockEntries = (variant.sizes ?? [])
+              .map((sizeStock: any) => ({
+                size: String(sizeStock.size ?? '').trim(),
+                quantity: Number(sizeStock.stock) || 0
+              }))
+              .filter((sizeStock: any) => Boolean(sizeStock.size));
+            const hasSizes = stockEntries.length > 0;
+            const totalStock = hasSizes
+              ? stockEntries.reduce((total: number, sizeStock: any) => total + sizeStock.quantity, 0)
+              : Number(variant.stock ?? variant.p_stock) || 0;
+
+            return {
+              product_id: product.product_id,
+              product_name: product.product_name,
+              category: product.category,
+              sub_category: product.sub_category ?? product.subcategory ?? product.p_subcategory,
+              product_price: product.product_price,
+              shelf_code: product.shelf_code,
+              color: variant.color ?? variant.p_color ?? '',
+              editColor: variant.color ?? variant.p_color ?? '',
+              // The edit dialog must receive only the variant shown in this row.
+              variants: [variant],
+              stock: hasSizes
+                ? stockEntries.map((entry: any) => `${entry.size}-${entry.quantity}`).join(',')
+                : totalStock,
+              stockEntries,
+              stockTotal: totalStock,
+              images: (variant.images ?? variant.image_url ?? []).filter(Boolean),
+              colorCode: variant.colorCode ?? variant.p_colorcode ?? ''
+            };
           });
-
-          const hasSizes = sizeStocks.size > 0;
-          const stockEntries = Array.from(sizeStocks.entries()).map(([size, quantity]) => ({ size, quantity }));
-          const stock = hasSizes
-            ? stockEntries.map(entry => `${entry.size}-${entry.quantity}`).join(',')
-            : variants.reduce((total: number, variant: any) => total + (Number(variant.stock ?? variant.p_stock) || 0), 0);
-
-          return {
-            product_id: product.product_id,
-            product_name: product.product_name,
-            category: product.category,
-            sub_category: product.sub_category ?? product.subcategory ?? product.p_subcategory,
-            product_price: product.product_price,
-            shelf_code: product.shelf_code,
-            color: variants.map((variant: any) => variant.color).filter(Boolean).join(', '),
-            editColor: variants.find((variant: any) => variant.color)?.color ?? '',
-            variants,
-            stock,
-            stockEntries,
-            stockTotal: hasSizes
-              ? Array.from(sizeStocks.values()).reduce((total, quantity) => total + quantity, 0)
-              : variants.reduce((total: number, variant: any) => total + (Number(variant.stock ?? variant.p_stock) || 0), 0),
-            images: variants.flatMap((variant: any) => variant.images ?? []).filter(Boolean),
-            colorCode: variants.map((variant: any) => variant.colorCode).filter(Boolean).join(', ')
-          };
         });
 
         this.dataSource.data = groupedProducts;
+  this.applyFilters();
       },
       error: () => {
         this.isLoading = false;
