@@ -134,6 +134,11 @@ font-size: 12px;
     min-width: 120px;
     white-space: nowrap;
   }
+  .action-cell {
+    width: 120px;
+    min-width: 120px;
+    white-space: nowrap;
+  }
 .rack-a { background: #4caf50; color: white; }
 .rack-b { background: #2196f3; color: white; }
 .rack-c { background: #ff9800; color: white; }

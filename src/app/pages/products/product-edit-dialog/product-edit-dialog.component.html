@@ -12,13 +12,25 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="col-md-6">
+      <mat-form-field appearance="outline" class="col-md-6" *ngIf="!sizeStocks.length">
         <mat-label> Stock</mat-label>
         <input matInput formControlName="stock" required>
         <mat-error *ngIf="editForm.get('stock')?.hasError('required')">
           Stock is required
         </mat-error>
       </mat-form-field>
+    </div>
+    <div class="size-stock-editor" *ngIf="sizeStocks.length" formArrayName="sizes">
+      <div class="size-stock-heading">Size-wise stock</div>
+      <div class="size-stock-grid">
+        <div class="size-stock-item" *ngFor="let sizeStock of sizeStocks.controls; let index = index" [formGroupName]="index">
+          <span class="size-name">{{ sizeStock.get('size')?.value }}</span>
+          <mat-form-field appearance="outline">
+            <mat-label>Stock</mat-label>
+            <input matInput type="number" min="0" formControlName="stock">
+          </mat-form-field>
+        </div>
+      </div>
     </div>
     <div class="row" >
       <mat-form-field appearance="outline" class="col-md-6">

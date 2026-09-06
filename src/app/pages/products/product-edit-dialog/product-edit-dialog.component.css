@@ -69,3 +69,41 @@ font-size: 18px;
   color: #4caf50;
 
 }
+
+.size-stock-editor {
+  margin: 4px 8px 20px;
+  padding: 14px;
+  border: 1px solid #d7e3ef;
+  border-radius: 8px;
+  background: #f8fbfe;
+}
+
+.size-stock-heading {
+  margin-bottom: 12px;
+  color: #234e70;
+  font-weight: 700;
+}
+
+.size-stock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px 12px;
+}
+
+.size-stock-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.size-stock-item mat-form-field {
+  width: 82px;
+  margin-bottom: 0;
+}
+
+.size-name {
+  color: #34495e;
+  font-size: 13px;
+  font-weight: 600;
+}

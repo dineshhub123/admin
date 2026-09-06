@@ -137,6 +137,8 @@ export class ProductListComponent {
             product_price: product.product_price,
             shelf_code: product.shelf_code,
             color: variants.map((variant: any) => variant.color).filter(Boolean).join(', '),
+            editColor: variants.find((variant: any) => variant.color)?.color ?? '',
+            variants,
             stock,
             stockEntries,
             stockTotal: hasSizes
