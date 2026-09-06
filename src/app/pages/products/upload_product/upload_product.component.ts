@@ -471,35 +471,59 @@ export class UploadComponent implements OnInit {
   };
 
 
-  // onSelectFile(event: any, index: number): void {
-  //   const files: FileList = event.target.files;
-  //   if (files && files.length > 0) {
-  //     const fileArray = Array.from(files);
-  //     this.variants.at(index).get('image_url')?.setValue(fileArray);
-  //   }
-  // }
+async onSelectFile(event: any, index: number): Promise<void> {
+  const files: FileList = event.target.files;
 
-  async onSelectFile(event: any, index: number): Promise<void> {
-    const files: FileList = event.target.files;
-    if (!files || files.length === 0) return;
-    const compressedFiles: File[] = [];
-    const options = {
-      maxWidthOrHeight: 1600,
-      initialQuality: 0.85,
-      useWebWorker: true,
-      fileType: 'image/webp'
-    };
-    for (const file of Array.from(files)) {
-      try {
-        const compressedFile = await imageCompression(file, options);
-        compressedFiles.push(compressedFile as File);
-      } catch (error) {
-        console.error(error);
-        compressedFiles.push(file);
-      }
+  if (!files || files.length === 0) return;
+
+  const compressedFiles: File[] = [];
+
+  const options = {
+    maxWidthOrHeight: 1600,
+    initialQuality: 0.85,
+    useWebWorker: true,
+    fileType: 'image/webp'
+  };
+
+  for (const file of Array.from(files)) {
+    try {
+      const compressedBlob = await imageCompression(file, options);
+
+      // Ensure filename has .webp extension
+      const webpFile = new File(
+        [compressedBlob],
+        file.name.replace(/\.[^/.]+$/, '.webp'),
+        {
+          type: 'image/webp',
+          lastModified: Date.now()
+        }
+      );
+
+      console.log('Product image format:', {
+        original: {
+          name: file.name,
+          type: file.type,
+          size: file.size
+        },
+        compressed: {
+          name: webpFile.name,
+          type: webpFile.type,
+          size: webpFile.size
+        }
+      });
+
+      compressedFiles.push(webpFile);
+
+    } catch (error) {
+      console.error('Image compression failed:', error);
+      compressedFiles.push(file);
     }
-    this.variants.at(index).get('image_url')?.setValue(compressedFiles);
   }
+
+  this.variants.at(index)
+    .get('image_url')
+    ?.setValue(compressedFiles);
+}
   uploadFormData(): void {
     this.isLoading = true;
     const formData = new FormData();
