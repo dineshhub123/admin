@@ -21,7 +21,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/assets",
               {
                 "glob": "firebase-messaging-sw.js",
@@ -43,6 +43,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -58,8 +64,8 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
+              "buildOptimizer": false,
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
@@ -70,15 +76,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "liveReload": true
+          },
           "configurations": {
             "production": {
               "browserTarget": "example-app:build:production"
             },
             "development": {
               "browserTarget": "example-app:build:development"
-            },
-            "options": {
-              "liveReload": true
             }
           },
           "defaultConfiguration": "development"
@@ -98,7 +104,7 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/assets"
             ],
             "styles": [

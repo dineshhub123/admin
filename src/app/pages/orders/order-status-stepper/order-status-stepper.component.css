@@ -48,7 +48,7 @@
   text-transform: capitalize;
 }
 
-.status-pending { background-color: #ffffff; color: #856404; }
+.status-pending { background-color: #fff3cd; color: #856404; }
 .status-confirmed { background-color: #d1edff; color: #0c5460; }
 .status-processing { background-color: #e3f2fd; color: #1565c0; }
 .status-shipped { background-color: #e8f5e8; color: #2e7d32; }
@@ -100,7 +100,7 @@
 .timeline-line-fill {
   position: absolute;
   top: 20px;
-  left: 50px;
+  left: 0px;
   height: 3px;
   background: linear-gradient(90deg, #4CAF50, #2196F3);
   z-index: 2;
@@ -196,6 +196,10 @@
 
 .status-cancelled .step-icon {
   background-color: #f44336;
+}
+
+.status-delivered .step-icon {
+  background-color: #1b5e20;
 }
 
 /* Active Step Indicator */

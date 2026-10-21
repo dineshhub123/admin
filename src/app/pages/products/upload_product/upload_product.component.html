@@ -1,0 +1,247 @@
+<app-loader [isLoading]="isLoading"></app-loader>
+<div style="border: 1px solid #d1d1d1;padding: 8px;border-radius: 8px;">
+<div class="order-heading mb-3"> Upload Product</div>
+<section class="bulk-upload-panel">
+  <div class="bulk-upload-intro">
+    <span class="bulk-upload-icon"><mat-icon>cloud_upload</mat-icon></span>
+    <div>
+      <div class="bulk-upload-title">Bulk Product Upload <span class="new-badge">New</span></div>
+      <div class="bulk-upload-subtitle">Upload multiple products at once using an Excel/CSV file</div>
+    </div>
+  </div>
+
+  <div class="bulk-upload-controls">
+    <input type="file" accept=".csv,text/csv" (change)="onBulkProductFileSelected($event)">
+    <div class="bulk-upload-help">
+      <span>Supported format: .csv</span>
+      <a href="#" (click)="downloadSampleCsv($event)"><mat-icon>visibility</mat-icon> View Sample</a>
+    </div>
+  </div>
+
+  <button mat-raised-button type="button" color="primary" class="bulk-upload-button" [disabled]="!bulkProductFile || isBulkUploading"
+    (click)="uploadBulkProducts()">
+    <mat-icon>file_upload</mat-icon>
+    {{ isBulkUploading ? 'Uploading Products...' : 'Upload Bulk Products' }}
+  </button>
+</section>
+<hr>
+<div *ngIf="!isLoading">
+  <section class="d-flex align-items-center justify-content-center">
+    <form [formGroup]="productForm" (ngSubmit)="uploadFormData()" enctype="multipart/form-data">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- Left Column -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Product Name</mat-label>
+              <input matInput type="text" formControlName="p_name" ngModel required />
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Product MRP Price</mat-label>
+              <input matInput type="number" formControlName="p_mrp" ngModel required />
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Product Price</mat-label>
+              <input matInput type="number" formControlName="p_price" ngModel required />
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Product Discount (save) Price</mat-label>
+              <input matInput type="number" formControlName="p_discount" ngModel required />
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>HSN Code</mat-label>
+              <input matInput type="number" formControlName="hsn_code" ngModel required />
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>GST Rate (%)</mat-label>
+              <mat-select formControlName="gst_rate">
+                <mat-option [value]="null" disabled>
+                  Select GST Rate
+                </mat-option>
+                <mat-option *ngFor="let rate of gstRates" [value]="rate">
+                  {{ rate }} %
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Main Category</mat-label>
+              <mat-select formControlName="main_category" (selectionChange)="onMainCategoryChange($event.value)" required>
+                <mat-option *ngFor="let mainCategory of mainCategories" [value]="mainCategory.key">
+                  {{ mainCategory.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+            <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="p_category" (selectionChange)="onCategoryChange($event.value)" [disabled]="!selectedMainCategory" required>
+                <mat-option *ngFor="let cat of filteredCategories" [value]="cat">{{ cat }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            </div>
+
+          <!-- Size type -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Size Type</mat-label>
+              <mat-select formControlName="size_type" (selectionChange)="onSizeTypeChange($event.value)" required>
+                <mat-option value="No Size">No Size</mat-option>
+                <mat-option value="Clothing">Clothing - Men / Women </mat-option>
+                <mat-option value="Kids Age"> Clothing - Boys / Girls / Kids</mat-option>
+                <mat-option value="Footwear - Men">Footwear - Men</mat-option>
+                <mat-option value="Footwear - Women">Footwear - Women</mat-option>
+                <mat-option value="Footwear - Kids">Footwear - Boys / Girls / Kids</mat-option>
+                <mat-option value="Belt Size">Belt Size</mat-option>
+                <mat-option value="Custom">Custom</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+            <!-- Age Group (depends on main category) -->
+          <div class="col-md-6" *ngIf="selectedMainCategory && categoryAgeGroups.length">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Age Group</mat-label>
+              <mat-select formControlName="age_group">
+                <mat-option value="">Select Age Group</mat-option>
+                <mat-option *ngFor="let age of categoryAgeGroups" [value]="age.value">
+                  {{ age.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Shelf code -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Shelf Code</mat-label>
+              <input matInput formControlName="p_shelfcode" placeholder="Ex: A-03-D1">
+            </mat-form-field>
+          </div>
+
+          <!-- SubCategory Dropdown (depends on category) -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100" *ngIf="selectedCategory">
+              <mat-label>SubCategory</mat-label>
+              <mat-select [(value)]="selectedSubCategory" formControlName="p_subcategory" required>
+                <div class="sub-category-search" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+                  <mat-icon>search</mat-icon>
+                  <input matInput placeholder="Search subcategories" [(ngModel)]="subCategorySearchText"
+                    [ngModelOptions]="{ standalone: true }">
+                </div>
+                <mat-option *ngFor="let sub of filteredSubCategories" [value]="sub.key">
+                  {{ sub.label }}
+                </mat-option>
+                <mat-option *ngIf="filteredSubCategories.length === 0" disabled>
+                  No subcategories found
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Variants -->
+          <div formArrayName="variants" class="col-md-12 variants-wrapper">
+            <div class="variant-title">Variants (Color + Color Code + Stock + Image)</div>
+            <div *ngFor="let variant of variants.controls; let i=index" [formGroupName]="i" class="variant-card mb-2 pt-3"
+              style="background-color: #f2f3ea;border-radius: 12px;">
+              <div class="row variant-fields">
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Color</mat-label>
+                    <input matInput type="text" formControlName="p_color" ngModel required />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <div class="color-code-control">
+                    <input class="color-swatch" type="color" [value]="variant.get('p_colorcode')?.value || '#000000'"
+                      (input)="updateColorCode($event, variant)" aria-label="Choose color">
+                    <mat-form-field appearance="outline" class="color-code-field">
+                      <mat-label>Color Code</mat-label>
+                      <input matInput type="text" formControlName="p_colorcode" placeholder="#000000" required>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="productForm.get('size_type')?.value === 'No Size'">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Stock</mat-label>
+                    <input matInput type="number" min="0" formControlName="p_stock" required>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12" *ngIf="productForm.get('size_type')?.value !== 'No Size'">
+                  <div class="size-selection">
+                    <div class="size-selection-title">Select Sizes ({{ productForm.get('size_type')?.value }})</div>
+                    <div class="size-options" *ngIf="productForm.get('size_type')?.value !== 'Custom'">
+                      <mat-checkbox [checked]="areAllSizesSelected(variant)"
+                        (change)="toggleAllSizes($event.checked, variant)">Select All</mat-checkbox>
+                      <mat-checkbox *ngFor="let size of sizeOptions" [checked]="isSizeSelected(variant, size)"
+                        (change)="toggleSize($event.checked, variant, size)">{{ size }}</mat-checkbox>
+                    </div>
+                    <mat-form-field appearance="outline" class="w-100" *ngIf="productForm.get('size_type')?.value === 'Custom'">
+                      <mat-label>Custom Size</mat-label>
+                      <input matInput type="text" formControlName="custom_size" placeholder="Enter sizes separated by commas"
+                        (input)="onCustomSizeInput(variant)" required>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="productForm.get('size_type')?.value !== 'No Size'">
+                  <div class="size-stock-section">
+                    <div class="size-selection-title">Size-wise Stock</div>
+                    <div class="size-stock-grid">
+                      <div class="size-stock-item" *ngFor="let size of getSelectedSizes(variant)">
+                        <label>{{ size }}</label>
+                        <input type="number" min="0" [value]="getSizeStock(variant, size)"
+                          (input)="updateSizeStock($event, variant, size)" required>
+                      </div>
+                    </div>
+                    <div class="total-stock">Total Stock: {{ getTotalStock(variant) }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="row align-variant">
+                <div class="col-md-6">
+                  <div class="file-inputs mb-3">
+                    <label>Image</label>
+                    <input type="file" (change)="onSelectFile($event, i)" multiple required />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <button mat-raised-button type="button" color="primary" class="mr-2 mb-2" (click)="addVariant()">
+                    <mat-icon>add_plus</mat-icon>
+                  </button>
+                  <button mat-raised-button color="warn" type="button" class="mb-2" (click)="removeVariant(i)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="editor-section">
+              <label>Product Description</label>
+              <angular-editor formControlName="p_description" [config]="editorConfig" [(ngModel)]="htmlContent"
+                required></angular-editor>
+            </div>
+          </div>
+        </div>
+        <div class="text-left pt-4 mb-4 ml-2 float-right">
+          <button mat-raised-button color="primary" [disabled]="productForm.invalid" type="submit"
+            class="ml-2">Upload</button>
+        </div>
+      </div>
+    </form>
+  </section>
+</div>
+</div>

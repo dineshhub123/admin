@@ -1,9 +1,40 @@
-<!-- <div echarts [options]="barChartOption" class="demo-chart" style="height: 400px;"></div> -->
-<mat-card>
-  <mat-card-title>Monthly Sales</mat-card-title>
-  <mat-card-content>
-    <div echarts [options]="barChartOption" style="height: 400px;"></div>
-  </mat-card-content>
-</mat-card>
+<div class="sales-dashboard">
 
+  <h2>Sales Dashboard</h2>
 
+  <!-- Summary Cards Grid -->
+  <div class="cards-grid">
+    <div class="card">
+      <h3>Daily Sales</h3>
+      <p>{{ dailySales | currency }}</p>
+    </div>
+    <div class="card">
+      <h3>Weekly Sales</h3>
+      <p>{{ weeklySales | currency }}</p>
+    </div>
+    <div class="card">
+      <h3>Monthly Sales</h3>
+      <p>{{ monthlySales | currency }}</p>
+    </div>
+    <div class="card">
+      <h3>Orders</h3>
+      <p>{{ totalOrders }}</p>
+    </div>
+    <div class="card">
+      <h3>New Customers</h3>
+      <p>{{ newCustomers }}</p>
+    </div>
+    <div class="card">
+      <h3>Returned Items</h3>
+      <p>{{ returnedItems }}</p>
+    </div>
+  </div>
+
+  <!-- ECharts Graphs -->
+  <div class="charts-grid">
+    <div class="chart-container" echarts [options]="dailyChartOptions"></div>
+    <div class="chart-container" echarts [options]="weeklyChartOptions"></div>
+    <div class="chart-container" echarts [options]="monthlyChartOptions"></div>
+  </div>
+
+</div>

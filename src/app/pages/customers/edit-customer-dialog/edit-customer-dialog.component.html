@@ -4,7 +4,7 @@
 <mat-dialog-content>
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
     <div class="row">
-      <mat-form-field appearance="outline" class="col-md-6">
+      <mat-form-field  class="col-md-6" appearance="outline">
         <mat-label>First Name</mat-label>
         <input matInput formControlName="user_first_name" required>
         <mat-icon matSuffix>person</mat-icon>
@@ -16,7 +16,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="col-md-6">
+      <mat-form-field  class="col-md-6" appearance="outline">
         <mat-label>Last Name</mat-label>
         <input matInput formControlName="user_last_name" required>
         <mat-icon matSuffix>person</mat-icon>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="row">
-      <mat-form-field appearance="outline" class="col-md-6">
+      <mat-form-field  class="col-md-6" appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput formControlName="user_email" type="email" required>
         <mat-icon matSuffix>email</mat-icon>
@@ -42,7 +42,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="col-md-6">
+      <mat-form-field  class="col-md-6" appearance="outline">
         <mat-label>Phone</mat-label>
         <input matInput formControlName="user_phone" required>
         <mat-icon matSuffix>phone</mat-icon>
@@ -55,7 +55,7 @@
       </mat-form-field>
     </div>
 
-    <mat-form-field appearance="outline" class="w-full">
+    <mat-form-field  class="w-full" appearance="outline">
       <mat-label>Address</mat-label>
       <textarea matInput formControlName="user_address" rows="3" required></textarea>
       <mat-icon matSuffix>home</mat-icon>
@@ -67,7 +67,7 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-full">
+    <mat-form-field  class="w-full" appearance="outline">
       <mat-label>Pincode</mat-label>
       <input matInput formControlName="user_pincode" maxlength="6" required>
       <mat-icon matSuffix>pin</mat-icon>
@@ -82,16 +82,20 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()" [disabled]="isLoading" color="secondary">
+  <button mat-raised-button
+         color="warn"
+          (click)="onCancel()"
+          [disabled]="isLoading">
     <mat-icon>cancel</mat-icon>
     Cancel
   </button>
-  <button mat-raised-button 
-          color="primary" 
-          (click)="onSubmit()" 
+
+  <button mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
           [disabled]="editForm.invalid || isLoading">
     <mat-icon>save</mat-icon>
     Save
-    <mat-spinner *ngIf="isLoading" diameter="20" strokeWidth="2"></mat-spinner>
+    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
   </button>
 </mat-dialog-actions>

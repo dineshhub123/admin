@@ -21,7 +21,7 @@ editForm: FormGroup;
     @Inject(MAT_DIALOG_DATA) public data: { customer: any }
   ) {
     this.editForm = this.fb.group({
-      id: [''],
+      id: ['', Validators.required],
       user_first_name: ['', [Validators.required, Validators.maxLength(50)]],
       user_last_name: ['', [Validators.required, Validators.maxLength(50)]],
       user_email: ['', [Validators.required, Validators.email]],
@@ -37,37 +37,40 @@ editForm: FormGroup;
     }
   }
 
-  onSubmit(): void {
-    if (this.editForm.invalid) {
-      return;
-    }
-
-    this.isLoading = true;
-    const updatedCustomer = this.editForm.value;
-
-    this.apiService.updateCustomer(updatedCustomer).subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        this.snackBar.open('Customer updated successfully!', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
-        this.dialogRef.close(response);
-      },
-      error: (error) => {
-        this.isLoading = false;
-        console.error('Error updating customer:', error);
-        this.snackBar.open(
-          error.error?.message || 'Failed to update customer',
-          'Close',
-          {
-            duration: 5000,
-            panelClass: ['error-snackbar']
-          }
-        );
-      }
-    });
+ onSubmit(): void {
+  if (this.editForm.invalid) {
+    return;
   }
+
+  this.isLoading = true;
+
+  const updatedCustomer = this.editForm.value;
+  console.log('Sending payload:', updatedCustomer);
+
+  this.apiService.updateCustomer(updatedCustomer).subscribe({
+    next: (response) => {
+      this.isLoading = false;
+      this.snackBar.open('Customer updated successfully!', 'Close', {
+        duration: 3000,
+        panelClass: ['success-snackbar']
+      });
+      this.dialogRef.close(response);
+    },
+    error: (error) => {
+      this.isLoading = false;
+      console.error('API Error:', error);
+      this.snackBar.open(
+        error.error?.message || 'Failed to update customer',
+        'Close',
+        {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        }
+      );
+    }
+  });
+}
+
 
   onCancel(): void {
     this.dialogRef.close();

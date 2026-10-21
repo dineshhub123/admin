@@ -20,5 +20,8 @@
 	border-radius: 24px;
 	padding: 32px;
 	margin: auto;
-	margin-top: 2%;
+}
+.full-width-btn {
+    width: 100%;
+    display: block;
 }

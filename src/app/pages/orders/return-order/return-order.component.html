@@ -1,0 +1,162 @@
+<div class="order-heading mb-3"> Return Order List</div>
+ <div class="table-container">
+    <!-- <div class="loader-overlay">
+      <mat-progress-bar mode="indeterminate" diameter="50">
+      </mat-progress-bar>
+    </div> -->
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100 order-table">
+
+    <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+
+    <!-- Return ID -->
+    <ng-container matColumnDef="return_id">
+        <th mat-header-cell *matHeaderCellDef> Return ID </th>
+        <td mat-cell *matCellDef="let r"> {{r.return_id}} </td>
+    </ng-container>
+
+    <!-- Order ID -->
+    <ng-container matColumnDef="order_id">
+        <th mat-header-cell *matHeaderCellDef> Order ID </th>
+        <td mat-cell *matCellDef="let r"> {{r.order_id}} </td>
+    </ng-container>
+
+    <!-- Product ID -->
+    <ng-container matColumnDef="product_id">
+        <th mat-header-cell *matHeaderCellDef> Product ID </th>
+        <td mat-cell *matCellDef="let r"> {{r.product_id}} </td>
+    </ng-container>
+
+    <!-- Product -->
+    <ng-container matColumnDef="product_name">
+        <th mat-header-cell *matHeaderCellDef> Product </th>
+        <td mat-cell *matCellDef="let r"> {{r.product_name}} </td>
+    </ng-container>
+
+    <!-- Reason -->
+    <ng-container matColumnDef="reason">
+        <th mat-header-cell *matHeaderCellDef> Reason </th>
+        <td mat-cell *matCellDef="let r"> {{r.reason}} </td>
+    </ng-container>
+
+    <!-- Return Type -->
+    <ng-container matColumnDef="return_type">
+        <th mat-header-cell *matHeaderCellDef>Return Type</th>
+        <td mat-cell *matCellDef="let r">
+        <span class="return-badge" [ngClass]="{
+        'refund-class': r.return_type === 'REFUND',
+        'replace-class': r.return_type === 'REPLACE'}">
+        {{ r.return_type }}
+        </span>
+        </td>
+    </ng-container>
+
+    <!-- Created At -->
+    <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef> Created At </th>
+        <td mat-cell *matCellDef="let r"> {{r.created_at}} </td>
+    </ng-container>
+
+
+    <!-- Customer -->
+    <ng-container matColumnDef="customer_name">
+        <th mat-header-cell *matHeaderCellDef> Customer </th>
+        <td mat-cell *matCellDef="let r">
+            {{r.customer_name}} <br>
+            <small>{{r.mobile}}</small>
+        </td>
+    </ng-container>
+
+    <!-- Amount -->
+    <ng-container matColumnDef="refund_amount">
+        <th mat-header-cell *matHeaderCellDef> Amount </th>
+        <td mat-cell *matCellDef="let r"> ₹{{r.refund_amount}} </td>
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let r">
+            <span [ngClass]="{
+        'pending': r.status === 'Pending',
+        'approved': r.status === 'Approved',
+        'rejected': r.status === 'Rejected',
+        'Pickup_Scheduled': r.status === 'Pickup_Scheduled',
+        'Picked_Up': r.status === 'Picked_Up',
+        'Replacement_Shipped': r.status === 'Replacement_Shipped',
+        'Refunded': r.status === 'Refunded',
+        'Delivered': r.status === 'Delivered'
+
+
+      }">
+                {{r.status =='Pickup_Scheduled' ? 'Pickup Scheduled':r.status =='Picked_Up' ? 'Picked Up':r.status =='Replacement_Shipped' ? 'Replacement Shipped':r.status}}
+            </span>
+        </td>
+    </ng-container>
+
+    <!-- Action -->
+    <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let r">
+            <ng-container *ngIf="r.status === 'Pending'" class="mr-3">
+                <button mat-button color="primary" (click)="approve(r.return_id)">
+                    Approve
+                </button>
+                <button mat-button color="warn" (click)="reject(r.return_id)">
+                    Reject
+                </button>
+            </ng-container>
+
+            <!-- pickup completed -->
+            <ng-container *ngIf="r.status === 'Pickup_Scheduled'">
+                <button mat-raised-button color="primary" (click)="markPicked(r.return_id)" style="width: 140px;">
+                    Mark Picked
+                </button>
+            </ng-container>
+
+            <!-- Refund -->
+            <ng-container class="mr-3" *ngIf="r.refund_required && r.status === 'Picked_Up'">
+                <button class="pl-2 pr-2" mat-stroked-button color="primary" (click)="processRefund(r.return_id)"
+                    style="width: 140px;">
+                    Refund
+                </button>
+            </ng-container>
+                        <!-- Ship Replacement -->
+            <ng-container class="mr-3" *ngIf="!r.refund_required && r.status === 'Picked_Up'">
+                <button class="pl-2 pr-2" mat-stroked-button color="primary" (click)="shippingReplacement(r.return_id)"
+                    style="width: 140px;">
+                    Ship Replace
+                </button>
+            </ng-container>
+                        <!-- Mark Delivered -->
+            <ng-container class="mr-3" *ngIf="!r.refund_required && r.status === 'Replacement_Shipped'">
+                <button class="pl-2 pr-2" mat-stroked-button color="primary" (click)="markReplaceDelivery(r.return_id)"
+                    style="width: 140px;">
+                    Mark Delivered
+                </button>
+            </ng-container>
+
+
+            <!-- Completed -->
+            <!-- *ngIf="r.status === 'Refund_Completed'" -->
+            <ng-container *ngIf="r.status === 'Refunded' || r.status === 'Delivered'">
+                <span class="success">Completed</span>
+            </ng-container>
+
+            <!-- Rejected -->
+            <ng-container *ngIf="r.status === 'Rejected'">
+                <span class="rejected">Rejected</span>
+            </ng-container>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+</div>
+<mat-paginator [pageSize]="10" [pageSizeOptions]="[15, 20, 30, 40, 50]" showFirstLastButtons>
+</mat-paginator>

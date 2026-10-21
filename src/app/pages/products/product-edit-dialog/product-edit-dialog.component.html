@@ -1,4 +1,9 @@
-<h2 mat-dialog-title>Edit Product</h2>
+<div mat-dialog-title class="edit-color">Edit Product</div>
+<div class="productid-title mb-4">Product ID →  {{editForm.value.product_id | titlecase}}</div>
+<div class="product-color-title">
+  <span class="product-color-swatch" [style.background-color]="data.product.colorCode"></span>
+  <span>Color: {{ editForm.value.color | titlecase }}</span>
+</div>
 
 <mat-dialog-content>
   <form [formGroup]="editForm">
@@ -11,71 +16,48 @@
         </mat-error>
       </mat-form-field>
 
+      <mat-form-field appearance="outline" class="col-md-6" *ngIf="!sizeStocks.length">
+        <mat-label> Stock</mat-label>
+        <input matInput formControlName="stock" required>
+        <mat-error *ngIf="editForm.get('stock')?.hasError('required')">
+          Stock is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="size-stock-editor" *ngIf="sizeStocks.length" formArrayName="sizes">
+      <div class="size-stock-heading">Size-wise stock</div>
+      <div class="size-stock-grid">
+        <div class="size-stock-item" *ngFor="let sizeStock of sizeStocks.controls; let index = index" [formGroupName]="index">
+          <span class="size-name">{{ sizeStock.get('size')?.value }}</span>
+          <mat-form-field appearance="outline">
+            <mat-label>Stock</mat-label>
+            <input matInput type="number" min="0" formControlName="stock">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="row" >
       <mat-form-field appearance="outline" class="col-md-6">
-        <mat-label>Category</mat-label>
-        <mat-select formControlName="category" required>
-          <mat-option *ngFor="let category of categories" [value]="category.id">
-            {{ category.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="editForm.get('category')?.hasError('required')">
-          Category is required
-        </mat-error>
+        <mat-label> Price (₹)</mat-label>
+        <input matInput type="number" formControlName="product_price">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label> Shelf Code</mat-label>
+        <input matInput type="text" formControlName="shelf_code" placeholder="Ex : A-03-D1">
       </mat-form-field>
     </div>
+<div class="note-box">
+  <div class="note-title">📌 Note:</div>
+  <div>• A, B, C, D, E, F → Rack Number</div>
+  <div>• 01, 02, 03, 04 → Bay Number</div>
+  <div>• A1, B1, C1, D1, E1, F1 → Position</div>
+</div>
 
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="product_description" rows="3" required></textarea>
-      <mat-error *ngIf="editForm.get('product_description')?.hasError('required')">
-        Description is required
-      </mat-error>
-    </mat-form-field>
-
-    <div class="row">
-      <mat-form-field appearance="outline" class="col-md-4">
-        <mat-label>MRP Price (₹)</mat-label>
-        <input matInput type="number" formControlName="product_mrp_price" required min="0">
-        <mat-error *ngIf="editForm.get('product_mrp_price')?.hasError('required')">
-          MRP is required
-        </mat-error>
-        <mat-error *ngIf="editForm.get('product_mrp_price')?.hasError('min')">
-          Must be 0 or more
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="col-md-4">
-        <mat-label>Discount (₹)</mat-label>
-        <input matInput type="number" formControlName="product_discount" min="0">
-        <mat-error *ngIf="editForm.get('product_discount')?.hasError('min')">
-          Must be 0 or more
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="col-md-4">
-        <mat-label>Final Price (₹)</mat-label>
-        <input matInput type="number" formControlName="product_price" readonly>
-      </mat-form-field>
-    </div>
-
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Delivery Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="delivery_date">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Image URL</mat-label>
-      <input matInput formControlName="img_front">
-    </mat-form-field>
-  </form>
+</form>
 </mat-dialog-content>
-
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()" color="secondary">Cancel</button>
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="editForm.invalid || isLoading">
-    <span *ngIf="!isLoading">Save</span>
-    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+  <button mat-raised-button (click)="onCancel()"  color="warn"><mat-icon>cancel</mat-icon>Cancel</button>
+  <button mat-raised-button color="primary" (click)="onUpadate(editForm.value)" [disabled]="editForm.invalid">
+    Update
   </button>
 </mat-dialog-actions>

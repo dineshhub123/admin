@@ -7,81 +7,92 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { PrivacyService } from '../services/privacy.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PrivacyPopupComponent } from '../privacy-popup/privacy-popup.component';
-
+import { OrderNotificationService } from '../order-notification.service';
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
-isModalOpen = false;
+  isModalOpen = false;
   modalTitle = '';
- showPrivacyPopup = false;
+  showPrivacyPopup = false;
+  hidePassword = true;
   loginForm: FormGroup = new FormGroup({
-    mobile: new FormControl('', [Validators.required]),
+    mobile: new FormControl('', [Validators.required, Validators.pattern(/^([0-9]{10}|[^\s@]+@[^\s@]+\.[^\s@]+)$/)]),
     password: new FormControl('', [Validators.required])
   });
 
   public loginErrToast: boolean = false;
   constructor(public router: Router,
-    public loginService: LoginService,private dialog: MatDialog,
+    public loginService: LoginService, private dialog: MatDialog,
     private apiService: ApiService,
-    private toastr: ToastrService,private privacyService: PrivacyService,
+    private toastr: ToastrService,
+    private authService: AuthService,
+    private privacyService: PrivacyService, private orderNotify: OrderNotificationService,
+
     private ngZone: NgZone) { }
   pass: any
   mobile: any
   ngOnInit() {
- this.showPrivacyPopup = !this.privacyService.hasUserResponded();
+    if (this.loginService.isLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+    }
+    this.showPrivacyPopup = !this.privacyService.hasUserResponded();
   }
-  signup() {
-    this.router.navigate(['signup'])
-  }
+  // signup() {
+  //   this.router.navigate(['signup'])
+  // }
 
-openDialog(title: string): void {
+  openDialog(title: string): void {
     this.dialog.open(PrivacyPopupComponent, {
       width: '600px',
       data: { title }
     });
   }
- adminLogin(loginData: any) {
-  if (this.loginForm.valid) {
-    this.apiService.getUserDetailsData().subscribe((res) => {
-      try {
-        const findObject = res.find(
-          (item: any) =>
-            item.user_password === loginData?.password &&
-            (item?.user_phone === loginData?.mobile || item?.user_email === loginData?.mobile)
-        );
-
-        console.log(findObject, 'find');
-
-        if (findObject) {
-          localStorage.setItem('login_user', JSON.stringify(findObject));
-          this.loginService.setUsername(findObject?.user_first_name);
-          this.toastr.success('Login successful!', 'Welcome');
-          setTimeout(() => {
-            this.router.navigate(['dashboard']);
-            this.loginForm.reset();
-          }, 2000);
-        } else {
-          this.toastr.error('User not found. Please register first.', 'Login Failed');
+  login(loginData: any): void {
+    if (!this.loginForm.valid) return;
+    const payload = {
+      login: loginData.mobile,
+      password: loginData.password
+    };
+    this.apiService.getAdminLoginDetailsData(payload).subscribe({
+      next: (res: any) => {
+        const user = res.admin;
+        const token = res.token;
+        this.loginForm.reset();
+        sessionStorage.setItem('pending_token', token);
+        sessionStorage.setItem('pending_user', JSON.stringify(user));
+        if (user.is_first_login == 1) {
+          this.router.navigate(['/change-password']);
+          return;
         }
-      } catch (error) {
-        console.error('An error occurred during login:', error);
-        this.toastr.error('An unexpected error occurred. Please try again.', 'Login Error');
+        this.router.navigate([
+          user.is_2fa_enabled == 0 ? '/2fa-setup' : '/2fa-otp'
+        ]);
+      },
+      error: err => {
+        console.error(err);
+        this.toastr.error(
+          'User not found. Please register first or wrong credentials.',
+          'Login Failed'
+        );
       }
     });
   }
-}
-canLogin(): boolean {
-  return this.privacyService.hasUserResponded();
-}
+
+  canLogin(): boolean {
+    return this.privacyService.hasUserResponded();
+  }
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([currentUrl]);
     });
   }
+  changepass() {
+    this.router.navigate(["/change-password"])
 
+  }
 }

@@ -7,28 +7,38 @@ import { EChartsOption } from 'echarts';
   styleUrls: ['./salereports.component.css']
 })
 export class SalereportsComponent {
-  barChartOption: EChartsOption = {};
-  pieChartOption: EChartsOption = {};
-  velocityChartOption: EChartsOption = {};
-  ngOnInit() {
- this.barChartOption ={
-    title: {
-      text: 'Sales Report'
-    },
-    tooltip: {},
-    xAxis: {
-      data: ['Shirts', 'Shoes', 'Jeans', 'Hats']
-    },
-    yAxis: {},
-    series: [
-      {
-        name: 'Sales',
-        type: 'bar',
-        data: [15, 22, 30, 10]
-      }
-    ]
+ dailySales = 1200;
+  weeklySales = 8400;
+  monthlySales = 35000;
+  totalOrders = 200;
+  newCustomers = 50;
+  returnedItems = 10;
+
+  // Daily Sales Chart (last 7 days)
+  dailyChartOptions = {
+    title: { text: 'Daily Sales' },
+    tooltip: { trigger: 'axis' },
+    xAxis: { type: 'category', data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
+    yAxis: { type: 'value' },
+    series: [{ data: [150, 200, 180, 220, 170, 210, 190], type: 'bar', name: 'Sales' }]
   };
 
-  }
+  // Weekly Sales Chart (last 4 weeks)
+  weeklyChartOptions = {
+    title: { text: 'Weekly Sales' },
+    tooltip: { trigger: 'axis' },
+    xAxis: { type: 'category', data: ['Week 1', 'Week 2', 'Week 3', 'Week 4'] },
+    yAxis: { type: 'value' },
+    series: [{ data: [1000, 1200, 900, 1300], type: 'bar', name: 'Sales' }]
+  };
+
+  // Monthly Sales Chart (last 6 months)
+  monthlyChartOptions = {
+    title: { text: 'Monthly Sales' },
+    tooltip: { trigger: 'axis' },
+    xAxis: { type: 'category', data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'] },
+    yAxis: { type: 'value' },
+    series: [{ data: [5000, 6000, 5500, 7000, 6500, 7500], type: 'line', name: 'Sales' }]
+  };
 
 }

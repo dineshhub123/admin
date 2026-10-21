@@ -1,12 +1,12 @@
 /* order-view.component.css */
 .order-view-container {
-  padding: 20px;
+  padding: 10px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .order-card {
-  padding: 24px;
+  padding: 10px;
 }
 
 .order-filter-container {
@@ -42,11 +42,10 @@
 .meta-table th, .meta-table td {
   padding: 12px 16px;
   text-align: left;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .meta-table th {
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
   font-weight: 600;
   width: 150px;
 }
@@ -58,7 +57,7 @@
 
 .transaction-id {
   font-family: monospace;
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
   padding: 4px 8px;
   border-radius: 4px;
 }
@@ -70,16 +69,18 @@
 }
 
 .product-image {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
+ width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin: 5px;
+
 }
 
 .product-name {
   font-weight: 500;
   margin-bottom: 4px;
+  font-size: 12px;
 }
 
 .product-category {
@@ -118,7 +119,7 @@
 .current-price {
   font-weight: 600;
   color: #2e7d32;
-  font-size: 1.1em;
+  font-size: 12px;
 }
 
 .mrp-price {
@@ -264,9 +265,131 @@
   color: #721c24;
 }
 
+.status-Your_Order_Has-Been_Cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+
 .status-default {
   background-color: #e2e3e5;
   color: #383d41;
 }
+.cancelled-title {
+  color: #d32f2f; /* dark red */
+  background-color: #ffebee; /* light red background */
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+}
+.delivered-title{
+  background-color: #d1f7c4;
+  color: #0f5132;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+
+}
+.order-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
 
 /* Rest of your existing CSS... */
+
+
+/* Mobile card styles */
+@media (max-width: 768px) {
+  .item-card {
+    margin-bottom: 16px;
+  }
+  
+  .card-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .card-label {
+    font-weight: 500;
+    color: #666;
+    min-width: 80px;
+    font-size: 14px;
+  }
+  
+  .card-value {
+    flex: 1;
+  }
+  
+  .image-row {
+    justify-content: center;
+  }
+  
+  .image-row .product-image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+  }
+  
+  .actions-row {
+    justify-content: flex-end;
+    border-bottom: none;
+  }
+}
+
+.status-controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-controls button {
+  font-weight: 500;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .status-controls {
+    flex-direction: column;
+  }
+
+  .status-controls button {
+    width: 100%;
+  }
+}
+.verify-otp-section{
+  display: flex;
+  gap:13px;
+}
+::ng-deep .small-input .mat-mdc-text-field-wrapper {
+  height: 36px !important;
+  align-items: center !important;
+}
+
+::ng-deep .small-input .mat-mdc-form-field-infix {
+  min-height: 36px !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .small-input input.mat-mdc-input-element {
+  height: 36px !important;
+  line-height: 36px !important;
+  padding: 0 8px !important;
+}
+
+::ng-deep .small-input .mat-mdc-floating-label {
+  top: 50% !important;
+  transform: translateY(-50%) scale(1) !important;
+}

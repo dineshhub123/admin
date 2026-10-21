@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ApiService } from './api.service';
 import { LoginService } from './login.service';
 import { FcmService } from './fcm.service';
+import { OrderNotificationService } from './order-notification.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,7 +16,7 @@ export class AppComponent {
   title = 'material-ui-angular';
   username: string | null = '';
   expandedPanel: string = '';
-
+  private msgSub!: Subscription;
   public data: any;
   public retrieveResonse: any;
   public base64Data: any;
@@ -25,6 +26,14 @@ export class AppComponent {
   public sellItemData: any
   public buyerUsername: any;
   public getNotifyUserArray: any;
+  public pendingOrders: any[] = [];
+  public pendingOrderCount = 0;
+  public showDropdown = false;
+  public isLoggedIn: boolean = false
+  public userName: string = '';
+  public firstUserName: string = '';
+  public avatarLetter: string = '';
+  public role: any;
   constructor(
     public router: Router,
     private http: HttpClient,
@@ -32,37 +41,52 @@ export class AppComponent {
     public apiService: ApiService,
     private loginService: LoginService,
     private fcm: FcmService,
+    private orderNotify: OrderNotificationService,
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.setExpandedPanel(event.urlAfterRedirects);
       }
     });
+    
   }
   ngOnInit(): void {
-    const adminId = 1; // logged-in admin
-    this.fcm.initFCM(adminId);
- // 📩 VERY IMPORTANT: attach foreground listener
-    this.fcm.listenMessages();
+    this.getPendingOrdersPreview();
+    this.orderNotify.pendingCount$.subscribe((c: any) => this.pendingOrderCount = c);
+    this.orderNotify.preview$.subscribe(list => this.pendingOrders = list);
+    this.loginService.loadUser();
+    this.loginService.user$.subscribe((userData: any) => {
+      if (userData) {
+        const user = userData;
+        this.role = user?.role
+        // First Name & Last Name For Left Panel 
+        this.userName = `${user.name}`;
+        // First Name For Logout Pop Up
+        this.firstUserName = `${user.name}`;
+        // First letter of first name in CAPITAL
+        this.avatarLetter = user.name?.charAt(0)?.toUpperCase();
+        this.setExpandedPanel(this.router.url);
+        const adminId = user.admin_id; // logged-in admin
+        this.fcm.initFCM(adminId);
+        // VERY IMPORTANT: attach foreground listener
+        this.fcm.listenMessages();
+        this.getPendingOrdersPreview();
 
-    this.setExpandedPanel(this.router.url);
-    this.userlist()
-    this.loginService.getUsername().subscribe((name) => {
-      this.username = name;
+        // 🔔 when notification arrives
+        this.msgSub = this.fcm.message$.subscribe(() => {
+          this.getPendingOrdersPreview();
+        });
+
+      }
     });
-    this.fcm.message$.subscribe(payload => {
-      console.log('Order notification received:', payload);
-      // 🔄 reload orders
-      this.loadOrders();
-    });
+
   }
 
-  loadOrders() {
-    // call order list API
+  ngOnDestroy() {
+    if (this.msgSub) this.msgSub.unsubscribe();
   }
 
   setExpandedPanel(url: string): void {
-    console.log(url, 'url')
     if (url.includes('/orders')) {
       this.expandedPanel = 'orders';
     } else if (url.includes('/products')) {
@@ -83,80 +107,29 @@ export class AppComponent {
   }
 
 
-  adminLogout() {
-    localStorage.removeItem('adminMobile');
-    this.router.navigate(["login"]);
+  logout() {
+    this.loginService.logout();
+    this.router.navigate(['/login']);
   }
-  notification() {
-    this.router.navigate(["sell-notification"]);
-
+  getPendingOrdersPreview() {
+    this.apiService.getPendingOrder().subscribe(res => {
+      this.orderNotify.setPendingOrders(res);
+    })
   }
-  upload() {
-    this.router.navigate(["upload"]);
-  }
-
-
-  userlist() {
-    this.apiService.getUserBuyerDetails().subscribe((Response: any) => {
-      this.sellItemData = Response
-      let userlistData = this.sellItemData.map((item: any) =>
-        item.user_first_name)
-      let removeDuplicates = new Set(userlistData)
-      this.buyerUsername = [...removeDuplicates];
-      this.getNotifyUserArray = [];
-      for (let i = 0; i < this.buyerUsername.length; i++) {
-        let getNotifyUser = this.sellItemData.find((item: any) => item.user_first_name === this.buyerUsername[i])
-        if (getNotifyUser) {
-          this.getNotifyUserArray.push(getNotifyUser);
-        }
-
-      }
-    });
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
   }
 
-
-  openNotification() {
-
+  goToOrderView(orderId: number) {
+    this.router.navigate(['./orderlist/orderview', orderId]);
+    this.showDropdown = false;
   }
 
-  closeNotification() {
-
-  }
-  user = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    avatar: 'https://i.pravatar.cc/100?img=3',
-  };
-
-  notifications = [
-    {
-      avatar: 'https://i.pravatar.cc/100?img=4',
-      message: 'Anna sent you a message',
-      time: 'Just now',
-      read: true,
-    },
-    {
-      avatar: 'https://i.pravatar.cc/100?img=5',
-      message: 'Password changed successfully',
-      time: '5 min ago',
-      read: true,
-    },
-    {
-      avatar: 'https://i.pravatar.cc/100?img=6',
-      message: 'Welcome to our platform!',
-      time: '1 day ago',
-      read: true,
-    },
-  ];
-
-  clearAll() {
-    this.notifications = [];
+  goToOrderList() {
+    this.router.navigate(['./orderlist']);
+    this.showDropdown = false;
   }
 
-  goToSettings() {
-    // Navigate to settings
-    console.log('Redirecting to settings...');
-  }
 }
 
 
