@@ -32,22 +32,89 @@ ngOnInit(){
   this.paginator.pageSize = 5;
 
 }
+// updateRefundStatus(row: any, refundStatus: string): void {
+
+//   const payload = {
+//     order_id: row.order_id,
+//     refund_status: refundStatus
+//   };
+
+//  this.apiService.updateCancelOrderStatus(payload).subscribe({
+//     next: (res: any) => {
+//       if (res.status) {
+//         row.refund_status = refundStatus;
+//       } 
+//     },
+//     error: (err) => {
+//       console.error(err);
+//       alert('Failed to update refund status');
+//     }
+//   });
+// }
+
 updateRefundStatus(row: any, refundStatus: string): void {
+
+  // Prevent duplicate clicks
+  if (row.refundLoading) {
+    return;
+  }
+
+  // COD orders do not require online refunds
+  if (row.payment_method !== 'ONLINE') {
+    return;
+  }
+
+  // Only allow starting a refund from pending/failed
+  if (
+    refundStatus === 'processing' &&
+    !['pending', 'failed'].includes(row.refund_status)
+  ) {
+    alert('Refund cannot be initiated from the current status.');
+    return;
+  }
+
+  // Do not allow manual completion
+  if (refundStatus === 'completed') {
+    alert('Refund can be completed only after Razorpay confirms success.');
+    return;
+  }
+
+  const confirmed = confirm(
+    `Start refund for Order ${row.order_id} of ₹${row.total_amount}?`
+  );
+
+  if (!confirmed) {
+    return;
+  }
 
   const payload = {
     order_id: row.order_id,
     refund_status: refundStatus
   };
 
- this.apiService.updateCancelOrderStatus(payload).subscribe({
+  row.refundLoading = true;
+
+  this.apiService.updateCancelOrderStatus(payload).subscribe({
     next: (res: any) => {
+
       if (res.status) {
-        row.refund_status = refundStatus;
-      } 
+        // Use the status returned by the backend if available
+        row.refund_status = res.refund_status || refundStatus;
+      } else {
+        alert(res.message || 'Unable to initiate refund.');
+      }
+
+      row.refundLoading = false;
     },
-    error: (err) => {
-      console.error(err);
-      alert('Failed to update refund status');
+
+    error: (err: any) => {
+      console.error('Refund update error:', err);
+
+      row.refundLoading = false;
+
+      alert(
+        'Refund status could not be verified. Check Razorpay and the database before retrying.'
+      );
     }
   });
 }
